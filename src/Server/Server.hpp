@@ -12,9 +12,10 @@
 #include <string.h>
 #include <unistd.h>
 #include <vector>
+#include <list>
+
 
 #define MAX_EVENTS 10
-
 
 class Server
 {
@@ -24,11 +25,16 @@ class Server
 		void				initServer();
 		void				runningServer();
 		void				manageEvents(struct epoll_event currentEvent);
-		void				manageWrongEvents(int bytes, int eventFd);
+		void				manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
+		void				manageCommand(int recvBytes, ssize_t index);
+		void				serverRegistration(int index);
+		void				identifyCommand(char *buf, int clientIndex);
+		void				extractCommandId(char *buf, int clientIndex);
+		void				commandSwitch(int index);
 		ssize_t				findClient(int clientFd);
 
 	private :
-		std::vector<Client>	_clients;
+		std::vector<Client>		_clients;
 		struct epoll_event		_userEvents;
 		struct epoll_event		_queuedEvents[MAX_EVENTS];
 		struct addrinfo			*_servInfo;

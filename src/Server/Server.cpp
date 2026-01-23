@@ -67,9 +67,8 @@ void	displayClients(std::vector<Client> _clients)
 	}
 }
 
-void	Server::manageWrongEvents(int bytes, int eventFd)
+void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
 {
-	ssize_t removeIndex;
 	if (bytes < 0)
 		throw RecvFailedException();
 	std::cout << "User disconnected from the server" << std::endl;
@@ -80,26 +79,180 @@ void	Server::manageWrongEvents(int bytes, int eventFd)
 	_clients.erase(_clients.begin() + removeIndex);
 }
 
+bool	isRegisterCommand(ssize_t cmdId)
+{
+	std::cout << cmdId << std::endl;
+	if (cmdId == USER || cmdId == NICK || cmdId == PASS)
+		return (true);
+	return (false);
+}
+
+void	Server::serverRegistration(int index)
+{
+	int status = _clients[index].getRegisterStatus();
+	size_t cmdId = _clients[index].getCommandId();
+
+	if (!isRegisterCommand(cmdId))
+		throw RegisterQueryException();
+	switch (status)
+	{
+		case PASS_STATUS :
+			if (cmdId != PASS)
+				std::cout << "Please enter the password" << std::endl;
+			//else
+			//PASS COMAND
+			break ;	
+		case USER_STATUS :
+			if (cmdId != USER)
+				std::cout << "Please enter your username" << std::endl;
+			//else
+			//USER COMAND
+			break ;
+		case NICK_STATUS :
+			if (cmdId != NICK)
+				std::cout << "Please enter your nickname" << std::endl;
+			//else
+			//NICK COMAND
+			break ;
+	}
+}
+void	Server::commandSwitch(int clientIndex)
+{
+	size_t	commandId = _clients[clientIndex].getCommandId();
+
+	switch (commandId)
+	{
+		case PASS:
+			//--> PASS COMMAND
+			break;
+	
+		case NICK:
+			//--> NICK COMMAND
+			break;
+
+		case USER:
+			//--> USER COMMAND
+			break;
+	
+		case KICK:
+			//--> KICK COMMAND
+			break;
+
+		case PRIVMSG:
+			//--> PRIVMSG COMMAND
+			break;
+	
+		case TOPIC:
+			//--> TOPIC COMMAND
+			break;
+
+		case MODE:
+			//--> MODE COMMAND
+			break;
+	
+		case JOIN:
+			//--> JOIN COMMAND
+			break;	
+
+		case INVITE:
+			//--> INVITE COMMAND
+			break;
+	
+		case UNKNOWN:
+			std::cerr << "Unvalid command." << std::endl;
+			//-->fonction send
+			break;
+	}
+}
+
+void	Server::manageCommand(int recvBytes, ssize_t index)
+{
+	(void)recvBytes;
+	
+	if (_clients[index].getRegisterStatus() != REGISTERED)
+	{
+		try
+		{
+			serverRegistration(index);
+		}
+		catch (const std::exception & e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
+	}
+	else
+	{
+		try
+		{
+			commandSwitch(index);
+		}
+		catch(const std::exception & e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
+	}
+}
+
+
+
+void	Server::extractCommandId(char *buf, int clientIndex)
+{
+	std::string	extract;
+	std::string	str = buf;
+	str.erase(str.size() - 2, str.size() - 1);
+	size_t	pos = str.find(" ");
+	if (pos == str.npos)
+		extract = str;
+	else
+	{
+		extract = str.substr(0, pos);
+		std::string	arg = str.substr(pos);
+		_clients[clientIndex].setCommandArg(arg);
+	}
+
+	std::string array[9]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+
+	for (size_t i = 0; i < 9; i++)
+	{
+		if (extract == array[i])
+		{
+			_clients[clientIndex].setCommandId(i);
+			return ;
+		}
+	}
+	_clients[clientIndex].setCommandId(UNKNOWN);
+}
+
+
 void	Server::manageEvents(struct epoll_event currentEvent)
 {
 	char buf[1024];
 	int recvBytes = recv(currentEvent.data.fd, buf, 1023, 0);
+	ssize_t	clientIndex = findClient(currentEvent.data.fd);
 	if (recvBytes <= 0)
 	{
 		try
 		{
-			manageWrongEvents(recvBytes, currentEvent.data.fd);
+			manageWrongEvents(recvBytes, clientIndex, currentEvent.data.fd);
 		}
 		catch (std::exception &e)
 		{
 			std::cerr << e.what() << std::endl;
-	}
+		}
 	}
 	else if (recvBytes > 0)
 	{
 		buf[recvBytes] = '\0';
+		try
+		{
+			extractCommandId(buf, clientIndex);
+			manageCommand(recvBytes, clientIndex);
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << e.what() << std::endl;
+		}
 	}
-
 }
 
 void	Server::runningServer()
