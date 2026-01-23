@@ -24,3 +24,8 @@ const char *RecvFailedException::what() const throw()
 {
 	return ("Error : recv call failed");
 }
+
+const char *RegisterQueryException::what() const throw()
+{
+	return ("Error : Please register yourself");
+}
