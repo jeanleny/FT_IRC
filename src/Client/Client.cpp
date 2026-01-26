@@ -30,9 +30,10 @@ void Client::setCommandArg(std::string arg)
 	_commandArg = arg;
 }
 
+#include"../Server/Server.hpp"
 Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
 {
-
+	Server::getInstance().poussememe();
 };
 
 Client::~Client(){};

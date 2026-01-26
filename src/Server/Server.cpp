@@ -1,10 +1,26 @@
 #include "Server.hpp"
 
+Server*	Server::_instance = NULL;
+
+void	Server::poussememe()
+{
+	std::cout << "manger du celeri" << std::endl;
+}
+
+Server& Server::getInstance()
+{
+	return (*_instance);
+}
+
 Server::Server(char *port, char *password)
 {
-	_servPort = port;
-	_password = password;
-	gethostname(_hostName, sizeof(_hostName));
+	if (_instance == NULL)
+	{
+		_instance = this;
+		_servPort = port;
+		_password = password;
+		gethostname(_hostName, sizeof(_hostName));
+	}
 }
 
 void	Server::initICommands()
