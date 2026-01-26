@@ -1,7 +1,11 @@
 #pragma once
 
+#include <string>
+#include "Client.hpp"
+
 class ICommand
 {
     public:
-       virtual void    execCmd() = 0;
+
+        virtual void    execCmd(Client & emitter, std::string arg) = 0;
 };
