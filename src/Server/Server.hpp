@@ -3,6 +3,7 @@
 
 #include "../Exception/Exception.hpp"
 #include "../Client/Client.hpp"
+#include "../Commands/ICommand.hpp"
 
 #include <iostream>
 #include <sys/socket.h>
@@ -23,6 +24,7 @@ class Server
 		Server(char *port, char *password);
 		~Server();
 		void				initServer();
+		void				initICommands();
 		void				runningServer();
 		void				manageEvents(struct epoll_event currentEvent);
 		void				manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
@@ -35,6 +37,7 @@ class Server
 
 	private :
 		std::vector<Client>		_clients;
+		std::vector<ICommand>	_iCommands[9];
 		struct epoll_event		_userEvents;
 		struct epoll_event		_queuedEvents[MAX_EVENTS];
 		struct addrinfo			*_servInfo;

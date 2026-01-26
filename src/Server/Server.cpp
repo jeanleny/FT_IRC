@@ -7,6 +7,19 @@ Server::Server(char *port, char *password)
 	gethostname(_hostName, sizeof(_hostName));
 }
 
+void	Server::initICommands()
+{
+	// _iCommands[0] = new PassCommand();
+	// _iCommands[1] = new UserCommand();
+	// _iCommands[2] = new NickCommand();
+	// _iCommands[3] = new KickCommand();
+	// _iCommands[4] = new PrivMsgCommand();
+	// _iCommands[5] = new TopicCommand();
+	// _iCommands[6] = new ModeCommand();
+	// _iCommands[7] = new JoinCommand();
+	// _iCommands[8] = new InviteCommand();
+}
+
 void	Server::initServer()
 {
 	struct addrinfo	servParam;
@@ -24,6 +37,8 @@ void	Server::initServer()
 		throw BindFailedException();
 	if (listen(_servFd, 10) == -1)
 		throw ListenFailedException();
+	
+	initICommands();
 }
 
 void	Server::initEpoll()
@@ -119,6 +134,8 @@ void	Server::serverRegistration(int index)
 void	Server::commandSwitch(int clientIndex)
 {
 	size_t	commandId = _clients[clientIndex].getCommandId();
+
+	//_iCommands[commandId].execCmd();
 
 	switch (commandId)
 	{
