@@ -30,6 +30,12 @@ void Client::setCommandArg(std::string arg)
 	_commandArg = arg;
 }
 
+void	Client::setRegisterStatus(int status)
+{
+	_registerStatus = status;
+}
+
+
 Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
 {
 

@@ -2,11 +2,6 @@
 
 Server*	Server::_instance = NULL;
 
-void	Server::poussememe()
-{
-	std::cout << "manger du celeri" << std::endl;
-}
-
 Server& Server::getInstance()
 {
 	return (*_instance);
@@ -25,15 +20,15 @@ Server::Server(char *port, char *password)
 
 void	Server::initICommands()
 {
-	// _iCommands[0] = new PassCommand();
-	// _iCommands[1] = new UserCommand();
-	// _iCommands[2] = new NickCommand();
-	// _iCommands[3] = new KickCommand();
-	// _iCommands[4] = new PrivMsgCommand();
-	// _iCommands[5] = new TopicCommand();
-	// _iCommands[6] = new ModeCommand();
-	// _iCommands[7] = new JoinCommand();
-	// _iCommands[8] = new InviteCommand();
+	_iCommands[0] = new PassCommand();
+	_iCommands[1] = NULL;
+	_iCommands[2] = NULL;
+	_iCommands[3] = NULL;
+	_iCommands[4] = NULL;
+	_iCommands[5] = NULL;
+	_iCommands[6] = NULL;
+	_iCommands[7] = NULL;
+	_iCommands[8] = NULL;
 }
 
 void	Server::initServer()
@@ -130,8 +125,12 @@ void	Server::serverRegistration(int index)
 		case PASS_STATUS :
 			if (cmdId != PASS)
 				std::cout << "Please enter the password" << std::endl;
-			//else
-			//PASS COMAND
+			else
+			{
+				std::cout << _clients[index].getRegisterStatus() << std::endl;
+				_iCommands[PASS]->execCmd(_clients[index], _clients[index].getCommandArg());
+				std::cout << _clients[index].getRegisterStatus() << std::endl;
+			}
 			break ;	
 		case USER_STATUS :
 			if (cmdId != USER)
@@ -147,6 +146,14 @@ void	Server::serverRegistration(int index)
 			break ;
 	}
 }
+
+bool	Server::validPassword(std::string pass)
+{
+	std::cout << _password << std::endl;
+	std::cout << pass << std::endl;
+	return (pass == _password);
+}
+
 void	Server::commandSwitch(int clientIndex)
 {
 	size_t	commandId = _clients[clientIndex].getCommandId();
@@ -239,13 +246,13 @@ void	Server::extractCommandId(char *buf, int clientIndex)
 	else
 	{
 		extract = str.substr(0, pos);
-		std::string	arg = str.substr(pos);
+		std::string	arg = str.substr(pos + 1);
 		_clients[clientIndex].setCommandArg(arg);
 	}
 
-	std::string array[9]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+	std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
 
-	for (size_t i = 0; i < 9; i++)
+	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (extract == array[i])
 		{
@@ -309,4 +316,11 @@ void	Server::runningServer()
 	}
 }
 
-Server::~Server(){};
+Server::~Server()
+{
+	for (int i = 0; i < NB_CMD; i++)
+	{
+		delete _iCommands[i];
+	}
+	_instance = NULL;
+};
