@@ -37,11 +37,11 @@ class Server
 		void					manageCommand(int recvBytes, Client & client);
 		void					serverRegistration(Client & emitter);
 		void					identifyCommand(char *buf, int clientIndex);
-		void					extractCommand(char *buf, Client & client);
 		void					extractCommandId(Client & ref, std::string id);
 		void					commandSwitch(Client & client);
 		ssize_t					findClient(int clientFd);
 		bool					validPassword(std::string pass);
+		int						extractCommand(char *buf, Client & client);
 
 	private :
 

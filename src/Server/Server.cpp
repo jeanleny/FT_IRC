@@ -216,6 +216,14 @@ void	Server::commandSwitch(Client & client)
 	}
 }
 
+void	sendException(int fd ,const std::exception &e)
+{
+	const char	*msg = e.what();
+	size_t		len = strlen(msg);
+
+	send(fd, msg, len, 0);
+}
+
 void	Server::manageCommand(int recvBytes, Client & client)
 {
 	(void)recvBytes;
@@ -226,9 +234,9 @@ void	Server::manageCommand(int recvBytes, Client & client)
 		{
 			serverRegistration(client);
 		}
-		catch (const std::exception & e)
+		catch (const std::exception &e)
 		{
-			std::cerr << e.what() << std::endl; //send
+			sendException(client.getClientFd(), e);
 		}
 	}
 	else
@@ -271,10 +279,22 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 	emitter.setCommandId(UNKNOWN);
 }
 
-void	Server::extractCommand(char *buf, Client & client)
+bool	isEmptyCommand(std::string str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!isspace(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
+int	Server::extractCommand(char *buf, Client & client)
 {
 	std::string	extract;
 	std::string	str = buf;
+	if (isEmptyCommand(str))
+		return (-1);
 	str.erase(str.size() - 2, str.size() - 1);
 	if (isOneArg(str))
 		extractCommandId(client, str);
@@ -285,6 +305,7 @@ void	Server::extractCommand(char *buf, Client & client)
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
 	}
+	return (1);
 }
 
 
@@ -307,9 +328,10 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 	else if (recvBytes > 0)
 	{
 		buf[recvBytes] = '\0';
+		if (extractCommand(buf, _clients[clientIndex]) < 0)
+			return;
 		try
 		{
-			extractCommand(buf, _clients[clientIndex]);
 			manageCommand(recvBytes, _clients[clientIndex]);
 		}
 		catch(const std::exception& e)
