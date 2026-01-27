@@ -30,6 +30,21 @@ const char *RegisterQueryException::what() const throw()
 	return ("Error : Please register yourself\n");
 }
 
+const char *PasswordQueryException::what() const throw()
+{
+	return ("Error : Please enter the password\n");
+}
+
+const char *UsernameQueryException::what() const throw()
+{
+	return ("Error : Please enter your username\n");
+}
+
+const char *NicknameQueryException::what() const throw()
+{
+	return ("Error : Please enter your nickname\n");
+}
+
 const char *AlreadyRegisteredException::what() const throw()
 {
 	return ("Error : You are already authenticate\n");
