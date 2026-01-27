@@ -1,12 +1,5 @@
 #include <Client.hpp>
 
-Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
-{
-
-};
-
-Client::~Client(){};
-
 int	Client::getClientFd() const
 {
 	return (_clientFd);
@@ -42,4 +35,10 @@ void	Client::setRegisterStatus(int status)
 	_registerStatus = status;
 }
 
+Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
+{
+
+};
+
+Client::~Client(){};
 

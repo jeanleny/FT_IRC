@@ -48,7 +48,6 @@ class Client
 		void						setCommandArgs(std::vector<std::string> args);
 		void						setRegisterStatus(int status);
 
-
 		Client(int fd);
 		~Client();
 };

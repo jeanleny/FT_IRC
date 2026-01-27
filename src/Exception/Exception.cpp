@@ -54,3 +54,8 @@ const char *WrongCommandException::what() const throw()
 {
 	return ("Error : Please enter a valid command\n");
 }
+
+const char *UnvalidPasswordException::what() const throw()
+{
+	return ("Error : Unvalid Password\n");
+}
