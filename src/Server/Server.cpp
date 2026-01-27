@@ -107,7 +107,6 @@ void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
 
 bool	isRegisterCommand(ssize_t cmdId)
 {
-	std::cout << cmdId << std::endl;
 	if (cmdId == USER || cmdId == NICK || cmdId == PASS)
 		return (true);
 	return (false);
@@ -124,23 +123,19 @@ void	Server::serverRegistration(int index)
 	{
 		case PASS_STATUS :
 			if (cmdId != PASS)
-				std::cout << "Please enter the password" << std::endl;
+				std::cout << "Please enter the password" << std::endl; //send
 			else
-			{
-				std::cout << _clients[index].getRegisterStatus() << std::endl;
 				_iCommands[PASS]->execCmd(_clients[index], _clients[index].getCommandArg());
-				std::cout << _clients[index].getRegisterStatus() << std::endl;
-			}
 			break ;	
 		case USER_STATUS :
 			if (cmdId != USER)
-				std::cout << "Please enter your username" << std::endl;
+				std::cout << "Please enter your username" << std::endl; //send
 			//else
 			//USER COMAND
 			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
-				std::cout << "Please enter your nickname" << std::endl;
+				std::cout << "Please enter your nickname" << std::endl; //send
 			//else
 			//NICK COMAND
 			break ;
@@ -149,8 +144,6 @@ void	Server::serverRegistration(int index)
 
 bool	Server::validPassword(std::string pass)
 {
-	std::cout << _password << std::endl;
-	std::cout << pass << std::endl;
 	return (pass == _password);
 }
 
@@ -199,8 +192,7 @@ void	Server::commandSwitch(int clientIndex)
 			break;
 	
 		case UNKNOWN:
-			std::cerr << "Unvalid command." << std::endl;
-			//-->fonction send
+			std::cerr << "Unvalid command." << std::endl; //send
 			break;
 	}
 }
@@ -217,7 +209,7 @@ void	Server::manageCommand(int recvBytes, ssize_t index)
 		}
 		catch (const std::exception & e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 	else
@@ -228,7 +220,7 @@ void	Server::manageCommand(int recvBytes, ssize_t index)
 		}
 		catch(const std::exception & e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 }
@@ -277,7 +269,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 	else if (recvBytes > 0)
@@ -290,7 +282,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 }
