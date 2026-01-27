@@ -34,11 +34,12 @@ class Server
 		void					runningServer();
 		void					manageEvents(struct epoll_event currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
-		void					manageCommand(int recvBytes, ssize_t index);
-		void					serverRegistration(int index);
+		void					manageCommand(int recvBytes, Client & client);
+		void					serverRegistration(Client & emitter);
 		void					identifyCommand(char *buf, int clientIndex);
-		void					extractCommandId(char *buf, int clientIndex);
-		void					commandSwitch(int index);
+		void					extractCommand(char *buf, Client & client);
+		void					extractCommandId(Client & ref, std::string id);
+		void					commandSwitch(Client & client);
 		ssize_t					findClient(int clientFd);
 		bool					validPassword(std::string pass);
 
