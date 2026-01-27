@@ -111,7 +111,7 @@ void	Server::serverRegistration(Client & client)
 				throw PasswordQueryException();
 			else
 				_iCommands[PASS]->execCmd(client, client.getCommandArgs());
-			break ;	
+			break ;
 		case USER_STATUS :
 			if (cmdId != USER)
 				throw UsernameQueryException();
@@ -236,13 +236,28 @@ bool	isEmptyCommand(std::string str)
 	return (true);
 }
 
+bool	isTrailingSpaces(std::string str)
+{
+	std::string::iterator it = str.end();
+
+	if (str.size() > 2)
+	{
+		it-= 2;
+		if(*it == '\r' && *(++it) == '\n')
+			return true;
+		return false;
+	}
+	return false;
+}
+
 int	Server::extractCommand(char *buf, Client & client)
 {
 	std::string	extract;
 	std::string	str = buf;
 	if (isEmptyCommand(str))
 		return (-1);
-	str.erase(str.size() - 2, str.size() - 1);
+	if (isTrailingSpaces(str))
+		str.erase(str.size() - 2, str.size() - 1);
 	if (isOneArg(str))
 		extractCommandId(client, str);
 	else
@@ -285,6 +300,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 			sendException(currentEvent.data.fd, e);
 		}
 	}
+	_clients[clientIndex].getCommandArgs().clear();
 }
 
 void	Server::runningServer()
