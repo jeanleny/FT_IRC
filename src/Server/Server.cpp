@@ -7,6 +7,25 @@ Server& Server::getInstance()
 	return (*_instance);
 }
 
+std::vector<std::string> split(const std::string & str)
+{
+   std::vector<std::string> split;
+   std::string elem;
+   int		start = 0;
+   int		end = 0;
+   for (size_t i = 0; i < str.size();)
+   {
+		while (isspace(str[i]))
+			i++;
+		start = i;
+		while (!isspace(str[i]))
+			i++;
+		end = i;
+		split.push_back(str.substr(start, end - start));
+   }
+   return split;
+}
+
 Server::Server(char *port, char *password)
 {
 	if (_instance == NULL)
@@ -112,10 +131,10 @@ bool	isRegisterCommand(ssize_t cmdId)
 	return (false);
 }
 
-void	Server::serverRegistration(int index)
+void	Server::serverRegistration(Client & client)
 {
-	int status = _clients[index].getRegisterStatus();
-	size_t cmdId = _clients[index].getCommandId();
+	int status = client.getRegisterStatus();
+	size_t cmdId = client.getCommandId();
 
 	if (!isRegisterCommand(cmdId))
 		throw RegisterQueryException();
@@ -125,7 +144,7 @@ void	Server::serverRegistration(int index)
 			if (cmdId != PASS)
 				std::cout << "Please enter the password" << std::endl; //send
 			else
-				_iCommands[PASS]->execCmd(_clients[index], _clients[index].getCommandArg());
+				_iCommands[PASS]->execCmd(client, client.getCommandArgs());
 			break ;	
 		case USER_STATUS :
 			if (cmdId != USER)
@@ -147,9 +166,9 @@ bool	Server::validPassword(std::string pass)
 	return (pass == _password);
 }
 
-void	Server::commandSwitch(int clientIndex)
+void	Server::commandSwitch(Client & client)
 {
-	size_t	commandId = _clients[clientIndex].getCommandId();
+	size_t	commandId = client.getCommandId();
 
 	//_iCommands[commandId].execCmd();
 
@@ -197,15 +216,15 @@ void	Server::commandSwitch(int clientIndex)
 	}
 }
 
-void	Server::manageCommand(int recvBytes, ssize_t index)
+void	Server::manageCommand(int recvBytes, Client & client)
 {
 	(void)recvBytes;
 	
-	if (_clients[index].getRegisterStatus() != REGISTERED)
+	if (client.getRegisterStatus() != REGISTERED)
 	{
 		try
 		{
-			serverRegistration(index);
+			serverRegistration(client);
 		}
 		catch (const std::exception & e)
 		{
@@ -216,7 +235,7 @@ void	Server::manageCommand(int recvBytes, ssize_t index)
 	{
 		try
 		{
-			commandSwitch(index);
+			commandSwitch(client);
 		}
 		catch(const std::exception & e)
 		{
@@ -226,33 +245,46 @@ void	Server::manageCommand(int recvBytes, ssize_t index)
 }
 
 
+bool isOneArg(std::string str)
+{
+	int	i = 0;
+	while (isspace(str[i]) && str[i])
+		i++;
+	while (!isspace(str[i]) && str[i])
+		i++;
+	while (isspace(str[i]) && str[i])
+		i++;
+	return (str[i] == '\0');
+}
 
-void	Server::extractCommandId(char *buf, int clientIndex)
+void	Server::extractCommandId(Client & emitter, std::string id)
+{
+	std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+	for (size_t i = 0; i < NB_CMD; i++)
+	{
+		if (id == array[i])
+		{
+			emitter.setCommandId(i);
+			return ;
+		}
+	}
+	emitter.setCommandId(UNKNOWN);
+}
+
+void	Server::extractCommand(char *buf, Client & client)
 {
 	std::string	extract;
 	std::string	str = buf;
 	str.erase(str.size() - 2, str.size() - 1);
-	size_t	pos = str.find(" ");
-	if (pos == str.npos)
-		extract = str;
+	if (isOneArg(str))
+		extractCommandId(client, str);
 	else
 	{
-		extract = str.substr(0, pos);
-		std::string	arg = str.substr(pos + 1);
-		_clients[clientIndex].setCommandArg(arg);
+		std::vector<std::string>	splitArgs = split(str);
+		extractCommandId(client, splitArgs[0]);
+		splitArgs.erase(splitArgs.begin());
+		client.setCommandArgs(splitArgs);
 	}
-
-	std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
-
-	for (size_t i = 0; i < NB_CMD; i++)
-	{
-		if (extract == array[i])
-		{
-			_clients[clientIndex].setCommandId(i);
-			return ;
-		}
-	}
-	_clients[clientIndex].setCommandId(UNKNOWN);
 }
 
 
@@ -277,8 +309,8 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		buf[recvBytes] = '\0';
 		try
 		{
-			extractCommandId(buf, clientIndex);
-			manageCommand(recvBytes, clientIndex);
+			extractCommand(buf, _clients[clientIndex]);
+			manageCommand(recvBytes, _clients[clientIndex]);
 		}
 		catch(const std::exception& e)
 		{

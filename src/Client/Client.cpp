@@ -1,5 +1,12 @@
 #include <Client.hpp>
 
+Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
+{
+
+};
+
+Client::~Client(){};
+
 int	Client::getClientFd() const
 {
 	return (_clientFd);
@@ -15,9 +22,9 @@ size_t Client::getCommandId() const
 	return (_commandId);
 }
 
-std::string	Client::getCommandArg() const
+std::vector<std::string>	Client::getCommandArgs() const
 {
-	return (_commandArg);
+	return (_commandArgs);
 }
 
 void Client::setCommandId(size_t id)
@@ -25,9 +32,9 @@ void Client::setCommandId(size_t id)
 	_commandId = id;
 }
 
-void Client::setCommandArg(std::string arg)
+void Client::setCommandArgs(std::vector<std::string> args)
 {
-	_commandArg = arg;
+	_commandArgs = args;
 }
 
 void	Client::setRegisterStatus(int status)
@@ -36,9 +43,3 @@ void	Client::setRegisterStatus(int status)
 }
 
 
-Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
-{
-
-};
-
-Client::~Client(){};

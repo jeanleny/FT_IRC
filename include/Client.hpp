@@ -4,6 +4,7 @@
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <string>
+#include <vector>
 
 typedef enum registeredStatus
 {
@@ -33,7 +34,7 @@ class Client
 		int							_clientFd;
 		int							_registerStatus;
 		size_t						_commandId;
-		std::string					_commandArg;
+		std::vector<std::string>	_commandArgs;
 		//ssize_t						_cmdId;
 		//struct	sockaddr_storage	_clientAddr;
 		//socklen_t					_clientAddrSize;
@@ -42,9 +43,9 @@ class Client
 		int							getClientFd() const;
 		int							getRegisterStatus() const;
 		size_t						getCommandId() const;
-		std::string					getCommandArg() const;
+		std::vector<std::string>	getCommandArgs() const;
 		void						setCommandId(size_t id);
-		void						setCommandArg(std::string arg);
+		void						setCommandArgs(std::vector<std::string> args);
 		void						setRegisterStatus(int status);
 
 
