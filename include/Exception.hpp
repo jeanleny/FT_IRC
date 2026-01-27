@@ -39,6 +39,24 @@ class RegisterQueryException : public std::exception
 		const char * what() const throw();
 };
 
+class PasswordQueryException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
+class UsernameQueryException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
+class NicknameQueryException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
 class AlreadyRegisteredException : public std::exception
 {
 	public :

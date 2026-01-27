@@ -7,25 +7,6 @@ Server& Server::getInstance()
 	return (*_instance);
 }
 
-std::vector<std::string> split(const std::string & str)
-{
-   std::vector<std::string> split;
-   std::string elem;
-   int		start = 0;
-   int		end = 0;
-   for (size_t i = 0; i < str.size();)
-   {
-		while (isspace(str[i]))
-			i++;
-		start = i;
-		while (!isspace(str[i]))
-			i++;
-		end = i;
-		split.push_back(str.substr(start, end - start));
-   }
-   return split;
-}
-
 Server::Server(char *port, char *password)
 {
 	if (_instance == NULL)
@@ -104,14 +85,6 @@ ssize_t	Server::findClient(int clientFd)
 	return (-1);
 }
 
-void	displayClients(std::vector<Client> _clients)
-{
-	for(size_t i = 0; i < _clients.size(); i++)
-	{
-		std::cout << _clients[i].getClientFd() << std::endl;
-	}
-}
-
 void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
 {
 	if (bytes < 0)
@@ -122,13 +95,6 @@ void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
 	if (removeIndex < 0)
 		return ;
 	_clients.erase(_clients.begin() + removeIndex);
-}
-
-bool	isRegisterCommand(ssize_t cmdId)
-{
-	if (cmdId == USER || cmdId == NICK || cmdId == PASS)
-		return (true);
-	return (false);
 }
 
 void	Server::serverRegistration(Client & client)
@@ -142,19 +108,19 @@ void	Server::serverRegistration(Client & client)
 	{
 		case PASS_STATUS :
 			if (cmdId != PASS)
-				std::cout << "Please enter the password" << std::endl; //send
+				throw PasswordQueryException();
 			else
 				_iCommands[PASS]->execCmd(client, client.getCommandArgs());
 			break ;	
 		case USER_STATUS :
 			if (cmdId != USER)
-				std::cout << "Please enter your username" << std::endl; //send
+				throw UsernameQueryException();
 			//else
 			//USER COMAND
 			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
-				std::cout << "Please enter your nickname" << std::endl; //send
+				throw NicknameQueryException();
 			//else
 			//NICK COMAND
 			break ;
@@ -211,7 +177,7 @@ void	Server::commandSwitch(Client & client)
 			break;
 	
 		case UNKNOWN:
-			std::cerr << "Unvalid command." << std::endl; //send
+			throw WrongCommandException();
 			break;
 	}
 }
@@ -229,29 +195,10 @@ void	Server::manageCommand(int recvBytes, Client & client)
 	(void)recvBytes;
 	
 	if (client.getRegisterStatus() != REGISTERED)
-	{
-		try
-		{
 			serverRegistration(client);
-		}
-		catch (const std::exception &e)
-		{
-			sendException(client.getClientFd(), e);
-		}
-	}
 	else
-	{
-		try
-		{
 			commandSwitch(client);
-		}
-		catch(const std::exception & e)
-		{
-			std::cerr << e.what() << std::endl; //send
-		}
-	}
 }
-
 
 bool isOneArg(std::string str)
 {
@@ -308,7 +255,6 @@ int	Server::extractCommand(char *buf, Client & client)
 	return (1);
 }
 
-
 void	Server::manageEvents(struct epoll_event currentEvent)
 {
 	char buf[1024];
@@ -322,7 +268,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << e.what() << std::endl; //send
+			sendException(currentEvent.data.fd, e);
 		}
 	}
 	else if (recvBytes > 0)
@@ -336,7 +282,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << std::endl; //send
+			sendException(currentEvent.data.fd, e);
 		}
 	}
 }

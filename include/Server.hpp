@@ -5,6 +5,7 @@
 #include <Client.hpp>
 #include <ICommand.hpp>
 #include <PassCommand.hpp>
+#include <utils.h>
 
 #include <iostream>
 #include <sys/socket.h>
