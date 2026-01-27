@@ -1,10 +1,10 @@
 #ifndef SERVER_HPP
 # define SERVER_HPP
 
-#include "../Exception/Exception.hpp"
-#include "../Client/Client.hpp"
-#include "../Commands/ICommand.hpp"
-#include "../Commands/PassCommand.hpp"
+#include <Exception.hpp>
+#include <Client.hpp>
+#include <ICommand.hpp>
+#include <PassCommand.hpp>
 
 #include <iostream>
 #include <sys/socket.h>

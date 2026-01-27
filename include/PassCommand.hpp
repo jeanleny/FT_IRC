@@ -1,7 +1,7 @@
 #pragma once
-#include "ICommand.hpp"
-#include "../Exception/Exception.hpp"
-#include "../Server/Server.hpp"
+#include <ICommand.hpp>
+#include <Exception.hpp>
+#include <Server.hpp>
 
 
 
