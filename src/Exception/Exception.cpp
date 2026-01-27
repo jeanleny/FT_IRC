@@ -59,3 +59,8 @@ const char *UnvalidPasswordException::what() const throw()
 {
 	return ("Error : Unvalid Password\n");
 }
+
+const char *MissingArgumentsException::what() const throw()
+{
+	return ("Error : This command needs at least one argument\n");
+}
