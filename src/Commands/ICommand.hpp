@@ -7,5 +7,6 @@ class ICommand
 {
     public:
 
-        virtual void    execCmd(Client & emitter, std::string arg) = 0;
+        virtual         ~ICommand() {};
+        virtual void    execCmd(Client & emitter, const std::string & arg) = 0;
 };

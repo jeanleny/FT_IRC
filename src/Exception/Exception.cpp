@@ -29,3 +29,13 @@ const char *RegisterQueryException::what() const throw()
 {
 	return ("Error : Please register yourself");
 }
+
+const char *AlreadyRegisteredException::what() const throw()
+{
+	return ("Error : You are already authenticate");
+}
+
+const char *WrongCommandException::what() const throw()
+{
+	return ("Error : Please enter a valid command");
+}

@@ -2,11 +2,6 @@
 
 Server*	Server::_instance = NULL;
 
-void	Server::poussememe()
-{
-	std::cout << "manger du celeri" << std::endl;
-}
-
 Server& Server::getInstance()
 {
 	return (*_instance);
@@ -25,15 +20,15 @@ Server::Server(char *port, char *password)
 
 void	Server::initICommands()
 {
-	// _iCommands[0] = new PassCommand();
-	// _iCommands[1] = new UserCommand();
-	// _iCommands[2] = new NickCommand();
-	// _iCommands[3] = new KickCommand();
-	// _iCommands[4] = new PrivMsgCommand();
-	// _iCommands[5] = new TopicCommand();
-	// _iCommands[6] = new ModeCommand();
-	// _iCommands[7] = new JoinCommand();
-	// _iCommands[8] = new InviteCommand();
+	_iCommands[0] = new PassCommand();
+	_iCommands[1] = NULL;
+	_iCommands[2] = NULL;
+	_iCommands[3] = NULL;
+	_iCommands[4] = NULL;
+	_iCommands[5] = NULL;
+	_iCommands[6] = NULL;
+	_iCommands[7] = NULL;
+	_iCommands[8] = NULL;
 }
 
 void	Server::initServer()
@@ -112,7 +107,6 @@ void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
 
 bool	isRegisterCommand(ssize_t cmdId)
 {
-	std::cout << cmdId << std::endl;
 	if (cmdId == USER || cmdId == NICK || cmdId == PASS)
 		return (true);
 	return (false);
@@ -129,24 +123,30 @@ void	Server::serverRegistration(int index)
 	{
 		case PASS_STATUS :
 			if (cmdId != PASS)
-				std::cout << "Please enter the password" << std::endl;
-			//else
-			//PASS COMAND
+				std::cout << "Please enter the password" << std::endl; //send
+			else
+				_iCommands[PASS]->execCmd(_clients[index], _clients[index].getCommandArg());
 			break ;	
 		case USER_STATUS :
 			if (cmdId != USER)
-				std::cout << "Please enter your username" << std::endl;
+				std::cout << "Please enter your username" << std::endl; //send
 			//else
 			//USER COMAND
 			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
-				std::cout << "Please enter your nickname" << std::endl;
+				std::cout << "Please enter your nickname" << std::endl; //send
 			//else
 			//NICK COMAND
 			break ;
 	}
 }
+
+bool	Server::validPassword(std::string pass)
+{
+	return (pass == _password);
+}
+
 void	Server::commandSwitch(int clientIndex)
 {
 	size_t	commandId = _clients[clientIndex].getCommandId();
@@ -192,8 +192,7 @@ void	Server::commandSwitch(int clientIndex)
 			break;
 	
 		case UNKNOWN:
-			std::cerr << "Unvalid command." << std::endl;
-			//-->fonction send
+			std::cerr << "Unvalid command." << std::endl; //send
 			break;
 	}
 }
@@ -210,7 +209,7 @@ void	Server::manageCommand(int recvBytes, ssize_t index)
 		}
 		catch (const std::exception & e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 	else
@@ -221,7 +220,7 @@ void	Server::manageCommand(int recvBytes, ssize_t index)
 		}
 		catch(const std::exception & e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 }
@@ -239,13 +238,13 @@ void	Server::extractCommandId(char *buf, int clientIndex)
 	else
 	{
 		extract = str.substr(0, pos);
-		std::string	arg = str.substr(pos);
+		std::string	arg = str.substr(pos + 1);
 		_clients[clientIndex].setCommandArg(arg);
 	}
 
-	std::string array[9]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+	std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
 
-	for (size_t i = 0; i < 9; i++)
+	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (extract == array[i])
 		{
@@ -270,7 +269,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		}
 		catch (std::exception &e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 	else if (recvBytes > 0)
@@ -283,7 +282,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 		}
 		catch(const std::exception& e)
 		{
-			std::cerr << e.what() << std::endl;
+			std::cerr << e.what() << std::endl; //send
 		}
 	}
 }
@@ -309,4 +308,11 @@ void	Server::runningServer()
 	}
 }
 
-Server::~Server(){};
+Server::~Server()
+{
+	for (int i = 0; i < NB_CMD; i++)
+	{
+		delete _iCommands[i];
+	}
+	_instance = NULL;
+};

@@ -10,7 +10,8 @@ NAME		= ircserv
 SRC			+= src/main.cpp					\
 			   src/Server/Server.cpp		\
 			   src/Exception/Exception.cpp	\
-			   src/Client/Client.cpp		
+			   src/Client/Client.cpp		\
+			   src/Commands/PassCommand.cpp	
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)

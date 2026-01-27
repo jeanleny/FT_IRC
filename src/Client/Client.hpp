@@ -8,8 +8,8 @@
 typedef enum registeredStatus
 {
 	PASS_STATUS,
-	NICK_STATUS,
 	USER_STATUS,
+	NICK_STATUS,
 	REGISTERED
 } e_registeredStatus;
 
@@ -45,6 +45,8 @@ class Client
 		std::string					getCommandArg() const;
 		void						setCommandId(size_t id);
 		void						setCommandArg(std::string arg);
+		void						setRegisterStatus(int status);
+
 
 		Client(int fd);
 		~Client();
