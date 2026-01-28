@@ -226,38 +226,13 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 	emitter.setCommandId(UNKNOWN);
 }
 
-bool	isEmptyCommand(std::string str)
-{
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (!isspace(str[i]))
-			return (false);
-	}
-	return (true);
-}
-
-bool	isTrailingSpaces(std::string str)
-{
-	std::string::iterator it = str.end();
-
-	if (str.size() > 2)
-	{
-		it-= 2;
-		if(*it == '\r' && *(++it) == '\n')
-			return true;
-		return false;
-	}
-	return false;
-}
-
 int	Server::extractCommand(char *buf, Client & client)
 {
 	std::string	extract;
 	std::string	str = buf;
 	if (isEmptyCommand(str))
 		return (-1);
-	if (isTrailingSpaces(str))
-		str.erase(str.size() - 2, str.size() - 1);
+	eraseTrailingSpaces(str);
 	if (isOneArg(str))
 		extractCommandId(client, str);
 	else
@@ -266,10 +241,6 @@ int	Server::extractCommand(char *buf, Client & client)
 		extractCommandId(client, splitArgs[0]);
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
-		for (size_t i = 0; i < splitArgs.size(); i++)
-		{
-			std::cout << splitArgs[i] << std::endl;
-		}
 	}
 	return (1);
 }
