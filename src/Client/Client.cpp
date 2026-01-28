@@ -5,6 +5,16 @@ int	Client::getClientFd() const
 	return (_clientFd);
 }
 
+std::string		Client::getNickname() const
+{
+	return (_nickname);
+}
+
+std::string		Client::getUsername() const
+{
+	return (_username);
+}
+
 int	Client::getRegisterStatus() const
 {
 	return (_registerStatus);
@@ -35,12 +45,18 @@ void	Client::setRegisterStatus(int status)
 	_registerStatus = status;
 }
 
+void	Client::setNickname(std::string nick)
+{
+	_nickname = nick;
+}
+
+
 void	Client::clearCommandArgs()
 {
 	_commandArgs.clear();
 }
 
-Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
+Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS), _nickname("")
 {
 
 };

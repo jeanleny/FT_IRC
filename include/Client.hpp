@@ -9,16 +9,16 @@
 typedef enum registeredStatus
 {
 	PASS_STATUS,
-	USER_STATUS,
 	NICK_STATUS,
+	USER_STATUS,
 	REGISTERED
 } e_registeredStatus;
 
 typedef enum commandId
 {
 	PASS,
-	NICK,
 	USER,
+	NICK,
 	KICK,
 	PRIVMSG,
 	TOPIC,
@@ -35,6 +35,8 @@ class Client
 		int							_registerStatus;
 		size_t						_commandId;
 		std::vector<std::string>	_commandArgs;
+		std::string					_nickname;
+		std::string					_username;
 		//ssize_t						_cmdId;
 		//struct	sockaddr_storage	_clientAddr;
 		//socklen_t					_clientAddrSize;
@@ -43,10 +45,13 @@ class Client
 		int							getClientFd() const;
 		int							getRegisterStatus() const;
 		size_t						getCommandId() const;
+		std::string					getNickname() const;
+		std::string					getUsername() const;
 		std::vector<std::string>	getCommandArgs() const;
 		void						setCommandId(size_t id);
 		void						setCommandArgs(std::vector<std::string> args);
 		void						setRegisterStatus(int status);
+		void						setNickname(std::string nickname);
 		void						clearCommandArgs();
 
 		Client(int fd);

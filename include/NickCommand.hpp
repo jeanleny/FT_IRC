@@ -5,13 +5,14 @@
 
 
 
-class PassCommand : public ICommand
+class NickCommand : public ICommand
 {
     
     public:
 
-        PassCommand();
-        ~PassCommand();
+        NickCommand();
+        ~NickCommand();
+        
         void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 
     private:

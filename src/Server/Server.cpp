@@ -18,10 +18,15 @@ Server::Server(char *port, char *password)
 	}
 }
 
+std::string	Server::getHostname() const
+{
+	return ((std::string)_hostName);
+}
+
 void	Server::initICommands()
 {
 	_iCommands[0] = new PassCommand();
-	_iCommands[1] = NULL;
+	_iCommands[1] = new NickCommand();
 	_iCommands[2] = NULL;
 	_iCommands[3] = NULL;
 	_iCommands[4] = NULL;
@@ -109,22 +114,28 @@ void	Server::serverRegistration(Client & client)
 		case PASS_STATUS :
 			if (cmdId != PASS)
 				throw PasswordQueryException();
-			else
-				_iCommands[PASS]->execCmd(client, client.getCommandArgs());
+			_iCommands[PASS]->execCmd(client, client.getCommandArgs());
 			break ;
 		case USER_STATUS :
 			if (cmdId != USER)
 				throw UsernameQueryException();
-			//else
-			//USER COMAND
 			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
 				throw NicknameQueryException();
-			//else
-			//NICK COMAND
+			_iCommands[NICK]->execCmd(client, client.getCommandArgs());
 			break ;
 	}
+}
+
+bool	Server::isUsedNickname(std::string nickname)
+{
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (nickname == _clients[i].getNickname())
+			return true;
+	}
+	return false;
 }
 
 bool	Server::validPassword(std::string pass)

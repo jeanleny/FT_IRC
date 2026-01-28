@@ -20,33 +20,22 @@ std::vector<std::string> split(const std::string & str)
 	return split;
 }
 
-bool	isRegisterCommand(ssize_t cmdId)
+bool    isvalidNickname(std::string nickname)
 {
-	if (cmdId == USER || cmdId == NICK || cmdId == PASS)
-	return (true);
-	return (false);
+    std::string charset = "-[]\\`^{}";
+
+	size_t pos;
+	for (size_t i = 0; i < nickname.size(); i++)
+    {
+		pos = charset.find(nickname[i]);
+        if (!isalnum(nickname[i]) && pos == std::string::npos)
+			return false;
+    }
+    return true;
 }
 
-//-----------------------DEBUG
 
-void	displayClients(std::vector<Client> _clients)
-{
-	for(size_t i = 0; i < _clients.size(); i++)
-	{
-		std::cout << _clients[i].getClientFd() << std::endl;
-	}
-}
 
-void	displayCommand(Client & client)
-{
-	std::cout << client.getCommandId() << " | ";
-	for (size_t i = 0; i < client.getCommandArgs().size(); i++)
-	{
-		std::cout << client.getCommandArgs()[i] << " ";
-		std::cout << "|" << std::endl; 
-	}
-	std::cout << std::endl;
-}
 
 bool	isEmptyCommand(std::string str)
 {
@@ -66,5 +55,25 @@ void	eraseTrailingSpaces(std::string &str)
 		str.erase(found + 1);
 	else
 		str.clear();
+}
+//-----------------------DEBUG
+
+void	displayClients(std::vector<Client> _clients)
+{
+	for(size_t i = 0; i < _clients.size(); i++)
+	{
+		std::cout << _clients[i].getClientFd() << std::endl;
+	}
+}
+
+void	displayCommand(Client & client)
+{
+	std::cout << client.getCommandId() << " | ";
+	for (size_t i = 0; i < client.getCommandArgs().size(); i++)
+	{
+		std::cout << client.getCommandArgs()[i] << " ";
+		std::cout << "|" << std::endl; 
+	}
+	std::cout << std::endl;
 }
 

@@ -81,4 +81,17 @@ class MissingArgumentsException : public std::exception
 		const char * what() const throw();
 };
 
+class ErroneusNicknameException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
+class UsedNicknameException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
+
 #endif
