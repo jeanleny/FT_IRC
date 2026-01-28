@@ -1,5 +1,15 @@
 #include <Channel.hpp>
 
+const std::string Channel::getName()
+{
+	return (_name);
+}
+
+size_t Channel::getMemberNb()
+{
+	return (_memberNb);
+}
+
 Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 {
 	//Unused variables to compile

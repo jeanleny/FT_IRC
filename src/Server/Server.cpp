@@ -48,7 +48,6 @@ void	Server::initServer()
 		throw BindFailedException();
 	if (listen(_servFd, 10) == -1)
 		throw ListenFailedException();
-	
 	initICommands();
 }
 
