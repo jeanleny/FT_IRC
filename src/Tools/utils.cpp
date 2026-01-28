@@ -9,10 +9,10 @@ std::vector<std::string> split(const std::string & str)
 	int		end = 0;
 	for (size_t i = 0; i < str.size();)
 	{
-		while (isspace(str[i]))
+		while (isspace(str[i]) && str[i])
 		i++;
 		start = i;
-		while (!isspace(str[i]))
+		while (!isspace(str[i]) && str[i])
 		i++;
 		end = i;
 		split.push_back(str.substr(start, end - start));
@@ -43,6 +43,28 @@ void	displayCommand(Client & client)
 	for (size_t i = 0; i < client.getCommandArgs().size(); i++)
 	{
 		std::cout << client.getCommandArgs()[i] << " ";
+		std::cout << "|" << std::endl; 
 	}
 	std::cout << std::endl;
 }
+
+bool	isEmptyCommand(std::string str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!isspace(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
+void	eraseTrailingSpaces(std::string &str)
+{
+	std::string trailing("\r\n");
+	std::size_t found = str.find_last_not_of(trailing);
+	if (found != std::string::npos)
+		str.erase(found + 1);
+	else
+		str.clear();
+}
+
