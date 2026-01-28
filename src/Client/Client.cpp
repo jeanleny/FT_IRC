@@ -35,6 +35,11 @@ void	Client::setRegisterStatus(int status)
 	_registerStatus = status;
 }
 
+void	Client::clearCommandArgs()
+{
+	_commandArgs.clear();
+}
+
 Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS)
 {
 

@@ -266,6 +266,10 @@ int	Server::extractCommand(char *buf, Client & client)
 		extractCommandId(client, splitArgs[0]);
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
+		for (size_t i = 0; i < splitArgs.size(); i++)
+		{
+			std::cout << splitArgs[i] << std::endl;
+		}
 	}
 	return (1);
 }
@@ -300,7 +304,7 @@ void	Server::manageEvents(struct epoll_event currentEvent)
 			sendException(currentEvent.data.fd, e);
 		}
 	}
-	_clients[clientIndex].getCommandArgs().clear();
+	_clients[clientIndex].clearCommandArgs();
 }
 
 void	Server::runningServer()

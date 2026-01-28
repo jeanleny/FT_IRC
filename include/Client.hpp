@@ -47,6 +47,7 @@ class Client
 		void						setCommandId(size_t id);
 		void						setCommandArgs(std::vector<std::string> args);
 		void						setRegisterStatus(int status);
+		void						clearCommandArgs();
 
 		Client(int fd);
 		~Client();
