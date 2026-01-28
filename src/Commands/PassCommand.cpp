@@ -15,7 +15,11 @@ void    PassCommand::execCmd(Client & client, const std::vector<std::string>& ar
         throw UsernameQueryException();
     if (client.getRegisterStatus() == NICK_STATUS)
         throw NicknameQueryException();
-    if (args.size() == 0 || args.size() > 1)
+    if (client.getRegisterStatus() == REGISTERED)
+        throw AlreadyRegisteredException();
+    if (args.size() == 0)
+        throw MissingArgumentsException();
+    if (args.size() > 1)
         throw WrongCommandException();
 
     std::string pass = args[0];

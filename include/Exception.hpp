@@ -75,4 +75,10 @@ class UnvalidPasswordException : public std::exception
 		const char * what() const throw();
 };
 
+class MissingArgumentsException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
 #endif
