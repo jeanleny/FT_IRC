@@ -50,6 +50,11 @@ void	Client::setNickname(std::string nick)
 	_nickname = nick;
 }
 
+void	Client::setUsername(std::string username)
+{
+	_username = username;
+}
+
 
 void	Client::clearCommandArgs()
 {

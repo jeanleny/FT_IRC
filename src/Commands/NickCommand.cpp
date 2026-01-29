@@ -4,8 +4,9 @@
 
 - [OK] Parsing : 9 caractères, 1er char : pas de chiffres. Reste : lettres, chiffres, caractères spéciaux (- [ ] \ ` ^ { }) (ERR_ERRONEUSNICKNAME)
 - [OK] During registration, set the nickname :
-        - si il n'est pas deja utilisé (ERR_NICKNAMEINUSE (433))
-    -->si validé, send : :WiZ!jto@tolsun.oulu.fi NICK Kilroy
+        - [OK] si il n'est pas deja utilisé (ERR_NICKNAMEINUSE (433))
+        -->si validé, send : :WiZ!jto@tolsun.oulu.fi NICK Kilroy
+        -->envoie le message de welcome
 - After registration, remplace le nickname si il est différent et pas deja utilisé ERR_NICKNAMEINUSE (433)
     + send un message a tous les clients du channel pour avertir du changement de nickname
 */
@@ -20,9 +21,8 @@ NickCommand::~NickCommand()
 
 }
 
-int     parseNickname(std::string nickname)
+int     NickCommand::parseNickname(const std::string & nickname)
 {
-    
     if (nickname.size() < 1 || nickname.size() > 9)
         return -1;
     if (isdigit(nickname[0]) || !isvalidNickname(nickname))
@@ -42,7 +42,7 @@ void    NickCommand::execCmd(Client & client, const std::vector<std::string>& ar
     if (args.size() > 1)
         throw WrongCommandException();
         
-    std::string nickname = args[0];
+    const std::string nickname = args[0];
     if (parseNickname(nickname) == -1)
         throw ErroneusNicknameException();
     if (Server::getInstance().isUsedNickname(nickname))

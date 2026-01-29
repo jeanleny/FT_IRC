@@ -9,8 +9,8 @@
 typedef enum registeredStatus
 {
 	PASS_STATUS,
-	NICK_STATUS,
 	USER_STATUS,
+	NICK_STATUS,
 	REGISTERED
 } e_registeredStatus;
 
@@ -52,6 +52,7 @@ class Client
 		void						setCommandArgs(std::vector<std::string> args);
 		void						setRegisterStatus(int status);
 		void						setNickname(std::string nickname);
+		void						setUsername(std::string username);
 		void						clearCommandArgs();
 
 		Client(int fd);

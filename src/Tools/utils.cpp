@@ -22,7 +22,7 @@ std::vector<std::string> split(const std::string & str)
 
 bool    isvalidNickname(std::string nickname)
 {
-    std::string charset = "-[]\\`^{}";
+    std::string charset = "`|^_-{}[]\\";
 
 	size_t pos;
 	for (size_t i = 0; i < nickname.size(); i++)

@@ -6,6 +6,7 @@
 #include <ICommand.hpp>
 #include <PassCommand.hpp>
 #include <NickCommand.hpp>
+#include <UserCommand.hpp>
 #include <ServerUtils.h>
 #include <utils.h>
 

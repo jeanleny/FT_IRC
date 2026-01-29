@@ -14,6 +14,7 @@ SRC			+= src/main.cpp					\
 			   src/Client/Client.cpp		\
 			   src/Commands/PassCommand.cpp	\
 			   src/Commands/NickCommand.cpp	\
+			   src/Commands/UserCommand.cpp	\
 			   src/Tools/utils.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}

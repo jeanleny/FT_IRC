@@ -93,5 +93,11 @@ class UsedNicknameException : public std::exception
 		const char * what() const throw();
 };
 
+class ErroneusUsernameException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
 
 #endif

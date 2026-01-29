@@ -76,3 +76,8 @@ const char *UsedNicknameException::what() const throw()
 	//433
 	return ("Error : Erroneus Nickname\n");
 }
+
+const char *ErroneusUsernameException::what() const throw()
+{
+	return ("Error : Erroneus Username\n");
+}
