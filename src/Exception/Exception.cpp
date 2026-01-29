@@ -64,3 +64,20 @@ const char *MissingArgumentsException::what() const throw()
 {
 	return ("Error : This command needs at least one argument\n");
 }
+
+const char *ErroneusNicknameException::what() const throw()
+{
+	//432
+	return ("Error : Erroneus Nickname\n");
+}
+
+const char *UsedNicknameException::what() const throw()
+{
+	//433
+	return ("Error : Erroneus Nickname\n");
+}
+
+const char *ErroneusUsernameException::what() const throw()
+{
+	return ("Error : Erroneus Username\n");
+}

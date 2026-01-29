@@ -18,11 +18,16 @@ Server::Server(char *port, char *password)
 	}
 }
 
+std::string	Server::getHostname() const
+{
+	return ((std::string)_hostName);
+}
+
 void	Server::initICommands()
 {
 	_iCommands[0] = new PassCommand();
-	_iCommands[1] = NULL;
-	_iCommands[2] = NULL;
+	_iCommands[1] = new UserCommand();
+	_iCommands[2] = new NickCommand();
 	_iCommands[3] = NULL;
 	_iCommands[4] = NULL;
 	_iCommands[5] = NULL;
@@ -45,10 +50,15 @@ void	Server::initServer()
 	if (_servFd == -1)
 		throw SocketFailedException();
 	if (bind(_servFd, _servInfo->ai_addr, _servInfo->ai_addrlen) == -1)
+	{
+		close(_servFd);
 		throw BindFailedException();
+	}
 	if (listen(_servFd, 10) == -1)
+	{
+		close(_servFd);
 		throw ListenFailedException();
-	
+	}
 	initICommands();
 }
 
@@ -101,6 +111,7 @@ void	Server::serverRegistration(Client & client)
 {
 	int status = client.getRegisterStatus();
 	size_t cmdId = client.getCommandId();
+	std::vector<std::string> cmdArgs = client.getCommandArgs();
 
 	if (!isRegisterCommand(cmdId))
 		throw RegisterQueryException();
@@ -109,22 +120,29 @@ void	Server::serverRegistration(Client & client)
 		case PASS_STATUS :
 			if (cmdId != PASS)
 				throw PasswordQueryException();
-			else
-				_iCommands[PASS]->execCmd(client, client.getCommandArgs());
+			_iCommands[PASS]->execCmd(client, cmdArgs);
 			break ;
 		case USER_STATUS :
 			if (cmdId != USER)
 				throw UsernameQueryException();
-			//else
-			//USER COMAND
+			_iCommands[USER]->execCmd(client, cmdArgs);
 			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
 				throw NicknameQueryException();
-			//else
-			//NICK COMAND
+			_iCommands[NICK]->execCmd(client, cmdArgs);
 			break ;
 	}
+}
+
+bool	Server::isUsedNickname(std::string nickname)
+{
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (nickname == _clients[i].getNickname())
+			return true;
+	}
+	return false;
 }
 
 bool	Server::validPassword(std::string pass)
@@ -194,7 +212,7 @@ void	Server::manageCommand(int recvBytes, Client & client)
 
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
-	std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (id == array[i])
