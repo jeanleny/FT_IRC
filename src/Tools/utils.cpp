@@ -77,3 +77,22 @@ void	displayCommand(Client & client)
 	std::cout << std::endl;
 }
 
+bool isOneArg(std::string str)
+{
+	int	i = 0;
+	while (isspace(str[i]) && str[i])
+		i++;
+	while (!isspace(str[i]) && str[i])
+		i++;
+	while (isspace(str[i]) && str[i])
+		i++;
+	return (str[i] == '\0');
+}
+
+void	sendException(int fd ,const std::exception &e)
+{
+	const char	*msg = e.what();
+	size_t		len = strlen(msg);
+
+	send(fd, msg, len, 0);
+}

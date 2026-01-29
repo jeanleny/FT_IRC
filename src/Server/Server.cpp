@@ -75,7 +75,7 @@ void	Server::addClient()
 	struct	sockaddr_storage	emitter;
 	socklen_t					addrSize;
 	int							emitterFd;
-
+	
 	addrSize = sizeof (struct sockaddr);
 	emitterFd = accept(_servFd, (struct sockaddr *)&emitter, &addrSize);
 	Client	obj(emitterFd);
@@ -96,7 +96,7 @@ ssize_t	Server::findClient(int clientFd)
 }
 
 void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
-{
+{	
 	if (bytes < 0)
 		throw RecvFailedException();
 	std::cout << "User disconnected from the server" << std::endl;
@@ -200,14 +200,6 @@ void	Server::commandSwitch(Client & client)
 	}
 }
 
-void	sendException(int fd ,const std::exception &e)
-{
-	const char	*msg = e.what();
-	size_t		len = strlen(msg);
-
-	send(fd, msg, len, 0);
-}
-
 void	Server::manageCommand(int recvBytes, Client & client)
 {
 	(void)recvBytes;
@@ -216,18 +208,6 @@ void	Server::manageCommand(int recvBytes, Client & client)
 			serverRegistration(client);
 	else
 			commandSwitch(client);
-}
-
-bool isOneArg(std::string str)
-{
-	int	i = 0;
-	while (isspace(str[i]) && str[i])
-		i++;
-	while (!isspace(str[i]) && str[i])
-		i++;
-	while (isspace(str[i]) && str[i])
-		i++;
-	return (str[i] == '\0');
 }
 
 void	Server::extractCommandId(Client & emitter, std::string id)
@@ -263,7 +243,7 @@ int	Server::extractCommand(char *buf, Client & client)
 	return (1);
 }
 
-void	Server::manageEvents(struct epoll_event currentEvent)
+void	Server::manageEvents(struct epoll_event &currentEvent)
 {
 	char buf[1024];
 	int recvBytes = recv(currentEvent.data.fd, buf, 1023, 0);
