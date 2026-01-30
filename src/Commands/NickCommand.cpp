@@ -29,6 +29,24 @@ int     NickCommand::parseNickname(const std::string & nickname)
         return -1;
     return 0;
 }
+void    defineNickname(Client & client, const std::string & nickname)
+{
+    if (client.getRegisterStatus() == NICK_STATUS)
+    {
+        client.setNickname(nickname);
+        client.setRegisterStatus(REGISTERED);
+
+        std::string msg1 = ":" + Server::getInstance().getHostname() + " 001 " + client.getNickname() 
+                + " :Welcome to the Internet Relay Network " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
+        send(client.getClientFd(), msg1.c_str(), msg1.size(), 0);
+    }
+    else // Nick Command typed after registration
+    {
+        std::string msg = ":" + client.getNickname() + "!" + client.getUsername() + "@localhost" + " NICK :" + nickname + "\r\n";
+        send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+        client.setNickname(nickname);
+    }
+}
 
 
 void    NickCommand::execCmd(Client & client, const std::vector<std::string>& args)
@@ -47,19 +65,6 @@ void    NickCommand::execCmd(Client & client, const std::vector<std::string>& ar
         throw ErroneusNicknameException();
     if (Server::getInstance().isUsedNickname(nickname))
         throw UsedNicknameException();
-    if (client.getRegisterStatus() == NICK_STATUS)
-    {
-        client.setNickname(nickname);
-        client.setRegisterStatus(REGISTERED);
-        // ++ message de welcome;
-    }
-    // ++ NICK command after registration 
-    // if (client.getRegisterStatus() == REGISTERED)
-    // {
-    //     client.setNickname(nickname);
-    //     std::string msg = ":" + client.getNickname() + "!" + client.getUsername() + "@"
-    //             + Server::getInstance().getHostname() + "NICK" + nickname;
-    //     std::cout << msg << std::endl;
-    //     send(client.getClientFd(), msg.c_str(), msg.size(), 0);
-    // }
+    
+    defineNickname(client, nickname);
 }
