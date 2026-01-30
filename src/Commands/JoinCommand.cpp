@@ -1,6 +1,65 @@
 #include <JoinCommand.hpp>
+#include <Server.hpp>
 
-/*void	execCmd(Client &emitter, const std::vector<std::string>&arg)
+JoinCommand::JoinCommand()
 {
-	if (existChannel)
-}*/
+
+}
+
+JoinCommand::~JoinCommand()
+{
+
+}
+
+bool	checkPrefix(std::string channelName)
+{
+	return (channelName[0] == '#');
+}
+
+std::string	cutChannelName(std::string channelName)
+{
+	for (size_t i = 0; i < channelName.size(); i++)
+	{
+		if (channelName[i] == ',')
+			return (channelName.substr(0, i));
+	}
+	return (channelName);
+}
+
+void	isValidChannel(std::string channelName)
+{
+	if (channelName.size() > 50 || !checkPrefix(channelName))
+		throw InvalidChannelException();
+}
+
+
+void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
+{
+	std::string chanName;
+	(void)arg;
+	(void)emitter;
+	/*for (size_t i = 0; i < arg.size(); i++)
+	{
+		try
+		{
+			isValidChannel(arg[i]);
+			chanName = cutChannelName(arg[i]);
+			{
+				if (Server::getInstance().existChannel(chanName))
+				{
+					std::cout << "il esxite" << std::endl; 
+					//addChannelMember();
+				}
+				else
+				{
+					std::cout << "il esxiste pa" << std::endl; 
+					Server::getInstance().createChannel(emitter, chanName);
+				}
+			}
+		}
+		catch(std::exception &e)
+		{
+			sendException(emitter.getClientFd(), e);
+		}
+	}*/
+}

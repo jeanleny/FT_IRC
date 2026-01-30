@@ -81,3 +81,8 @@ const char *ErroneusUsernameException::what() const throw()
 {
 	return ("Error : Erroneus Username\n");
 }
+
+const char *InvalidChannelException::what() const throw()
+{
+	return ("Error : Invalid channel name\n");
+}

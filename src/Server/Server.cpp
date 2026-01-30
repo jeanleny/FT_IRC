@@ -32,7 +32,7 @@ void	Server::initICommands()
 	_iCommands[4] = NULL;
 	_iCommands[5] = NULL;
 	_iCommands[6] = NULL;
-	_iCommands[7] = NULL;
+	_iCommands[7] = new JoinCommand();
 	_iCommands[8] = NULL;
 }
 
