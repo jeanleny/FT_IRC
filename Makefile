@@ -13,10 +13,11 @@ SRC			+= src/main.cpp					\
 			   src/Exception/Exception.cpp	\
 			   src/Client/Client.cpp		\
 			   src/Commands/PassCommand.cpp	\
+			   src/Tools/utils.cpp			\
+			   src/Channel/Channel.cpp		\
+			   src/Commands/JoinCommand.cpp	
 			   src/Commands/NickCommand.cpp	\
 			   src/Commands/UserCommand.cpp	\
-			   src/Tools/utils.cpp
-			   src/Channel/Channel.cpp		
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)

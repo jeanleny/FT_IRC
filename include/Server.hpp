@@ -47,6 +47,8 @@ class Server
 		void					commandSwitch(Client & client);
 		ssize_t					findClient(int clientFd);
 		bool					validPassword(std::string pass);
+		bool					isInChannel(Client &client);
+		bool					existChannel(std::string name);
 		bool					isUsedNickname(std::string nickname);
 		int						extractCommand(char *buf, Client & client);
 
