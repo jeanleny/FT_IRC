@@ -10,6 +10,16 @@ size_t Channel::getMemberNb()
 	return (_memberNb);
 }
 
+/*bool	Channel::isChannelMember(std::string nickname)
+{
+	for (size_t i = 0; i < _memberList.size(); i++)
+	{
+		if (_memberList._name == nickname)
+			return (true);
+	}
+	return (false);
+}*/
+
 Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 {
 	//Unused variables to compile

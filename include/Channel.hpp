@@ -21,10 +21,11 @@ class	Channel
 		~Channel();
 
 		const std::string	getName();	
-		size_t 		getMemberNb();	
+		size_t 				getMemberNb();
+		bool				isChannelMember(std::string nickname);
 
 	private :
-		std::vector<Client>		memberList;
+		std::vector<Client>		_memberList;
 		std::string 			_name;
 		std::string				_topic;
 		size_t					_memberNb;
