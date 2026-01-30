@@ -8,6 +8,7 @@
 #include <PassCommand.hpp>
 #include <NickCommand.hpp>
 #include <UserCommand.hpp>
+#include <JoinCommand.hpp>
 #include <ServerUtils.h>
 #include <utils.h>
 
@@ -47,10 +48,11 @@ class Server
 		void					commandSwitch(Client & client);
 		ssize_t					findClient(int clientFd);
 		bool					validPassword(std::string pass);
-		bool					isInChannel(Client &client);
+		bool					isInChannel(Client &client, std::string name);
 		bool					existChannel(std::string name);
 		bool					isUsedNickname(std::string nickname);
 		int						extractCommand(char *buf, Client & client);
+		void					createChannel(Client &emitter, std::string chanName);
 
 	private :
 

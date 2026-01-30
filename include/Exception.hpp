@@ -99,5 +99,10 @@ class ErroneusUsernameException : public std::exception
 		const char * what() const throw();
 };
 
+class InvalidChannelException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
 
 #endif
