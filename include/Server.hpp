@@ -6,6 +6,9 @@
 #include <Channel.hpp>
 #include <ICommand.hpp>
 #include <PassCommand.hpp>
+#include <NickCommand.hpp>
+#include <UserCommand.hpp>
+#include <ServerUtils.h>
 #include <utils.h>
 
 #include <iostream>
@@ -30,6 +33,7 @@ class Server
 		~Server();
 
 		static Server&			getInstance();
+		std::string				getHostname() const;
 
 		void					initServer();
 		void					initICommands();
@@ -45,6 +49,7 @@ class Server
 		bool					validPassword(std::string pass);
 		bool					isInChannel(Client &client);
 		bool					existChannel(std::string name);
+		bool					isUsedNickname(std::string nickname);
 		int						extractCommand(char *buf, Client & client);
 
 	private :
