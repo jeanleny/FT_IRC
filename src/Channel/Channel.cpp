@@ -1,4 +1,5 @@
 #include <Channel.hpp>
+#include <Server.hpp>
 
 Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 {
@@ -19,6 +20,11 @@ const std::string Channel::getName()
 size_t Channel::getMemberNb()
 {
 	return (_memberNb);
+}
+
+void	Channel::addMember(Client &client)
+{
+	_memberList.push_back(client);
 }
 
 bool	Channel::isChannelMember(std::string nickname)

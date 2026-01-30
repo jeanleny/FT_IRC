@@ -24,7 +24,7 @@ class	Channel
 		size_t 				getMemberNb();
 		
 		bool				isChannelMember(std::string nickname);
-		//const void			addChannelMember();
+		void				addMember(Client &client);
 
 	private :
 		std::vector<Client>		_memberList;
