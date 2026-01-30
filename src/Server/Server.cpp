@@ -49,6 +49,8 @@ void	Server::initServer()
 	_servFd = socket(_servInfo->ai_family, _servInfo->ai_socktype, _servInfo->ai_protocol);
 	if (_servFd == -1)
 		throw SocketFailedException();
+	int	opt = 1;
+	setsockopt(_servFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	if (bind(_servFd, _servInfo->ai_addr, _servInfo->ai_addrlen) == -1)
 	{
 		close(_servFd);
@@ -207,7 +209,12 @@ void	Server::manageCommand(int recvBytes, Client & client)
 	if (client.getRegisterStatus() != REGISTERED)
 			serverRegistration(client);
 	else
-			commandSwitch(client);
+	{
+		size_t	commandId = client.getCommandId();
+		std::vector<std::string> cmdArgs = client.getCommandArgs();
+		_iCommands[commandId]->execCmd(client, cmdArgs);
+		// commandSwitch(client);
+	}
 }
 
 void	Server::extractCommandId(Client & emitter, std::string id)
