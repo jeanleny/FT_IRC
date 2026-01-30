@@ -54,6 +54,9 @@ class Server
 		int						extractCommand(char *buf, Client & client);
 		void					createChannel(Client &emitter, std::string chanName);
 
+		void					sendWelcomeMessage(Client & client);
+		void					sendNickMessage(Client & client);
+
 	private :
 
 		static	Server			*_instance;
