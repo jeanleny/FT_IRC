@@ -10,6 +10,11 @@ std::string		Client::getNickname() const
 	return (_nickname);
 }
 
+std::string		Client::getOldNickname() const
+{
+	return (_oldNickname);
+}
+
 std::string		Client::getUsername() const
 {
 	return (_username);
@@ -47,6 +52,7 @@ void	Client::setRegisterStatus(int status)
 
 void	Client::setNickname(std::string nick)
 {
+	_oldNickname = _nickname;
 	_nickname = nick;
 }
 
@@ -61,7 +67,7 @@ void	Client::clearCommandArgs()
 	_commandArgs.clear();
 }
 
-Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS), _nickname("")
+Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS), _nickname(""), _oldNickname("")
 {
 
 };

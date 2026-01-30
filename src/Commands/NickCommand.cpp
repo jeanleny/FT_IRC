@@ -31,21 +31,14 @@ int     NickCommand::parseNickname(const std::string & nickname)
 }
 void    defineNickname(Client & client, const std::string & nickname)
 {
+    client.setNickname(nickname);
     if (client.getRegisterStatus() == NICK_STATUS)
     {
-        client.setNickname(nickname);
         client.setRegisterStatus(REGISTERED);
-
-        std::string msg1 = ":" + Server::getInstance().getHostname() + " 001 " + client.getNickname() 
-                + " :Welcome to the Internet Relay Network " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
-        send(client.getClientFd(), msg1.c_str(), msg1.size(), 0);
+        Server::getInstance().sendWelcomeMessage(client);
     }
     else // Nick Command typed after registration
-    {
-        std::string msg = ":" + client.getNickname() + "!" + client.getUsername() + "@localhost" + " NICK :" + nickname + "\r\n";
-        send(client.getClientFd(), msg.c_str(), msg.size(), 0);
-        client.setNickname(nickname);
-    }
+        Server::getInstance().sendNickMessage(client);
 }
 
 
