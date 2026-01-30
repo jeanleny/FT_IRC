@@ -74,7 +74,7 @@ const char *ErroneusNicknameException::what() const throw()
 const char *UsedNicknameException::what() const throw()
 {
 	//433
-	return ("Error : Erroneus Nickname\n");
+	return ("Error : Alreayd used nickname\n");
 }
 
 const char *ErroneusUsernameException::what() const throw()

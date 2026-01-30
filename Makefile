@@ -15,7 +15,7 @@ SRC			+= src/main.cpp					\
 			   src/Commands/PassCommand.cpp	\
 			   src/Tools/utils.cpp			\
 			   src/Channel/Channel.cpp		\
-			   src/Commands/JoinCommand.cpp	
+			   src/Commands/JoinCommand.cpp	\
 			   src/Commands/NickCommand.cpp	\
 			   src/Commands/UserCommand.cpp	\
 
