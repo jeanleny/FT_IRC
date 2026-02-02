@@ -76,7 +76,6 @@ void	Server::sendMessageToChannel(std::string & chanName, const char *msg)
 	int					clientFd;
 	int 				len = strlen(msg);
 
-	displayMemberList(chan);
 	for (size_t i = 0; i < memberList.size(); i++)
 	{
 		clientFd = memberList[i].getClientFd();
