@@ -22,6 +22,11 @@ size_t Channel::getMemberNb()
 	return (_memberNb);
 }
 
+const std::vector<Client>	Channel::getMemberList()
+{
+	return (_memberList);
+}
+
 void	Channel::addMember(Client &client)
 {
 	if (_memberNb == _memberLimit)

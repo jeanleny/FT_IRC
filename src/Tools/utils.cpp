@@ -53,16 +53,6 @@ void	eraseTrailingSpaces(std::string &str)
 	else
 		str.clear();
 }
-//-----------------------DEBUG
-
-void	displayClients(std::vector<Client> _clients)
-{
-	for(size_t i = 0; i < _clients.size(); i++)
-	{
-		std::cout << _clients[i].getClientFd() << std::endl;
-	}
-}
-
 void	displayCommand(Client & client)
 {
 	std::cout << client.getCommandId() << " | ";
@@ -99,3 +89,22 @@ bool	checkPrefix(std::string channelName)
 	return (channelName[0] == '#');
 }
 
+//-----------------------DEBUG
+
+void	displayClients(std::vector<Client> _clients)
+{
+	for(size_t i = 0; i < _clients.size(); i++)
+	{
+		std::cout << _clients[i].getClientFd() << std::endl;
+	}
+}
+
+void	displayMemberList(Channel & channel)
+{
+
+	std::vector<Client>	memberList = channel.getMemberList();
+	for(size_t i = 0; i < memberList.size(); i++)
+	{
+		std::cout << i << " | " << memberList[i].getNickname() << std::endl;
+	}
+}

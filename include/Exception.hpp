@@ -83,6 +83,8 @@ class MissingArgumentsException : public std::exception
 		const char * what() const throw();
 };
 
+//NICK COMMAND
+
 class ErroneusNicknameException : public std::exception
 {
 	public :
@@ -109,11 +111,56 @@ class UsedNicknameException : public std::exception
 		std::string	_msg;
 };
 
+//USER COMMAND
+
 class ErroneusUsernameException : public std::exception
 {
 	public :
 		const char * what() const throw();
 };
+
+//PRIVMSG COMMAND
+
+class NoRecipientException : public std::exception
+{
+	public :
+
+		NoRecipientException(Client & client);
+		virtual ~NoRecipientException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+class NoTextToSendException : public std::exception
+{
+	public :
+
+		NoTextToSendException(Client & client);
+		virtual ~NoTextToSendException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+class NoSuchNicknameException : public std::exception
+{
+	public :
+
+		NoSuchNicknameException(Client &client);
+		virtual ~NoSuchNicknameException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+
 
 class InvalidChannelException : public std::exception
 {
