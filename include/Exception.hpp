@@ -111,4 +111,10 @@ class AlreadyInChannelException : public std::exception
 		const char * what() const throw();
 };
 
+class ChannelLimitExcedeedException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
 #endif

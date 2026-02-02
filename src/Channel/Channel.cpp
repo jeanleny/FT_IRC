@@ -24,6 +24,8 @@ size_t Channel::getMemberNb()
 
 void	Channel::addMember(Client &client)
 {
+	if (_memberNb == _memberLimit)
+		throw ChannelLimitExcedeedException();
 	_memberList.push_back(client);
 }
 

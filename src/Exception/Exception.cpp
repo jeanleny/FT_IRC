@@ -92,3 +92,8 @@ const char *AlreadyInChannelException::what() const throw()
 {
 	return ("Error : User is already in channel\n");
 }
+
+const char *ChannelLimitExcedeedException::what() const throw()
+{
+	return ("Error : Channel limit user reached\n");
+}
