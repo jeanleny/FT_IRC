@@ -1,5 +1,28 @@
 #include <Server.hpp>
 
+ssize_t	Server::getChannelByName(std::string chanName)
+{
+	for(size_t i = 0; i < _channels.size(); i++)
+	{
+		if (_channels[i].getName() == chanName)
+		{
+			return (i);
+		}
+	}
+	return (-1);
+}
+
+bool	Server::findChannel(std::string name)
+{
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		if (name == _channels[i].getName())
+			return (true);
+	}
+	return (false);
+	
+}
+
 bool	Server::existChannel(std::string name)
 {
 	for (size_t i = 0; i < _channels.size(); i++)
@@ -21,6 +44,13 @@ bool	Server::isInChannel(Client &client, std::string name)
 		}
 	}
 	return (false);
+}
+
+void	Server::addChannelMember(Client &client, std::string chanName)
+{
+	ssize_t id = getChannelByName(chanName);
+	
+	_channels[id].addMember(client);
 }
 
 void	Server::createChannel(Client & emitter, std::string chanName)

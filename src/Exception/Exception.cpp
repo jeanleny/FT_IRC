@@ -87,3 +87,13 @@ const char *InvalidChannelException::what() const throw()
 	//476
 	return ("Error : Invalid channel name\n");
 }
+
+const char *AlreadyInChannelException::what() const throw()
+{
+	return ("Error : User is already in channel\n");
+}
+
+const char *ChannelLimitExcedeedException::what() const throw()
+{
+	return ("Error : Channel limit user reached\n");
+}

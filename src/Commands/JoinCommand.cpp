@@ -36,24 +36,24 @@ void	isValidChannel(std::string channelName)
 void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 {
 	std::string chanName;
-	(void)arg;
-	(void)emitter;
-	/*for (size_t i = 0; i < arg.size(); i++)
+
+	for (size_t i = 0; i < arg.size(); i++)
 	{
 		try
 		{
 			isValidChannel(arg[i]);
 			chanName = cutChannelName(arg[i]);
 			{
-				if (Server::getInstance().existChannel(chanName))
+				if (Server::getInstance().findChannel(chanName))
 				{
-					std::cout << "il esxite" << std::endl; 
-					//addChannelMember();
+					if (Server::getInstance().isInChannel(emitter, chanName))
+						throw AlreadyInChannelException();
+					Server::getInstance().addChannelMember(emitter, chanName);
 				}
 				else
 				{
-					std::cout << "il esxiste pa" << std::endl; 
 					Server::getInstance().createChannel(emitter, chanName);
+					Server::getInstance().addChannelMember(emitter, chanName);
 				}
 			}
 		}
@@ -61,5 +61,5 @@ void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 		{
 			sendException(emitter.getClientFd(), e);
 		}
-	}*/
+	}
 }

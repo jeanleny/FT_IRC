@@ -213,7 +213,6 @@ void	Server::manageCommand(int recvBytes, Client & client)
 		size_t	commandId = client.getCommandId();
 		std::vector<std::string> cmdArgs = client.getCommandArgs();
 		_iCommands[commandId]->execCmd(client, cmdArgs);
-		// commandSwitch(client);
 	}
 }
 
