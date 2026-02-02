@@ -18,7 +18,8 @@ SRC			+= src/main.cpp					\
 			   src/Channel/Channel.cpp		\
 			   src/Commands/JoinCommand.cpp	\
 			   src/Commands/NickCommand.cpp	\
-			   src/Commands/UserCommand.cpp	
+			   src/Commands/UserCommand.cpp	\
+			   src/Commands/ModeCommand.cpp	
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)

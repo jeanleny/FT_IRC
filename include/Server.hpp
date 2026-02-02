@@ -9,6 +9,7 @@
 #include <NickCommand.hpp>
 #include <UserCommand.hpp>
 #include <JoinCommand.hpp>
+#include <ModeCommand.hpp>
 #include <ServerUtils.h>
 #include <utils.h>
 
