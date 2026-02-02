@@ -38,6 +38,7 @@ class Client
 		std::string					_nickname;
 		std::string					_oldNickname;
 		std::string					_username;
+		std::string					_cmd;
 		//ssize_t						_cmdId;
 		//struct	sockaddr_storage	_clientAddr;
 		//socklen_t					_clientAddrSize;
@@ -49,8 +50,10 @@ class Client
 		std::string					getNickname() const;
 		std::string					getOldNickname() const;
 		std::string					getUsername() const;
+		std::string					getCmd() const;
 		std::vector<std::string>	getCommandArgs() const;
 		void						setCommandId(size_t id);
+		void						setCmd(std::string);
 		void						setCommandArgs(std::vector<std::string> args);
 		void						setRegisterStatus(int status);
 		void						setNickname(std::string nickname);

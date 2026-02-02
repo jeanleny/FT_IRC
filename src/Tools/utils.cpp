@@ -34,9 +34,6 @@ bool    isvalidNickname(std::string nickname)
     return true;
 }
 
-
-
-
 bool	isEmptyCommand(std::string str)
 {
 	for (size_t i = 0; i < str.size(); i++)
@@ -49,7 +46,7 @@ bool	isEmptyCommand(std::string str)
 
 void	eraseTrailingSpaces(std::string &str)
 {
-	std::string trailing("\r\n");
+	std::string trailing(" \r\n");
 	std::size_t found = str.find_last_not_of(trailing);
 	if (found != std::string::npos)
 		str.erase(found + 1);
@@ -86,6 +83,12 @@ void	sendException(int fd ,const std::exception &e)
 
 	send(fd, msg, len, 0);
 }
+
+bool	checkPrefix(std::string channelName)
+{
+	return (channelName[0] == '#');
+}
+
 //-----------------------DEBUG
 
 void	displayClients(std::vector<Client> _clients)
@@ -105,4 +108,3 @@ void	displayMemberList(Channel & channel)
 		std::cout << i << " | " << memberList[i].getNickname() << std::endl;
 	}
 }
-

@@ -19,6 +19,3 @@ void	Server::sendNickMessage(Client & client)
 	std::string msg = ":" + client.getOldNickname() + "!" + client.getUsername() + "@localhost" + " NICK :" + client.getNickname() + "\r\n";
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
-
-
-

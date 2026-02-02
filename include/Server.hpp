@@ -67,6 +67,8 @@ class Server
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);
+		void					displayChannelMode(Client emitter, std::string arg);
+		void					changeChannelMode(Client emitter, std::string arg);
 
 	private :
 

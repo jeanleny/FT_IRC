@@ -100,10 +100,9 @@ const char *ErroneusUsernameException::what() const throw()
 	return ("Error : Erroneus Username\n");
 }
 
-const char *InvalidChannelException::what() const throw()
+InvalidChannelException::InvalidChannelException(Client & client)
 {
-	//476
-	return ("Error : Invalid channel name\n");
+	_msg = ":" + Server::getInstance().getHostname() + " 476 " + client.getNickname() + " " + client.getCommandArgs()[0] + ":Invalid channel name\r\n";
 }
 
 const char *AlreadyInChannelException::what() const throw()
@@ -114,4 +113,14 @@ const char *AlreadyInChannelException::what() const throw()
 const char *ChannelLimitExcedeedException::what() const throw()
 {
 	return ("Error : Channel limit user reached\n");
+}
+
+NoSuchChannelException::NoSuchChannelException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 403 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :No such channel\r\n";
+}
+
+NotEnoughParametersException::NotEnoughParametersException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 461 " + client.getNickname() + " " + client.getCmd() + " :Not enough parameters\r\n";
 }

@@ -43,3 +43,24 @@ bool	Channel::isChannelMember(std::string nickname)
 	}
 	return (false);
 }
+
+void	Channel::displayMode(Client &client)
+{
+	const std::string array[MODE_NB] = {"t", "i", "k", "o", "l"};
+	std::string modes = " :+";
+	for (size_t i = 0; i < MODE_NB; i++)
+	{
+		if (_mode[i])
+			modes += array[i];
+	}
+	std::string msg = ":" + Server::getInstance().getHostname() + " 324 " + client.getNickname() + " " +_name + modes + " \r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+/*void	Channel::changeMode(Client &emitter, std::string arg)
+{
+	for(size_t i = 0; i < arg.size(); i++)
+	{
+		
+	}
+}*/

@@ -165,7 +165,13 @@ class NoSuchNicknameException : public std::exception
 class InvalidChannelException : public std::exception
 {
 	public :
-		const char * what() const throw();
+
+		InvalidChannelException(Client & client);
+		virtual ~InvalidChannelException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+		std::string	_msg;
 };
 
 class AlreadyInChannelException : public std::exception
@@ -178,6 +184,32 @@ class ChannelLimitExcedeedException : public std::exception
 {
 	public :
 		const char * what() const throw();
+};
+
+class NoSuchChannelException : public std::exception
+{
+	public :
+
+		NoSuchChannelException(Client & client);
+		virtual ~NoSuchChannelException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+class NotEnoughParametersException : public std::exception
+{
+	public :
+
+		NotEnoughParametersException(Client & client);
+		virtual ~NotEnoughParametersException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
 };
 
 #endif
