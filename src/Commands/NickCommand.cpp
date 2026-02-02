@@ -29,6 +29,7 @@ int     NickCommand::parseNickname(const std::string & nickname)
         return -1;
     return 0;
 }
+
 void    defineNickname(Client & client, const std::string & nickname)
 {
     if (client.getRegisterStatus() == NICK_STATUS)
