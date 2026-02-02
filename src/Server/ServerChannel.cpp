@@ -5,6 +5,11 @@ void	Server::displayChannelMode(Client emitter, std::string arg)
 	_channels[getChannelByName(arg)].displayMode(emitter);
 }
 
+void	Server::changeChannelMode(Client emitter, std::string arg)
+{
+	_channels[getChannelByName(arg)].changeMode(emitter, arg);
+}
+
 ssize_t	Server::getChannelByName(std::string chanName)
 {
 	for(size_t i = 0; i < _channels.size(); i++)

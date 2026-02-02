@@ -20,4 +20,6 @@ void	ModeCommand::execCmd(Client &emitter, const std::vector<std::string>& arg)
 		throw NoSuchChannelException(emitter);
 	if (arg.size() == 1)
 	  Server::getInstance().displayChannelMode(emitter, arg[0]);
+	else
+		Server::getInstance().changeChannelMode(emitter, arg);
 }

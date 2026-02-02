@@ -51,3 +51,11 @@ void	Channel::displayMode(Client &client)
 	std::string msg = ":" + Server::getInstance().getHostname() + " 324 " + client.getNickname() + " " +_name + modes + " \r\n";
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
+
+/*void	Channel::changeMode(Client &emitter, std::string arg)
+{
+	for(size_t i = 0; i < arg.size(); i++)
+	{
+		
+	}
+}*/

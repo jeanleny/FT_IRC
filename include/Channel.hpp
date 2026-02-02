@@ -27,6 +27,7 @@ class	Channel
 		void				addMember(Client &client);
 		
 		void				displayMode(Client &emitter);
+		void				changeMode(Client &emitter, std::string arg);
 
 	private :
 		std::vector<Client>		_memberList;
