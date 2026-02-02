@@ -1,5 +1,10 @@
 #include <Server.hpp>
 
+void	Server::displayChannelMode(Client emitter, std::string arg)
+{
+	_channels[getChannelByName(arg)].displayMode(emitter);
+}
+
 ssize_t	Server::getChannelByName(std::string chanName)
 {
 	for(size_t i = 0; i < _channels.size(); i++)
@@ -10,17 +15,6 @@ ssize_t	Server::getChannelByName(std::string chanName)
 		}
 	}
 	return (-1);
-}
-
-bool	Server::findChannel(std::string name)
-{
-	for (size_t i = 0; i < _channels.size(); i++)
-	{
-		if (name == _channels[i].getName())
-			return (true);
-	}
-	return (false);
-	
 }
 
 bool	Server::existChannel(std::string name)

@@ -10,3 +10,4 @@ bool						isEmptyCommand(std::string str);
 bool            isvalidNickname(std::string nickname);
 void						sendException(int fd ,const std::exception &e);
 bool 						isOneArg(std::string str);
+bool						checkPrefix(std::string channelName);

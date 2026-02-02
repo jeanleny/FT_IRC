@@ -25,6 +25,8 @@ class	Channel
 		
 		bool				isChannelMember(std::string nickname);
 		void				addMember(Client &client);
+		
+		void				displayMode(Client &emitter);
 
 	private :
 		std::vector<Client>		_memberList;
@@ -33,5 +35,4 @@ class	Channel
 		size_t					_memberNb;
 		size_t					_memberLimit;
 		bool 					_mode[MODE_NB];
-		
 };

@@ -176,6 +176,7 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 		if (id == array[i])
 		{
 			emitter.setCommandId(i);
+			emitter.setCmd(array[i]);
 			return ;
 		}
 	}
