@@ -65,17 +65,18 @@ const char *MissingArgumentsException::what() const throw()
 	return ("Error : This command needs at least one argument\n");
 }
 
-const char *ErroneusNicknameException::what() const throw()
+ErroneusNicknameException::ErroneusNicknameException(Client & client)
 {
-	//432
-	return ("Error : Erroneus Nickname\n");
+	_msg = ":" + Server::getInstance().getHostname() + " 432 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + " " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
 }
 
-const char *UsedNicknameException::what() const throw()
+UsedNicknameException::UsedNicknameException(Client & client)
 {
-	//433
-	return ("Error : Already used nickname\n");
+	_msg = ":" + Server::getInstance().getHostname() + " 433 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + " " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
 }
+
 
 const char *ErroneusUsernameException::what() const throw()
 {

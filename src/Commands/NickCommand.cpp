@@ -55,8 +55,8 @@ void    NickCommand::execCmd(Client & client, const std::vector<std::string>& ar
         
     const std::string nickname = args[0];
     if (parseNickname(nickname) == -1)
-        throw ErroneusNicknameException();
+        throw ErroneusNicknameException(client);
     if (Server::getInstance().isUsedNickname(nickname))
-        throw UsedNicknameException();
+        throw UsedNicknameException(client);
     defineNickname(client, nickname);
 }

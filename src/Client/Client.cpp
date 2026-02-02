@@ -67,7 +67,7 @@ void	Client::clearCommandArgs()
 	_commandArgs.clear();
 }
 
-Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS), _nickname(""), _oldNickname("")
+Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS), _nickname("*"), _oldNickname("*")
 {
 
 };
