@@ -54,7 +54,9 @@ void parseArgs(Client & client, const std::vector<std::string>& args)
      if (target[0] == '#')
      {
           if (!Server::getInstance().existChannel(target))
-               throw AddrinfoFailedException(); //403 - No such Channel
+               throw AddrinfoFailedException(); //403 - No such Channel (existe)
+          else if (!Server::getInstance().isInChannel(client, target))
+               throw AddrinfoFailedException(); //Not a member of this channel (a faire)
      }
      else
      {
@@ -71,5 +73,19 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
     parseArgs(client, args);
     std::string     target = args[0];
     std::string     text = args[1];
+    std::string     message = ":" + client.getNickname() + "!" + client.getUsername() + "@" + Server::getInstance().getHostname()
+          + " PRIVMSG " + target + " " + text + "\r\n";
+     const char     *msg = message.c_str();
+     int            len = strlen(msg);
 
+     if (target[0] == '#')
+     {
+          target.erase(target.begin());
+          Server::getInstance().sendMessageToChannel(target, msg);
+     }
+     else
+     {
+          Client    receiver = Server::getInstance().getClientByNickname(target);
+          send(receiver.getClientFd(), msg, len, 0);
+     }
 }

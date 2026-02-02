@@ -52,6 +52,7 @@ class Server
 		void					extractCommandId(Client & ref, std::string id);
 		void					commandSwitch(Client & client);
 		ssize_t					findClient(int clientFd);
+		Client					getClientByNickname(std::string nickname) const;
 		bool					validPassword(std::string pass);
 		bool					isUsedNickname(std::string nickname);
 		int						extractCommand(char *buf, Client & client);
@@ -62,6 +63,7 @@ class Server
 		void					createChannel(Client &emitter, std::string chanName);
 		void					addChannelMember(Client &client, std::string chanName);
 		bool					findChannel(std::string chanName);
+		void 					sendMessageToChannel(std::string & chanName, const char *msg);
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);

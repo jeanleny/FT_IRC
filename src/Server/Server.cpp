@@ -97,6 +97,17 @@ ssize_t	Server::findClient(int clientFd)
 	return (-1);
 }
 
+Client	Server::getClientByNickname(std::string nickname) const
+{
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (_clients[i].getNickname() == nickname)
+			return _clients[i];
+	}
+	Client	null(-1);
+	return null;
+}
+
 void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
 {	
 	if (bytes < 0)

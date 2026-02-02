@@ -67,3 +67,18 @@ void	Server::createChannel(Client & emitter, std::string chanName)
 	send(emitter.getClientFd(), msg3.c_str(), msg3.size(), 0);
 	send(emitter.getClientFd(), msg4.c_str(), msg4.size(), 0);
 }
+
+void	Server::sendMessageToChannel(std::string & chanName, const char *msg)
+{
+	size_t 				index = getChannelByName(chanName);
+	Channel				chan = _channels[index];
+	std::vector<Client>	memberList = chan.getMemberList();
+	int					clientFd;
+	int 				len = strlen(msg);
+
+	for (size_t i = 0; i < memberList.size(); i++)
+	{
+		clientFd = memberList[i].getClientFd();
+		send(clientFd, msg, len, 0);
+	}
+}
