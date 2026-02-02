@@ -2,6 +2,8 @@
 # define EXCEPTION_HPP
 
 #include <iostream>
+#include "Client.hpp"
+#include "Server.hpp"
 
 class AddrinfoFailedException : public std::exception
 {
@@ -84,13 +86,27 @@ class MissingArgumentsException : public std::exception
 class ErroneusNicknameException : public std::exception
 {
 	public :
-		const char * what() const throw();
+
+		ErroneusNicknameException(Client & client);
+		virtual ~ErroneusNicknameException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
 };
 
 class UsedNicknameException : public std::exception
 {
 	public :
-		const char * what() const throw();
+
+		UsedNicknameException(Client & client);
+		virtual ~UsedNicknameException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
 };
 
 class ErroneusUsernameException : public std::exception
