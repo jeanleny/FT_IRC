@@ -28,12 +28,12 @@ void	Server::initICommands()
 	_iCommands[0] = new PassCommand();
 	_iCommands[1] = new UserCommand();
 	_iCommands[2] = new NickCommand();
-	_iCommands[3] = NULL;
-	_iCommands[4] = NULL;
-	_iCommands[5] = NULL;
+	_iCommands[3] = new KickCommand();
+	_iCommands[4] = new PrivmsgCommand();
+	_iCommands[5] = new TopicCommand();
 	_iCommands[6] = NULL;
 	_iCommands[7] = new JoinCommand();
-	_iCommands[8] = NULL;
+	_iCommands[8] = new InviteCommand();
 }
 
 void	Server::initServer()
@@ -150,56 +150,6 @@ bool	Server::isUsedNickname(std::string nickname)
 bool	Server::validPassword(std::string pass)
 {
 	return (pass == _password);
-}
-
-void	Server::commandSwitch(Client & client)
-{
-	size_t	commandId = client.getCommandId();
-
-	//_iCommands[commandId].execCmd();
-
-	switch (commandId)
-	{
-		case PASS:
-			//--> PASS COMMAND
-			break;
-	
-		case NICK:
-			//--> NICK COMMAND
-			break;
-
-		case USER:
-			//--> USER COMMAND
-			break;
-	
-		case KICK:
-			//--> KICK COMMAND
-			break;
-
-		case PRIVMSG:
-			//--> PRIVMSG COMMAND
-			break;
-	
-		case TOPIC:
-			//--> TOPIC COMMAND
-			break;
-
-		case MODE:
-			//--> MODE COMMAND
-			break;
-	
-		case JOIN:
-			//--> JOIN COMMAND
-			break;	
-
-		case INVITE:
-			//--> INVITE COMMAND
-			break;
-	
-		case UNKNOWN:
-			throw WrongCommandException();
-			break;
-	}
 }
 
 void	Server::manageCommand(int recvBytes, Client & client)

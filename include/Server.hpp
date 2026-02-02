@@ -9,6 +9,10 @@
 #include <NickCommand.hpp>
 #include <UserCommand.hpp>
 #include <JoinCommand.hpp>
+#include <PrivmsgCommand.hpp>
+#include <KickCommand.hpp>
+#include <TopicCommand.hpp>
+#include <InviteCommand.hpp>
 #include <ServerUtils.h>
 #include <utils.h>
 
