@@ -68,15 +68,32 @@ const char *MissingArgumentsException::what() const throw()
 ErroneusNicknameException::ErroneusNicknameException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 432 " + client.getNickname() + " " + client.getCommandArgs()[0] 
-        + " " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
+        + " :Erroneus Nickname\r\n";
 }
 
 UsedNicknameException::UsedNicknameException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 433 " + client.getNickname() + " " + client.getCommandArgs()[0] 
-        + " " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
+        + " :Already used nickname\r\n";
 }
 
+NoRecipientException::NoRecipientException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 411 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + "  :No recipient given\r\n";
+}
+
+NoTextToSendException::NoTextToSendException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 412 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + "  :No text to send\r\n";
+}
+
+NoSuchNicknameException::NoSuchNicknameException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + "  :No text to send\r\n";
+}
 
 const char *ErroneusUsernameException::what() const throw()
 {

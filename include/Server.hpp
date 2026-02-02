@@ -52,12 +52,13 @@ class Server
 		void					extractCommandId(Client & ref, std::string id);
 		void					commandSwitch(Client & client);
 		ssize_t					findClient(int clientFd);
-		ssize_t					getChannelByName(std::string chanName);
 		bool					validPassword(std::string pass);
-		bool					isInChannel(Client &client, std::string name);
-		bool					existChannel(std::string name);
 		bool					isUsedNickname(std::string nickname);
 		int						extractCommand(char *buf, Client & client);
+		
+		bool					isInChannel(Client &client, std::string name);
+		ssize_t					getChannelByName(std::string chanName);
+		bool					existChannel(std::string name);
 		void					createChannel(Client &emitter, std::string chanName);
 		void					addChannelMember(Client &client, std::string chanName);
 		bool					findChannel(std::string chanName);
