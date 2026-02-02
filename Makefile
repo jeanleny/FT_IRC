@@ -23,6 +23,7 @@ SRC			+= src/main.cpp						\
 			   src/Commands/KickCommand.cpp		\
 			   src/Commands/TopicCommand.cpp	\
 			   src/Commands/InviteCommand.cpp	\
+         src/Commands/ModeCommand.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)

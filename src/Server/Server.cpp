@@ -31,7 +31,7 @@ void	Server::initICommands()
 	_iCommands[3] = new KickCommand();
 	_iCommands[4] = new PrivmsgCommand();
 	_iCommands[5] = new TopicCommand();
-	_iCommands[6] = NULL;
+	_iCommands[6] = new ModeCommand();
 	_iCommands[7] = new JoinCommand();
 	_iCommands[8] = new InviteCommand();
 }

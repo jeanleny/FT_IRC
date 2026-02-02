@@ -9,6 +9,7 @@
 #include <NickCommand.hpp>
 #include <UserCommand.hpp>
 #include <JoinCommand.hpp>
+#include <ModeCommand.hpp>
 #include <PrivmsgCommand.hpp>
 #include <KickCommand.hpp>
 #include <TopicCommand.hpp>
