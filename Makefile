@@ -7,19 +7,23 @@ HEADER		= include
 SRC_DIR		= src
 BUILD_DIR	= object
 NAME		= ircserv
-SRC			+= src/main.cpp					\
-			   src/Server/Server.cpp		\
-			   src/Server/ServerUtils.cpp	\
-			   src/Server/ServerChannel.cpp	\
-			   src/Exception/Exception.cpp	\
-			   src/Client/Client.cpp		\
-			   src/Commands/PassCommand.cpp	\
-			   src/Tools/utils.cpp			\
-			   src/Channel/Channel.cpp		\
-			   src/Commands/JoinCommand.cpp	\
-			   src/Commands/NickCommand.cpp	\
-			   src/Commands/UserCommand.cpp	\
-			   src/Commands/ModeCommand.cpp	
+SRC			+= src/main.cpp						\
+			   src/Server/Server.cpp			\
+			   src/Server/ServerUtils.cpp		\
+			   src/Server/ServerChannel.cpp		\
+			   src/Exception/Exception.cpp		\
+			   src/Client/Client.cpp			\
+			   src/Commands/PassCommand.cpp		\
+			   src/Tools/utils.cpp				\
+			   src/Channel/Channel.cpp			\
+			   src/Commands/JoinCommand.cpp		\
+			   src/Commands/NickCommand.cpp		\
+			   src/Commands/UserCommand.cpp		\
+			   src/Commands/PrivmsgCommand.cpp	\
+			   src/Commands/KickCommand.cpp		\
+			   src/Commands/TopicCommand.cpp	\
+			   src/Commands/InviteCommand.cpp	\
+         src/Commands/ModeCommand.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)
