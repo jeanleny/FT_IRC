@@ -42,11 +42,8 @@ void parseArgs(Client & client, const std::vector<std::string>& args)
      if (args.size() > 2)
           throw WrongCommandException();
      
-     if (args.size() == 0)
-          throw NoRecipientException(client);
-
-     if (args.size() == 1)
-          throw NoTextToSendException(client);
+     if (args.size() < 2)
+          throw AddrinfoFailedException(); // NotEnoughPArameter (461) :chatjunkies.org 461 tobourge PRIVMSG :Not enough parameters.
 
      std::string     target = args[0];
      std::string     text = args[1];
@@ -61,15 +58,12 @@ void parseArgs(Client & client, const std::vector<std::string>& args)
      else
      {
           if (!Server::getInstance().isUsedNickname(target))
-               throw NoSuchNicknameException(client);
+               throw NoSuchNicknameException(client); //401
      }
 }
 
 void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
-     //PRIVMSG #channel :text
-    (void)client;
-
     parseArgs(client, args);
     std::string     target = args[0];
     std::string     text = args[1];
@@ -79,10 +73,7 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
      int            len = strlen(msg);
 
      if (target[0] == '#')
-     {
-          target.erase(target.begin());
           Server::getInstance().sendMessageToChannel(target, msg);
-     }
      else
      {
           Client    receiver = Server::getInstance().getClientByNickname(target);
