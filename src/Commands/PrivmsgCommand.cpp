@@ -39,11 +39,11 @@ PrivmsgCommand::~PrivmsgCommand()
 
 void parseArgs(Client & client, const std::vector<std::string>& args)
 {
-     if (args.size() > 2)
-          throw WrongCommandException();
+     // if (args.size() > 2)
+     //      throw WrongCommandException(); // *!* modifier le split
      
      if (args.size() < 2)
-          throw AddrinfoFailedException(); // NotEnoughPArameter (461) :chatjunkies.org 461 tobourge PRIVMSG :Not enough parameters.
+          throw NotEnoughParametersException(client);
 
      std::string     target = args[0];
      std::string     text = args[1];
@@ -51,14 +51,14 @@ void parseArgs(Client & client, const std::vector<std::string>& args)
      if (target[0] == '#')
      {
           if (!Server::getInstance().existChannel(target))
-               throw AddrinfoFailedException(); //403 - No such Channel (existe)
+               throw NoSuchChannelException(client);
           else if (!Server::getInstance().isInChannel(client, target))
-               throw AddrinfoFailedException(); //Not a member of this channel (a faire)
+               throw CannotSendToChannelException(client);
      }
      else
      {
           if (!Server::getInstance().isUsedNickname(target))
-               throw NoSuchNicknameException(client); //401
+               throw NoSuchNicknameException(client);
      }
 }
 
@@ -73,7 +73,7 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
      int            len = strlen(msg);
 
      if (target[0] == '#')
-          Server::getInstance().sendMessageToChannel(target, msg);
+          Server::getInstance().sendMessageToChannel(client, target, msg);
      else
      {
           Client    receiver = Server::getInstance().getClientByNickname(target);
