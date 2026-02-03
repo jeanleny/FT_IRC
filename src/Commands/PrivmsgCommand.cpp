@@ -40,10 +40,10 @@ PrivmsgCommand::~PrivmsgCommand()
 void parseArgs(Client & client, const std::vector<std::string>& args)
 {
      if (args.size() > 2)
-          throw WrongCommandException();
+          throw WrongCommandException(); // *!* modifier le split
      
      if (args.size() < 2)
-          throw AddrinfoFailedException(); // NotEnoughPArameter (461) :chatjunkies.org 461 tobourge PRIVMSG :Not enough parameters.
+          throw NotEnoughParametersException(client);
 
      std::string     target = args[0];
      std::string     text = args[1];
@@ -51,9 +51,9 @@ void parseArgs(Client & client, const std::vector<std::string>& args)
      if (target[0] == '#')
      {
           if (!Server::getInstance().existChannel(target))
-               throw AddrinfoFailedException(); //403 - No such Channel (existe)
+               throw NoSuchChannelException(client);
           else if (!Server::getInstance().isInChannel(client, target))
-               throw AddrinfoFailedException(); //Not a member of this channel (a faire)
+               throw AddrinfoFailedException(); //Not a member of this channel (a faire) 404 ERR_CANNOTSENDTOCHAN
      }
      else
      {
