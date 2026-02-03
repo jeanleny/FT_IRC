@@ -23,12 +23,13 @@ class	Channel
 		const std::string			getName();
 		size_t 						getMemberNb();
 		const std::vector<Client>	getMemberList();
+		const bool					*getMode();
 		
 		bool				isChannelMember(std::string nickname);
 		void				addMember(Client &client);
 		
 		void				displayMode(Client &emitter);
-		void				changeMode(Client &emitter, const std::vector<std::string>& arg);
+		void				changeMode(Client client, std::string flags, bool disable, std::string chanName);
 
 	private :
 		std::vector<Client>		_memberList;

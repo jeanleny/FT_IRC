@@ -9,6 +9,11 @@ Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 
 Channel::~Channel(){};
 
+const bool	*Channel::getMode()
+{
+	return (_mode);
+}
+
 const std::string Channel::getName()
 {
 	return (_name);
@@ -54,12 +59,49 @@ void	Channel::displayMode(Client &client)
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
-void	Channel::changeMode(Client &emitter, const std::vector<std::string>& arg)
+size_t	selectMode(char a)
 {
-	(void)emitter;
-	(void)arg;
-	for(size_t i = 0; i < arg.size(); i++)
+	const char array[MODE_NB] = {'t', 'i', 'k', 'o', 'l'};
+
+	for (int i = 0; i < MODE_NB; i++)
 	{
-		
+		if (a == array[i])
+			return (i);
+	}
+	return (-1);
+}
+
+void	Channel::changeMode(Client client, std::string flags, bool disable, std::string chanName)
+{
+	size_t mode;
+	std::string sign = " :+";
+	std::string param;
+	
+	if (disable)
+		sign = " :-";
+	for (size_t i = 0; i < flags.size(); i++)
+	{
+		mode = selectMode(flags[i]);
+		if (disable)
+		{
+			if (_mode[mode])
+			{
+				_mode[mode] = false;
+				param += flags[i];
+			}
+		}
+		else
+		{
+			if (!_mode[mode])
+			{
+				_mode[mode] = true;
+				param += flags[i];
+			}
+		}
+	}
+	if (param.size() > 0)
+	{
+			std::string msg = ":" + client.getNickname() + "!" + client.getUsername() + Server::getInstance().getHostname() + " MODE " + chanName + sign + param + "\r\n";
+		send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 	}
 }

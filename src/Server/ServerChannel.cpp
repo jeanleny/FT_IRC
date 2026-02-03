@@ -5,9 +5,9 @@ void	Server::displayChannelMode(Client emitter, std::string arg)
 	_channels[getChannelByName(arg)].displayMode(emitter);
 }
 
-void	Server::changeChannelMode(Client emitter, const std::vector<std::string>& arg)
+void	Server::changeChannelMode(Client client, std::string chanName, std::string flags, bool disable)
 {
-	_channels[getChannelByName(arg[0])].changeMode(emitter, arg);
+	_channels[getChannelByName(chanName)].changeMode(client, flags, disable, chanName);
 }
 
 ssize_t	Server::getChannelByName(std::string chanName)
