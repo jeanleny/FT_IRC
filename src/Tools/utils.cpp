@@ -100,6 +100,16 @@ bool	checkPrefix(std::string channelName)
 	return (channelName[0] == '#');
 }
 
+void	uppercaseStr(std::string &str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (islower(str[i]))
+			str[i] -= 32;
+	}
+}
+
+
 //-----------------------DEBUG
 
 void	displayClients(std::vector<Client> _clients)

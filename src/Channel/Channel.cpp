@@ -31,11 +31,11 @@ void	Channel::addMember(Client &client)
 	_memberList.push_back(client);
 }
 
-bool	Channel::isChannelMember(std::string nickname)
+bool	Channel::isChannelMember(int fd)
 {
 	for (size_t i = 0; i < _memberList.size(); i++)
 	{
-		if (_memberList[i].getNickname() == nickname)
+		if (_memberList[i].getClientFd() == fd)
 			return (true);
 	}
 	return (false);

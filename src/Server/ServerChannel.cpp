@@ -38,7 +38,7 @@ bool	Server::isInChannel(Client &client, std::string name)
 	{
 		if (_channels[i].getName() == name)
 		{
-			if (_channels[i].isChannelMember(client.getNickname()))
+			if (_channels[i].isChannelMember(client.getClientFd()))
 				return (true);
 		}
 	}
@@ -75,7 +75,6 @@ void	Server::sendMessageToChannel(Client & client, std::string & chanName, const
 	int					clientFd;
 	int 				len = strlen(msg);
 
-	std::cout << "msg : " << msg << std::endl;
 	for (size_t i = 0; i < memberList.size(); i++)
 	{
 		clientFd = memberList[i].getClientFd();
