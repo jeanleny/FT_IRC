@@ -9,7 +9,7 @@ class ModeCommand : public ICommand
 		ModeCommand();
 		~ModeCommand();
 		void	execCmd(Client & emitter, const std::vector<std::string>& arg);
-		void	modeCommand(Client &emitter, std::string chanName, std::string arg);
+		void	modeCommand(Client &emitter, std::string chanName, std::string arg, std::vector<std::string> paramArg);
 	private :
 		
 };

@@ -71,11 +71,70 @@ size_t	selectMode(char a)
 	return (-1);
 }
 
-void	Channel::changeMode(Client client, std::string flags, bool disable, std::string chanName)
+bool	paramFlag(char flag)
+{
+	return (flag == 'o' || flag == 'k' || flag == 'l');
+}
+
+bool	strIsAlpha(std::string str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!isalpha(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
+bool	strIsDigit(std::string str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (!isdigit(str[i]))
+			return (false);
+	}
+	return (true);
+}
+
+int Channel::setModeParam(char flag, std::vector<std::string> paramArg, bool disable, size_t id)
+{
+	if (!paramFlag(flag))
+		return (0);
+	if (flag == 'l')
+	{
+		if (disable)
+		{
+			return (0);
+		}
+		if (paramArg.size() <= 2)
+			return (WPARAM);
+		if (!strIsDigit(paramArg[id]))
+			return (ERROR);
+		_memberLimit = atoi(paramArg[id].c_str());
+	}
+	else if (flag == 'k')
+	{
+		if (disable)
+		{
+			_keyword = "";
+		}
+		else 
+			_keyword = paramArg[id];
+	}
+	return (0);
+	/*else if (flag == 'o')
+	{
+		
+	}*/
+}
+
+void	Channel::changeMode(Client client, std::string flags, bool disable, std::string chanName, std::vector<std::string> paramArg)
 {
 	size_t mode;
 	std::string sign = " :+";
 	std::string param;
+	size_t paramId = 2;
+	std::string	msg;
 	
 	if (disable)
 		sign = " :-";
@@ -86,6 +145,8 @@ void	Channel::changeMode(Client client, std::string flags, bool disable, std::st
 		{
 			if (_mode[mode])
 			{
+				if (setModeParam(flags[i], paramArg, disable, paramId) < 0)
+					continue ;
 				_mode[mode] = false;
 				param += flags[i];
 			}
@@ -95,13 +156,18 @@ void	Channel::changeMode(Client client, std::string flags, bool disable, std::st
 			if (!_mode[mode])
 			{
 				_mode[mode] = true;
+				if (setModeParam(flags[i], paramArg, disable, paramId) < 0)
+					continue ;
 				param += flags[i];
 			}
 		}
 	}
 	if (param.size() > 0)
 	{
-			std::string msg = ":" + client.getNickname() + "!" + client.getUsername() + Server::getInstance().getHostname() + " MODE " + chanName + sign + param + "\r\n";
+		if (paramArg.size() <= 2)
+			msg = ":" + client.getNickname() + "!" + client.getUsername() + Server::getInstance().getHostname() + " MODE " + chanName + sign + param + "\r\n";
+		else
+			msg = ":" + client.getNickname() + "!" + client.getUsername() + Server::getInstance().getHostname() + " MODE " + chanName + sign + param + " :" + paramArg[paramId] + "\r\n";
 		send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 	}
 }

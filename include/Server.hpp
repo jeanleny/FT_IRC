@@ -26,10 +26,12 @@
 #include <unistd.h>
 #include <vector>
 #include <list>
+#include <stdlib.h>
 
 
 #define MAX_EVENTS 10
 #define NB_CMD 9
+#define ERROR -1
 
 class Server
 {
@@ -68,7 +70,7 @@ class Server
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);
 		void					displayChannelMode(Client emitter, std::string arg);
-		void					changeChannelMode(Client client, std::string chanName, std::string flags, bool disable);
+		void					changeChannelMode(Client client, std::string chanName, std::string flags, bool disable, std::vector<std::string> paramArg);
 		void					presentMode(std::string chanName, std::string mode);
 
 	private :

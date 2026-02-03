@@ -34,7 +34,7 @@ void	sendModeError(Client client, char arg)
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
-void	ModeCommand::modeCommand(Client &emitter, std::string chanName, std::string arg)
+void	ModeCommand::modeCommand(Client &emitter, std::string chanName, std::string arg, std::vector<std::string> paramArg)
 {
 	bool disable = false;
 	std::string flags;
@@ -52,7 +52,7 @@ void	ModeCommand::modeCommand(Client &emitter, std::string chanName, std::string
 			flags += arg[i];
 	}
 	if (flags.size() > 0)
-		Server::getInstance().changeChannelMode(emitter, chanName, flags, disable);
+		Server::getInstance().changeChannelMode(emitter, chanName, flags, disable, paramArg);
 }
 
 void	ModeCommand::execCmd(Client &emitter, const std::vector<std::string>& arg)
@@ -66,5 +66,5 @@ void	ModeCommand::execCmd(Client &emitter, const std::vector<std::string>& arg)
 	if (arg.size() == 1)
 	  Server::getInstance().displayChannelMode(emitter, arg[0]);
 	else
-		modeCommand(emitter, arg[0], arg[1]);
+		modeCommand(emitter, arg[0], arg[1], arg);
 }
