@@ -23,10 +23,8 @@ void	Server::sendNickMessage(Client & client)
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
 		chanName = _channels[i].getName();
-		std::cout << "chanName : " << chanName << std::endl;
 		if (isInChannel(client, chanName))
 		{
-			std::cout << "is in" << std::endl;
 			sendMessageToChannel(client, chanName, msg.c_str());
 		}
 	}

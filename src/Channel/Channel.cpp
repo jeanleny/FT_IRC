@@ -33,10 +33,8 @@ void	Channel::addMember(Client &client)
 
 bool	Channel::isChannelMember(std::string nickname)
 {
-	std::cout << "client nickname : " << nickname << std::endl;
 	for (size_t i = 0; i < _memberList.size(); i++)
 	{
-		std::cout << "memberlist nickname : " << _memberList[i].getNickname() << std::endl;
 		if (_memberList[i].getNickname() == nickname)
 			return (true);
 	}
