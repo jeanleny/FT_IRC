@@ -89,10 +89,16 @@ NoTextToSendException::NoTextToSendException(Client & client)
         + "  :No text to send\r\n";
 }
 
+CannotSendToChannelException::CannotSendToChannelException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 404 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + "  :Cannot send to this channel\r\n";
+}
+
 NoSuchNicknameException::NoSuchNicknameException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] 
-        + "  :No text to send\r\n";
+        + "  :No such nickname\r\n";
 }
 
 const char *ErroneusUsernameException::what() const throw()

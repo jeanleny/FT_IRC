@@ -147,6 +147,19 @@ class NoTextToSendException : public std::exception
 		std::string	_msg;
 };
 
+class CannotSendToChannelException : public std::exception
+{
+	public :
+
+		CannotSendToChannelException(Client & client);
+		virtual ~CannotSendToChannelException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
 class NoSuchNicknameException : public std::exception
 {
 	public :

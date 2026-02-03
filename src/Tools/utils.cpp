@@ -10,13 +10,24 @@ std::vector<std::string> split(const std::string & str)
 	for (size_t i = 0; i < str.size();)
 	{
 		while (isspace(str[i]) && str[i])
-		i++;
-		start = i;
-		while (!isspace(str[i]) && str[i])
-		i++;
-		end = i;
-		split.push_back(str.substr(start, end - start));
+			i++;
+		if (str[i] == ':')
+		{
+			start = i;
+			end = str.size();
+			split.push_back(str.substr(start, end - start));
+			return split;
+		}
+		else
+		{
+			start = i;
+			while (!isspace(str[i]) && str[i])
+				i++;
+			end = i;
+			split.push_back(str.substr(start, end - start));
+		}
 	}
+	
 	return split;
 }
 
