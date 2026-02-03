@@ -39,7 +39,9 @@ void    defineNickname(Client & client, const std::string & nickname)
         Server::getInstance().sendWelcomeMessage(client);
     }
     else // Nick Command typed after registration
+    {
         Server::getInstance().sendNickMessage(client);
+    }
 }
 
 
