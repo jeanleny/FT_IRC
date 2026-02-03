@@ -3,9 +3,6 @@
 
 Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 {
-	//Unused variables to compile
-	(void)_memberNb;
-	(void)_memberLimit;
 	for (size_t i = 0; i < MODE_NB ; i++)
 		_mode[i] = false;
 };
@@ -57,10 +54,12 @@ void	Channel::displayMode(Client &client)
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
-/*void	Channel::changeMode(Client &emitter, std::string arg)
+void	Channel::changeMode(Client &emitter, const std::vector<std::string>& arg)
 {
+	(void)emitter;
+	(void)arg;
 	for(size_t i = 0; i < arg.size(); i++)
 	{
 		
 	}
-}*/
+}
