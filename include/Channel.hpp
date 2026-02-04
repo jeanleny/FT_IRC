@@ -23,7 +23,6 @@ class	Channel
 		const std::string			getName();
 		size_t 						getMemberNb();
 		const std::vector<Client>	getMemberList();
-		//const bool					*getMode();
 		
 		bool				isChannelMember(int fd);
 		void				addMember(Client &client);
@@ -35,6 +34,7 @@ class	Channel
 		bool				checkMode(size_t mode, bool state);
 
 	private :
+		std::vector<int>		_operators;
 		std::vector<Client>		_memberList;
 		std::string 			_name;
 		std::string				_topic;
