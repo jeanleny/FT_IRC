@@ -13,3 +13,4 @@ bool                        isvalidNickname(std::string nickname);
 void						sendException(int fd ,const std::exception &e);
 bool 						isOneArg(std::string str);
 bool						checkPrefix(std::string channelName);
+bool						strIsDigit(std::string str);

@@ -23,17 +23,22 @@ class	Channel
 		const std::string			getName();
 		size_t 						getMemberNb();
 		const std::vector<Client>	getMemberList();
+		//const bool					*getMode();
 		
 		bool				isChannelMember(int fd);
 		void				addMember(Client &client);
 		
 		void				displayMode(Client &emitter);
-		void				changeMode(Client &emitter, const std::vector<std::string>& arg);
+		void				changeMode(size_t mode, bool disable);
+		void				changeKey(std::string key);
+		void				changeLimit(size_t limit);
+		bool				checkMode(size_t mode, bool state);
 
 	private :
 		std::vector<Client>		_memberList;
 		std::string 			_name;
 		std::string				_topic;
+		std::string				_keyword;
 		size_t					_memberNb;
 		size_t					_memberLimit;
 		bool 					_mode[MODE_NB];

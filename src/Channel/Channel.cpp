@@ -9,6 +9,11 @@ Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 
 Channel::~Channel(){};
 
+/*const bool	*Channel::getMode()
+{
+	return (_mode);
+}*/
+
 const std::string Channel::getName()
 {
 	return (_name);
@@ -54,12 +59,25 @@ void	Channel::displayMode(Client &client)
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
-void	Channel::changeMode(Client &emitter, const std::vector<std::string>& arg)
+void	Channel::changeKey(std::string key)
 {
-	(void)emitter;
-	(void)arg;
-	for(size_t i = 0; i < arg.size(); i++)
-	{
-		
-	}
+	_keyword = key;
+}
+
+void	Channel::changeLimit(size_t limit)
+{
+	_memberLimit = limit;
+}
+
+void	Channel::changeMode(size_t mode, bool disable)
+{
+	if (disable)
+		_mode[mode] = false;
+	else
+		_mode[mode] = true;
+}
+
+bool	Channel::checkMode(size_t mode, bool state)
+{
+	return (_mode[mode] == state);
 }
