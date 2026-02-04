@@ -13,4 +13,5 @@ void    KickCommand::execCmd(Client & client, const std::vector<std::string>& ar
 {
     (void)client;
     (void)args;
+    //LETSGO
 }
