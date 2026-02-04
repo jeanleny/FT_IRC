@@ -36,13 +36,6 @@ void	Server::initICommands()
 	_iCommands[8] = new InviteCommand();
 }
 
-void	Server::deleteICommands()
-{
-	for(size_t i = 0; i < NB_CMD; i++)
-	{
-		delete _iCommands[i];
-	}
-}
 
 void	Server::initServer()
 {
