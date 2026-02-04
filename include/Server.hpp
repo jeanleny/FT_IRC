@@ -46,7 +46,6 @@ class Server
 
 		void					initServer();
 		void					initICommands();
-		void					deleteICommands();
 		void					runningServer();
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
