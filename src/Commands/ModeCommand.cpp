@@ -112,12 +112,12 @@ bool	ModeCommand::manageKeyMode()
 	return (true);
 }
 
-bool	ModeCommand::manageParamMode(char flag, int fd)
+bool	ModeCommand::manageParamMode(char flag, Client client)
 {
 	if (!paramFlag(flag))
 		return (true);
 	if (flag == 'l')
-		return (manageLimitMode(fd));
+		return (manageLimitMode(client));
 	if (flag == 'k')
 		return (manageKeyMode());
 	return (false);
@@ -140,7 +140,7 @@ void	ModeCommand::modeParam(Client client)
 		_mode = selectMode(_flags[i]);
 		if (Server::getInstance().checkChannelMode(_chanName, _mode ,_disable))
 		{
-			if (manageParamMode(_flags[i], client.getClientFd()))
+			if (manageParamMode(_flags[i], client))
 			{
 				Server::getInstance().changeChannelMode(_chanName, _mode ,_disable);
 				_param += _flags[i];

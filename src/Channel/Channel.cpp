@@ -9,10 +9,10 @@ Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 
 Channel::~Channel(){};
 
-const bool	*Channel::getMode()
+/*const bool	*Channel::getMode()
 {
 	return (_mode);
-}
+}*/
 
 const std::string Channel::getName()
 {

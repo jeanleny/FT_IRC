@@ -15,7 +15,7 @@ class ModeCommand : public ICommand
 		void	modeParam(Client emitter);
 		void	addSendArgs();
 		void	sendModeMessage(Client client);
-		bool	manageParamMode(char flag, int fd);
+		bool	manageParamMode(char flag, Client client);
 		bool	manageLimitMode(Client client);
 		bool	manageKeyMode();
 
