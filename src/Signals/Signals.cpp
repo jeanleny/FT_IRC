@@ -1,0 +1,23 @@
+#include "Signals.hpp"
+#include "Server.hpp"
+#include <iostream>
+#include <string.h>
+
+volatile sig_atomic_t    g_exit = 0;
+
+void    sigint_handler(int sig)
+{
+    if (sig == SIGINT)
+        g_exit = 1;
+}
+
+void    setSigaction()
+{
+    struct sigaction    act;
+
+    bzero(&act, sizeof(act));
+    act.sa_handler = &sigint_handler;
+    act.sa_flags = 0;
+
+    sigaction(SIGINT, &act, NULL);
+}

@@ -36,6 +36,7 @@ void	Server::initICommands()
 	_iCommands[8] = new InviteCommand();
 }
 
+
 void	Server::initServer()
 {
 	struct addrinfo	servParam;
@@ -207,7 +208,6 @@ int	Server::extractCommand(char *buf, Client & client)
 	{
 		std::vector<std::string>	splitArgs = split(str);
 		uppercaseStr(splitArgs[0]);
-		std::cout << splitArgs[0] << std::endl;
 		extractCommandId(client, splitArgs[0]);
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
@@ -252,8 +252,8 @@ void	Server::runningServer()
 {
 	int	newConnections;
 	initEpoll();
-	
-	while (1)
+	setSigaction();
+	while (!g_exit)
 	{
 		newConnections = epoll_wait(_epollFd, _queuedEvents, MAX_EVENTS, -1);
 		for (int i = 0; i < newConnections; i++)
@@ -267,6 +267,7 @@ void	Server::runningServer()
 			}
 		}
 	}
+	freeaddrinfo(_servInfo);
 }
 
 Server::~Server()
