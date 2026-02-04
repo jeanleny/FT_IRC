@@ -33,7 +33,6 @@ class	Channel
 		void				changeKey(std::string key);
 		void				changeLimit(size_t limit);
 		bool				checkMode(size_t mode, bool state);
-		int					setModeParam(char flag, std::vector<std::string> paramArg, bool disable, size_t id);
 
 	private :
 		std::vector<Client>		_memberList;
