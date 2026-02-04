@@ -59,115 +59,25 @@ void	Channel::displayMode(Client &client)
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
-size_t	selectMode(char a)
+void	Channel::changeKey(std::string key)
 {
-	const char array[MODE_NB] = {'t', 'i', 'k', 'o', 'l'};
-
-	for (int i = 0; i < MODE_NB; i++)
-	{
-		if (a == array[i])
-			return (i);
-	}
-	return (-1);
+	_keyword = key;
 }
 
-bool	paramFlag(char flag)
+void	Channel::changeLimit(size_t limit)
 {
-	return (flag == 'o' || flag == 'k' || flag == 'l');
+	_memberLimit = limit;
 }
 
-bool	strIsAlpha(std::string str)
+void	Channel::changeMode(size_t mode, bool disable)
 {
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (!isalpha(str[i]))
-			return (false);
-	}
-	return (true);
-}
-
-bool	strIsDigit(std::string str)
-{
-	for (size_t i = 0; i < str.size(); i++)
-	{
-		if (!isdigit(str[i]))
-			return (false);
-	}
-	return (true);
-}
-
-int Channel::setModeParam(char flag, std::vector<std::string> paramArg, bool disable, size_t id)
-{
-	if (!paramFlag(flag))
-		return (0);
-	if (flag == 'l')
-	{
-		if (disable)
-		{
-			return (0);
-		}
-		if (paramArg.size() <= 2)
-			return (WPARAM);
-		if (!strIsDigit(paramArg[id]))
-			return (ERROR);
-		_memberLimit = atoi(paramArg[id].c_str());
-	}
-	else if (flag == 'k')
-	{
-		if (disable)
-		{
-			_keyword = "";
-		}
-		else 
-			_keyword = paramArg[id];
-	}
-	return (0);
-	/*else if (flag == 'o')
-	{
-		
-	}*/
-}
-
-void	Channel::changeMode(Client client, std::string flags, bool disable, std::string chanName, std::vector<std::string> paramArg)
-{
-	size_t mode;
-	std::string sign = " :+";
-	std::string param;
-	size_t paramId = 2;
-	std::string	msg;
-	
 	if (disable)
-		sign = " :-";
-	for (size_t i = 0; i < flags.size(); i++)
-	{
-		mode = selectMode(flags[i]);
-		if (disable)
-		{
-			if (_mode[mode])
-			{
-				if (setModeParam(flags[i], paramArg, disable, paramId) < 0)
-					continue ;
-				_mode[mode] = false;
-				param += flags[i];
-			}
-		}
-		else
-		{
-			if (!_mode[mode])
-			{
-				_mode[mode] = true;
-				if (setModeParam(flags[i], paramArg, disable, paramId) < 0)
-					continue ;
-				param += flags[i];
-			}
-		}
-	}
-	if (param.size() > 0)
-	{
-		if (paramArg.size() <= 2)
-			msg = ":" + client.getNickname() + "!" + client.getUsername() + Server::getInstance().getHostname() + " MODE " + chanName + sign + param + "\r\n";
-		else
-			msg = ":" + client.getNickname() + "!" + client.getUsername() + Server::getInstance().getHostname() + " MODE " + chanName + sign + param + " :" + paramArg[paramId] + "\r\n";
-		send(client.getClientFd(), msg.c_str(), msg.size(), 0);
-	}
+		_mode[mode] = false;
+	else
+		_mode[mode] = true;
+}
+
+bool	Channel::checkMode(size_t mode, bool state)
+{
+	return (_mode[mode] == state);
 }

@@ -30,7 +30,10 @@ class	Channel
 		void				addMember(Client &client);
 		
 		void				displayMode(Client &emitter);
-		void				changeMode(Client client, std::string flags, bool disable, std::string chanName, std::vector<std::string> paramArg);
+		void				changeMode(size_t mode, bool disable);
+		void				changeKey(std::string key);
+		void				changeLimit(size_t limit);
+		bool				checkMode(size_t mode, bool state);
 		int					setModeParam(char flag, std::vector<std::string> paramArg, bool disable, size_t id);
 
 	private :
