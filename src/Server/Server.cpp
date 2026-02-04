@@ -36,6 +36,14 @@ void	Server::initICommands()
 	_iCommands[8] = new InviteCommand();
 }
 
+void	Server::deleteICommands()
+{
+	for(size_t i = 0; i < NB_CMD; i++)
+	{
+		delete _iCommands[i];
+	}
+}
+
 void	Server::initServer()
 {
 	struct addrinfo	servParam;
@@ -48,7 +56,7 @@ void	Server::initServer()
 		throw AddrinfoFailedException();
 	_servFd = socket(_servInfo->ai_family, _servInfo->ai_socktype, _servInfo->ai_protocol);
 	if (_servFd == -1)
-		throw SocketFailedException();
+	throw SocketFailedException();
 	int	opt = 1;
 	setsockopt(_servFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	if (bind(_servFd, _servInfo->ai_addr, _servInfo->ai_addrlen) == -1)
@@ -207,7 +215,6 @@ int	Server::extractCommand(char *buf, Client & client)
 	{
 		std::vector<std::string>	splitArgs = split(str);
 		uppercaseStr(splitArgs[0]);
-		std::cout << splitArgs[0] << std::endl;
 		extractCommandId(client, splitArgs[0]);
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
@@ -252,8 +259,8 @@ void	Server::runningServer()
 {
 	int	newConnections;
 	initEpoll();
-	
-	while (1)
+	setSigaction();
+	while (!g_exit)
 	{
 		newConnections = epoll_wait(_epollFd, _queuedEvents, MAX_EVENTS, -1);
 		for (int i = 0; i < newConnections; i++)
@@ -267,6 +274,7 @@ void	Server::runningServer()
 			}
 		}
 	}
+	freeaddrinfo(_servInfo);
 }
 
 Server::~Server()

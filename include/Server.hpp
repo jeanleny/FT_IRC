@@ -15,6 +15,7 @@
 #include <TopicCommand.hpp>
 #include <InviteCommand.hpp>
 #include <ServerUtils.h>
+#include <Signals.hpp>
 #include <utils.h>
 
 #include <iostream>
@@ -31,6 +32,8 @@
 #define MAX_EVENTS 10
 #define NB_CMD 9
 
+extern volatile sig_atomic_t   g_exit;
+
 class Server
 {
 	public :
@@ -43,6 +46,7 @@ class Server
 
 		void					initServer();
 		void					initICommands();
+		void					deleteICommands();
 		void					runningServer();
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
