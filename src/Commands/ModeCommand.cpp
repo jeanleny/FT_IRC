@@ -120,6 +120,7 @@ bool	ModeCommand::manageParamMode(char flag, Client client)
 		return (manageLimitMode(client));
 	if (flag == 'k')
 		return (manageKeyMode());
+	//if (flag == 'o')
 	return (false);
 }
 
