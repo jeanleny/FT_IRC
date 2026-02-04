@@ -49,7 +49,7 @@ void	Server::initServer()
 		throw AddrinfoFailedException();
 	_servFd = socket(_servInfo->ai_family, _servInfo->ai_socktype, _servInfo->ai_protocol);
 	if (_servFd == -1)
-	throw SocketFailedException();
+		throw SocketFailedException();
 	int	opt = 1;
 	setsockopt(_servFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	if (bind(_servFd, _servInfo->ai_addr, _servInfo->ai_addrlen) == -1)
