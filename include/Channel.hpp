@@ -4,7 +4,6 @@
 #include <iostream>
 
 #define MODE_NB 5
-#define WPARAM -2
 
 typedef enum mode
 {
