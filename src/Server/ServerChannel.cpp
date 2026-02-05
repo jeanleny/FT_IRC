@@ -35,6 +35,11 @@ void	Server::addChannelOperator(std::string chanName, Client target)
 	_channels[getChannelByName(chanName)].addOperator(target);
 }
 
+void	Server::rmChannelOperator(std::string chanName, Client target)
+{
+	_channels[getChannelByName(chanName)].rmOperator(target);
+}
+
 ssize_t	Server::getChannelByName(std::string chanName)
 {
 	for(size_t i = 0; i < _channels.size(); i++)

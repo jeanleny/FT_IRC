@@ -153,6 +153,7 @@ bool	ModeCommand::presentClient(Client client, Client target)
 
 bool	ModeCommand::manageOpMode(Client client)
 {
+	bool	targetOp;
 	if (_paramArg.size() > 0)
 	{
 		Client target = Server::getInstance().getClientByNickname(_paramArg[_id]);
@@ -164,7 +165,20 @@ bool	ModeCommand::manageOpMode(Client client)
 			sendModeOpNeeded(client);
 			return (false);
 		}
-		Server::getInstance().addChannelOperator(_chanName, target);
+		targetOp = Server::getInstance().checkChannelOperator(_chanName, target);
+		if (_disable && targetOp)
+		{
+			addSendArgs();
+			Server::getInstance().rmChannelOperator(_chanName, target);
+			return (true);
+		}
+		if(!_disable && !targetOp)
+		{
+			addSendArgs();
+			Server::getInstance().addChannelOperator(_chanName, target);
+			return (true);
+		}
+		return (false);
 	}
 	return (false);
 }

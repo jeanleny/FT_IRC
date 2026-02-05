@@ -77,6 +77,8 @@ void	Channel::changeLimit(size_t limit)
 
 void	Channel::changeMode(size_t mode, bool disable)
 {
+	if (mode == o)
+		return;
 	if (disable)
 		_mode[mode] = false;
 	else
@@ -85,6 +87,8 @@ void	Channel::changeMode(size_t mode, bool disable)
 
 bool	Channel::checkMode(size_t mode, bool state)
 {
+	if (mode == o)
+		return (true);
 	return (_mode[mode] == state);
 }
 
@@ -101,4 +105,11 @@ bool	Channel::checkOperator(Client client)
 void	Channel::addOperator(Client target)
 {
 	_operators.push_back(target.getClientFd());
+}
+
+void	Channel::rmOperator(Client target)
+{
+	int fd = target.getClientFd();
+	std::vector<int>::iterator pos = find(_operators.begin(), _operators.end(), fd);
+	_operators.erase(pos);
 }
