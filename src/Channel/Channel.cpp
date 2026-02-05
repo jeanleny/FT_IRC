@@ -66,6 +66,8 @@ void	Channel::changeLimit(size_t limit)
 
 void	Channel::changeMode(size_t mode, bool disable)
 {
+	if (mode == o)
+		return;
 	if (disable)
 		_mode[mode] = false;
 	else
@@ -74,6 +76,8 @@ void	Channel::changeMode(size_t mode, bool disable)
 
 bool	Channel::checkMode(size_t mode, bool state)
 {
+	if (mode == o)
+		return (true);
 	return (_mode[mode] == state);
 }
 
