@@ -25,6 +25,16 @@ bool	Server::checkChannelMode(std::string chanName, size_t mode, bool state)
 	return (_channels[getChannelByName(chanName)].checkMode(mode, state));
 }
 
+bool	Server::checkChannelOperator(std::string chanName, Client client)
+{
+	return (_channels[getChannelByName(chanName)].checkOperator(client));
+}
+
+void	Server::addChannelOperator(std::string chanName, Client target)
+{
+	_channels[getChannelByName(chanName)].addOperator(target);
+}
+
 ssize_t	Server::getChannelByName(std::string chanName)
 {
 	for(size_t i = 0; i < _channels.size(); i++)
@@ -76,6 +86,7 @@ void	Server::createChannel(Client & emitter, std::string chanName)
 	std::string msg4 = ":" + getHostname() + " 366 " + emitter.getNickname() +" " + chanName + " :End of /NAMES list\r\n";
 
 	_channels.push_back(obj);
+	_channels[_channels.size() - 1].addOperator(emitter);
 	send(emitter.getClientFd(), msg.c_str(), msg.size(), 0);
 	send(emitter.getClientFd(), msg2.c_str(), msg2.size(), 0);
 	send(emitter.getClientFd(), msg3.c_str(), msg3.size(), 0);

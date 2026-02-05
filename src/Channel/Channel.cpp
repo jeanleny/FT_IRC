@@ -9,11 +9,6 @@ Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
 
 Channel::~Channel(){};
 
-/*const bool	*Channel::getMode()
-{
-	return (_mode);
-}*/
-
 const std::string Channel::getName()
 {
 	return (_name);
@@ -80,4 +75,19 @@ void	Channel::changeMode(size_t mode, bool disable)
 bool	Channel::checkMode(size_t mode, bool state)
 {
 	return (_mode[mode] == state);
+}
+
+bool	Channel::checkOperator(Client client)
+{
+	for (size_t i = 0; i < _operators.size(); i++)
+	{
+		if (client.getClientFd() == _operators[i])
+			return (true);
+	}
+	return (false);
+}
+
+void	Channel::addOperator(Client target)
+{
+	_operators.push_back(target.getClientFd());
 }
