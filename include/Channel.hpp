@@ -31,7 +31,10 @@ class	Channel
 		void				changeMode(size_t mode, bool disable);
 		void				changeKey(std::string key);
 		void				changeLimit(size_t limit);
+		void				addOperator(int targetFd);
 		bool				checkMode(size_t mode, bool state);
+		bool				checkOperator(Client client);
+		void				addOperator(Client target);
 
 	private :
 		std::vector<int>		_operators;

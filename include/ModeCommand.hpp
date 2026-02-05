@@ -17,7 +17,9 @@ class ModeCommand : public ICommand
 		void	sendModeMessage(Client client);
 		bool	manageParamMode(char flag, Client client);
 		bool	manageLimitMode(Client client);
+		bool	manageOpMode(Client client);
 		bool	manageKeyMode();
+		bool	presentClient(Client client, Client target);
 
 	private :
 		std::vector<std::string>	_paramArg;
