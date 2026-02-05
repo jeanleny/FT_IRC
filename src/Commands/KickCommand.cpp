@@ -26,6 +26,7 @@ void    parseKickArgs(Client & client, const std::vector<std::string>& args)
 void    KickCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
     //verif que client est bien operator (checkOperator de leny)
+    //LETSGO
     parseKickArgs(client, args);
 
     std::string     chanName = args[0];
