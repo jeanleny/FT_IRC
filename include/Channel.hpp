@@ -26,6 +26,7 @@ class	Channel
 		
 		bool				isChannelMember(int fd);
 		void				addMember(Client &client);
+		void				kickMember(Client &client);
 		
 		void				displayMode(Client &emitter);
 		void				changeMode(size_t mode, bool disable);

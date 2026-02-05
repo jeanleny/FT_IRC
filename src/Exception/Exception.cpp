@@ -76,6 +76,12 @@ UsedNicknameException::UsedNicknameException(Client & client)
 	_msg = ":" + Server::getInstance().getHostname() + " 433 " + client.getNickname() + " " + client.getCommandArgs()[0] 
         + " :Already used nickname\r\n";
 }
+ //:chatjunkies.org 441 peris tobourge2 #truite :They are not on that channel
+UserNotInChannelException::UserNotInChannelException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 441 " + client.getNickname() + " " + client.getCommandArgs()[1] 
+        + " :User is not in channel\r\n";
+}
 
 NoRecipientException::NoRecipientException(Client & client)
 {

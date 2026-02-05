@@ -85,7 +85,7 @@ class MissingArgumentsException : public std::exception
 
 //NICK COMMAND
 
-class ErroneusNicknameException : public std::exception
+class ErroneusNicknameException : public std::exception //432
 {
 	public :
 
@@ -98,12 +98,25 @@ class ErroneusNicknameException : public std::exception
 		std::string	_msg;
 };
 
-class UsedNicknameException : public std::exception
+class UsedNicknameException : public std::exception //433
 {
 	public :
 
 		UsedNicknameException(Client & client);
 		virtual ~UsedNicknameException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+class UserNotInChannelException : public std::exception //441
+{
+	public :
+
+		UserNotInChannelException(Client & client);
+		virtual ~UserNotInChannelException() throw() {}
 		const char * what() const throw() {return _msg.c_str();}
 
 	private :
@@ -121,7 +134,7 @@ class ErroneusUsernameException : public std::exception
 
 //PRIVMSG COMMAND
 
-class NoRecipientException : public std::exception
+class NoRecipientException : public std::exception //411
 {
 	public :
 
@@ -134,7 +147,7 @@ class NoRecipientException : public std::exception
 		std::string	_msg;
 };
 
-class NoTextToSendException : public std::exception
+class NoTextToSendException : public std::exception //412
 {
 	public :
 
@@ -147,7 +160,7 @@ class NoTextToSendException : public std::exception
 		std::string	_msg;
 };
 
-class CannotSendToChannelException : public std::exception
+class CannotSendToChannelException : public std::exception //404
 {
 	public :
 
@@ -160,7 +173,7 @@ class CannotSendToChannelException : public std::exception
 		std::string	_msg;
 };
 
-class NoSuchNicknameException : public std::exception
+class NoSuchNicknameException : public std::exception //401
 {
 	public :
 
@@ -175,7 +188,7 @@ class NoSuchNicknameException : public std::exception
 
 
 
-class InvalidChannelException : public std::exception
+class InvalidChannelException : public std::exception //476
 {
 	public :
 
@@ -199,7 +212,7 @@ class ChannelLimitExcedeedException : public std::exception
 		const char * what() const throw();
 };
 
-class NoSuchChannelException : public std::exception
+class NoSuchChannelException : public std::exception //403
 {
 	public :
 
@@ -212,7 +225,7 @@ class NoSuchChannelException : public std::exception
 		std::string	_msg;
 };
 
-class NotEnoughParametersException : public std::exception
+class NotEnoughParametersException : public std::exception //461
 {
 	public :
 
