@@ -103,8 +103,7 @@ CannotSendToChannelException::CannotSendToChannelException(Client & client)
 
 NoSuchNicknameException::NoSuchNicknameException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] 
-        + "  :No such nickname\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :No such nickname\r\n";
 }
 
 const char *ErroneusUsernameException::what() const throw()

@@ -61,7 +61,8 @@ class Server
 		bool					validPassword(std::string pass);
 		bool					isUsedNickname(std::string nickname);
 		int						extractCommand(char *buf, Client & client);
-		
+	
+		bool					isInServer(Client &client);
 		bool					isInChannel(Client &client, std::string name);
 		ssize_t					getChannelByName(std::string chanName);
 		bool					existChannel(std::string name);
@@ -73,12 +74,18 @@ class Server
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);
+<<<<<<< KICK-Command
 		void					sendKickMessage(Client & client);
+=======
+
+>>>>>>> main
 		void					displayChannelMode(Client emitter, std::string arg);
 		void					changeChannelMode(std::string chanName, size_t mode, bool disable);
 		void					changeChannelKey(std::string chanName, std::string key);
 		void					changeChannelLimit(std::string chanName, size_t limit);
 		bool					checkChannelMode(std::string chanName, size_t mode, bool state);
+		bool					checkChannelOperator(std::string chanName, Client client);
+		void					addChannelOperator(std::string chanName, Client target);
 		void					presentMode(std::string chanName, std::string mode);
 
 	private :

@@ -23,7 +23,6 @@ class	Channel
 		const std::string			getName();
 		size_t 						getMemberNb();
 		const std::vector<Client>	getMemberList();
-		//const bool					*getMode();
 		
 		bool				isChannelMember(int fd);
 		void				addMember(Client &client);
@@ -34,8 +33,11 @@ class	Channel
 		void				changeKey(std::string key);
 		void				changeLimit(size_t limit);
 		bool				checkMode(size_t mode, bool state);
+		bool				checkOperator(Client client);
+		void				addOperator(Client target);
 
 	private :
+		std::vector<int>		_operators;
 		std::vector<Client>		_memberList;
 		std::string 			_name;
 		std::string				_topic;

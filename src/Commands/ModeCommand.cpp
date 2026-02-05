@@ -10,6 +10,37 @@ ModeCommand::~ModeCommand()
 
 }
 
+void	sendModeError(Client client, char arg)
+{
+	std::string msg = ":" + Server::getInstance().getHostname() + " 472 " + client.getNickname() + arg + ":is not a recognised channel mode.\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	sendDigitError(Client client, std::string arg)
+{
+	std::string msg = ":" + Server::getInstance().getHostname() + " 696 " + client.getNickname() + arg + " :Invalid limit mode parameter.\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	sendModeErrorNick(Client client)
+{
+	std::string msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + "  :No such nickname\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	sendModeErrorChannel(Client client)
+{
+	std::string msg = ":" + Server::getInstance().getHostname() + " 442 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :Is not on the channel\r\n";
+	
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	sendModeOpNeeded(Client client)
+{
+	std::string msg = ":" + Server::getInstance().getHostname() + " 482 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :You need to be an operator\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
 bool	validModeFlag(char a)
 {
 	if (a == 't' || a == 'i' || a == 'k' || a == 'o' || a == 'l')
@@ -26,18 +57,6 @@ bool	isAddSub(char a, bool & disable)
 		return (true);
 	}
 	return (false);
-}
-
-void	sendModeError(Client client, char arg)
-{
-	std::string msg = ":" + Server::getInstance().getHostname() + " 472 " + client.getNickname() + arg + ":is not a recognised channel mode.\r\n";
-	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
-}
-
-void	sendDigitError(Client client, std::string arg)
-{
-	std::string msg = ":" + Server::getInstance().getHostname() + " 696 " + client.getNickname() + arg + " :Invalid limit mode parameter.\r\n";
-	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
 bool	paramFlag(char flag)
@@ -107,9 +126,47 @@ bool	ModeCommand::manageKeyMode()
 		Server::getInstance().changeChannelKey(_chanName, "");
 		return (true);
 	}
-	addSendArgs();
-	Server::getInstance().changeChannelKey(_chanName, _paramArg[_id]);
+	if (_paramArg.size() > 0)
+	{
+		addSendArgs();
+		Server::getInstance().changeChannelKey(_chanName, _paramArg[_id]);
+		return (true);
+	}
+	return (false);
+}
+
+bool	ModeCommand::presentClient(Client client, Client target)
+{
+
+	if (target.getClientFd() < 0 || !Server::getInstance().isInServer(target))
+	{
+		sendModeErrorNick(client);
+		return (false);
+	}
+	else if (!Server::getInstance().isInChannel(target, _chanName))
+	{
+		sendModeErrorChannel(client);
+		return (false);
+	}
 	return (true);
+}
+
+bool	ModeCommand::manageOpMode(Client client)
+{
+	if (_paramArg.size() > 0)
+	{
+		Client target = Server::getInstance().getClientByNickname(_paramArg[_id]);
+		
+		if (!presentClient(client, target))
+			return (false);
+		if (!Server::getInstance().checkChannelOperator(_chanName, client))
+		{
+			sendModeOpNeeded(client);
+			return (false);
+		}
+		Server::getInstance().addChannelOperator(_chanName, target);
+	}
+	return (false);
 }
 
 bool	ModeCommand::manageParamMode(char flag, Client client)
@@ -120,6 +177,8 @@ bool	ModeCommand::manageParamMode(char flag, Client client)
 		return (manageLimitMode(client));
 	if (flag == 'k')
 		return (manageKeyMode());
+	if (flag == 'o')
+		return (manageOpMode(client));
 	return (false);
 }
 

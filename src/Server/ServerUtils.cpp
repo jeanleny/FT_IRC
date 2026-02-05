@@ -24,8 +24,16 @@ void	Server::sendNickMessage(Client & client)
 	{
 		chanName = _channels[i].getName();
 		if (isInChannel(client, chanName))
-		{
 			sendMessageToChannel(client, chanName, msg.c_str());
-		}
 	}
+}
+
+bool	Server::isInServer(Client &client)
+{
+	for (size_t i = 0; i < _clients.size(); i++)
+	{
+		if (client.getClientFd() == _clients[i].getClientFd())
+			return (true);
+	}
+	return (false);
 }
