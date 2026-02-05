@@ -47,11 +47,11 @@ bool	Server::existChannel(std::string name)
 	return (false);
 }
 
-bool	Server::isInChannel(Client &client, std::string name)
+bool	Server::isInChannel(Client &client, std::string chanName)
 {
 	for(size_t i = 0; i < _channels.size(); i++)
 	{
-		if (_channels[i].getName() == name)
+		if (_channels[i].getName() == chanName)
 		{
 			if (_channels[i].isChannelMember(client.getClientFd()))
 				return (true);
@@ -65,6 +65,16 @@ void	Server::addChannelMember(Client &client, std::string chanName)
 	ssize_t id = getChannelByName(chanName);
 	
 	_channels[id].addMember(client);
+}
+
+void	Server::kickChannelMember(Client & client, Client &kicked, std::string chanName)
+{
+	ssize_t id = getChannelByName(chanName);
+	
+	_channels[id].kickMember(kicked);
+	std::string	msg = ":" + client.getNickname() + "!" + client.getUsername() + "@" + getHostname() 
+			+ " KICK " + chanName + " " + kicked.getNickname() + " :" + client.getNickname() + "\r\n";
+	// :peris!tobourge@rtr.23.90.210.20.unyc.it KICK #truite tobourge2 :peris
 }
 
 void	Server::createChannel(Client & emitter, std::string chanName)

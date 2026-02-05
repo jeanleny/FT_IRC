@@ -34,6 +34,17 @@ void	Channel::addMember(Client &client)
 	if (_memberNb == _memberLimit)
 		throw ChannelLimitExcedeedException();
 	_memberList.push_back(client);
+	_memberNb++;
+}
+
+void	Channel::kickMember(Client &client)
+{
+	for (size_t i = 0;  i < _memberList.size(); i++)
+	{
+		if(client.getClientFd() == _memberList[i].getClientFd())
+			_memberList.erase(_memberList.begin() + i);
+	}
+	_memberNb -= 1;
 }
 
 bool	Channel::isChannelMember(int fd)

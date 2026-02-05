@@ -37,11 +37,8 @@ PrivmsgCommand::~PrivmsgCommand()
 
 }
 
-void parseArgs(Client & client, const std::vector<std::string>& args)
+void parsePrivmsgArgs(Client & client, const std::vector<std::string>& args)
 {
-     // if (args.size() > 2)
-     //      throw WrongCommandException(); // *!* modifier le split
-     
      if (args.size() < 2)
           throw NotEnoughParametersException(client);
 
@@ -64,7 +61,7 @@ void parseArgs(Client & client, const std::vector<std::string>& args)
 
 void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
-    parseArgs(client, args);
+    parsePrivmsgArgs(client, args);
     std::string     target = args[0];
     std::string     text = args[1];
     std::string     message = ":" + client.getNickname() + "!" + client.getUsername() + "@" + Server::getInstance().getHostname()
