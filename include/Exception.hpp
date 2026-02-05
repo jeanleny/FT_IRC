@@ -200,6 +200,18 @@ class InvalidChannelException : public std::exception //476
 		std::string	_msg;
 };
 
+class NotAnOperatorException : public std::exception //476
+{
+	public :
+
+		NotAnOperatorException(Client & client);
+		virtual ~NotAnOperatorException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+		std::string	_msg;
+};
+
 class AlreadyInChannelException : public std::exception
 {
 	public :
