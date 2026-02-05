@@ -74,11 +74,7 @@ class Server
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);
-<<<<<<< KICK-Command
 		void					sendKickMessage(Client & client);
-=======
-
->>>>>>> main
 		void					displayChannelMode(Client emitter, std::string arg);
 		void					changeChannelMode(std::string chanName, size_t mode, bool disable);
 		void					changeChannelKey(std::string chanName, std::string key);
