@@ -103,7 +103,10 @@ CannotSendToChannelException::CannotSendToChannelException(Client & client)
 
 NoSuchNicknameException::NoSuchNicknameException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :No such nickname\r\n";
+	if (client.getCommandId() == KICK)
+		_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[1] + "  :No such nickname\r\n";
+	else
+		_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :No such nickname\r\n";
 }
 
 const char *ErroneusUsernameException::what() const throw()
@@ -114,6 +117,10 @@ const char *ErroneusUsernameException::what() const throw()
 InvalidChannelException::InvalidChannelException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 476 " + client.getNickname() + " " + client.getCommandArgs()[0] + ":Invalid channel name\r\n";
+}
+NotAnOperatorException::NotAnOperatorException(Client & client)
+{
+    _msg = ":" + Server::getInstance().getHostname() + " 482 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :You need to be an operator\r\n";
 }
 
 const char *AlreadyInChannelException::what() const throw()

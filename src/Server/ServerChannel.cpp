@@ -81,10 +81,11 @@ void	Server::kickChannelMember(Client & client, Client &kicked, std::string chan
 {
 	ssize_t id = getChannelByName(chanName);
 	
-	_channels[id].kickMember(kicked);
 	std::string	msg = ":" + client.getNickname() + "!" + client.getUsername() + "@" + getHostname() 
-			+ " KICK " + chanName + " " + kicked.getNickname() + " :" + client.getNickname() + "\r\n";
-	// :peris!tobourge@rtr.23.90.210.20.unyc.it KICK #truite tobourge2 :peris
+	+ " KICK " + chanName + " " + kicked.getNickname() + " :" + client.getNickname() + "\r\n";
+	sendMessageToChannel(client, chanName, msg.c_str());
+	
+	_channels[id].kickMember(kicked);
 }
 
 void	Server::createChannel(Client & emitter, std::string chanName)
@@ -114,7 +115,7 @@ void	Server::sendMessageToChannel(Client & client, std::string & chanName, const
 	for (size_t i = 0; i < memberList.size(); i++)
 	{
 		clientFd = memberList[i].getClientFd();
-		if (clientFd == client.getClientFd())
+		if (clientFd == client.getClientFd() && client.getCommandId() == PRIVMSG)
 			continue ;
 		send(clientFd, msg, len, 0);
 	}
