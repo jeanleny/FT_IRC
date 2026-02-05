@@ -34,6 +34,7 @@ class	Channel
 		bool				checkMode(size_t mode, bool state);
 		bool				checkOperator(Client client);
 		void				addOperator(Client target);
+		void				rmOperator(Client target);
 
 	private :
 		std::vector<int>		_operators;

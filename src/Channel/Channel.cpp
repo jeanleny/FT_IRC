@@ -91,3 +91,10 @@ void	Channel::addOperator(Client target)
 {
 	_operators.push_back(target.getClientFd());
 }
+
+void	Channel::rmOperator(Client target)
+{
+	int fd = target.getClientFd();
+	std::vector<int>::iterator pos = find(_operators.begin(), _operators.end(), fd);
+	_operators.erase(pos);
+}
