@@ -17,9 +17,7 @@ void    parseKickArgs(Client & client, const std::vector<std::string>& args)
     if (!Server::getInstance().existChannel(args[0]))
         throw NoSuchChannelException(client);
     if (!Server::getInstance().isUsedNickname(args[1]))
-    {
         throw NoSuchNicknameException(client);
-    }
 }
 
 void    KickCommand::execCmd(Client & client, const std::vector<std::string>& args)
