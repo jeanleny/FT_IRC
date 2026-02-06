@@ -90,7 +90,6 @@ NotInThisChannelException::NotInThisChannelException(Client & client)
 
 AlreadyInChannelException::AlreadyInChannelException(Client & client)
 {
-	// :chatjunkies.org 443 tobourge2 peris #truite :is already on channel
 
 	_msg = ":" + Server::getInstance().getHostname() + " 443 " + client.getNickname() + " " + client.getCommandArgs()[0] 
         + " " +  client.getCommandArgs()[1] + " :Is already in channel\r\n";
