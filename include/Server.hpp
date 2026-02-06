@@ -64,12 +64,14 @@ class Server
 		int						extractCommand(char *buf, Client & client);
 	
 		bool					isInServer(Client &client);
-		bool					isInChannel(Client &client, std::string name);
+		bool					isInChannel(Client &client, std::string chanName);
+		bool					isInvitedInChannel(Client &client, std::string chanName);
 		ssize_t					getChannelByName(std::string chanName);
 		bool					existChannel(std::string name);
 		void					createChannel(Client &emitter, std::string chanName);
 		void					addChannelMember(Client &client, std::string chanName);
 		void					kickChannelMember(Client & client, Client &kicked, std::string chanName);
+		void					inviteChannelMember(Client & client, Client &kicked, std::string chanName);
 		bool					findChannel(std::string chanName);
 		void 					sendMessageToChannel(Client & client, std::string & chanName, const char *msg);
 

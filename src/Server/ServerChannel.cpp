@@ -75,6 +75,16 @@ bool	Server::isInChannel(Client &client, std::string chanName)
 	return (false);
 }
 
+bool	Server::isInvitedInChannel(Client &client, std::string chanName)
+{
+	size_t id = getChannelByName(chanName);
+	Channel	chan = _channels[id];
+
+	if (chan.isInvited(client.getClientFd()))
+		return true;
+	return (false);
+}
+
 void	Server::addChannelMember(Client &client, std::string chanName)
 {
 	ssize_t id = getChannelByName(chanName);
@@ -91,6 +101,18 @@ void	Server::kickChannelMember(Client & client, Client &kicked, std::string chan
 	sendMessageToChannel(client, chanName, msg.c_str());
 	
 	_channels[id].kickMember(kicked);
+}
+
+void	Server::inviteChannelMember(Client & client, Client &invited, std::string chanName)
+{
+	ssize_t id = getChannelByName(chanName);
+	
+	std::string	msg = ":" + client.getNickname() + "!" + client.getUsername() + "@" + getHostname() 
+	+ " INVITE " + invited.getNickname() + " :" + chanName + "\r\n";
+	sendMessageToChannel(client, chanName, msg.c_str());
+	send(invited.getClientFd(), msg.c_str(), msg.size(), 0);
+	
+	_channels[id].inviteMember(invited);
 }
 
 void	Server::createChannel(Client & emitter, std::string chanName)

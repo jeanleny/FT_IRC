@@ -76,11 +76,24 @@ UsedNicknameException::UsedNicknameException(Client & client)
 	_msg = ":" + Server::getInstance().getHostname() + " 433 " + client.getNickname() + " " + client.getCommandArgs()[0] 
         + " :Already used nickname\r\n";
 }
- //:chatjunkies.org 441 peris tobourge2 #truite :They are not on that channel
 UserNotInChannelException::UserNotInChannelException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 441 " + client.getNickname() + " " + client.getCommandArgs()[1] 
         + " :User is not in channel\r\n";
+}
+
+NotInThisChannelException::NotInThisChannelException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 442 " + client.getNickname() + " " + client.getCommandArgs()[1] 
+        + " :You are not in this channel\r\n";
+}
+
+AlreadyInChannelException::AlreadyInChannelException(Client & client)
+{
+	// :chatjunkies.org 443 tobourge2 peris #truite :is already on channel
+
+	_msg = ":" + Server::getInstance().getHostname() + " 443 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        + " " +  client.getCommandArgs()[1] + " :Is already in channel\r\n";
 }
 
 NoRecipientException::NoRecipientException(Client & client)
@@ -123,10 +136,6 @@ NotAnOperatorException::NotAnOperatorException(Client & client)
     _msg = ":" + Server::getInstance().getHostname() + " 482 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :You need to be an operator\r\n";
 }
 
-const char *AlreadyInChannelException::what() const throw()
-{
-	return ("Error : User is already in channel\n");
-}
 
 const char *ChannelLimitExcedeedException::what() const throw()
 {
