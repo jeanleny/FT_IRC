@@ -124,6 +124,33 @@ class UserNotInChannelException : public std::exception //441
 		std::string	_msg;
 };
 
+class NotInThisChannelException : public std::exception //442
+{
+	public :
+
+		NotInThisChannelException(Client & client);
+		virtual ~NotInThisChannelException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+class AlreadyInChannelException : public std::exception //443
+{
+	public :
+
+		AlreadyInChannelException(Client & client);
+		virtual ~AlreadyInChannelException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
+
 //USER COMMAND
 
 class ErroneusUsernameException : public std::exception
@@ -210,12 +237,6 @@ class NotAnOperatorException : public std::exception //476
 
 	private :
 		std::string	_msg;
-};
-
-class AlreadyInChannelException : public std::exception
-{
-	public :
-		const char * what() const throw();
 };
 
 class ChannelLimitExcedeedException : public std::exception

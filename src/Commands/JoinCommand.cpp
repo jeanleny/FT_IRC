@@ -42,7 +42,7 @@ void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 				if (Server::getInstance().existChannel(chanName))
 				{
 					if (Server::getInstance().isInChannel(emitter, chanName))
-						throw AlreadyInChannelException();
+						throw AlreadyInChannelException(emitter);
 					Server::getInstance().addChannelMember(emitter, chanName);
 				}
 				else

@@ -39,6 +39,16 @@ void	Channel::addMember(Client &client)
 	_list += client.getNickname();
 }
 
+void	Channel::inviteMember(Client &client)
+{
+	for (size_t i = 0;  i < _invitedList.size(); i++)
+	{
+		if(client.getClientFd() == _invitedList[i])
+			return ;
+	}
+	_invitedList.push_back(client.getClientFd());
+}
+
 void	Channel::kickMember(Client &client)
 {
 	for (size_t i = 0;  i < _memberList.size(); i++)
@@ -54,6 +64,16 @@ bool	Channel::isChannelMember(int fd)
 	for (size_t i = 0; i < _memberList.size(); i++)
 	{
 		if (_memberList[i].getClientFd() == fd)
+			return (true);
+	}
+	return (false);
+}
+
+bool	Channel::isInvited(int fd)
+{
+	for (size_t i = 0; i < _invitedList.size(); i++)
+	{
+		if (fd == _invitedList[i])
 			return (true);
 	}
 	return (false);

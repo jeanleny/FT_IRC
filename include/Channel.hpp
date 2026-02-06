@@ -28,6 +28,9 @@ class	Channel
 		bool				isChannelMember(int fd);
 		void				addMember(Client &client);
 		void				kickMember(Client &client);
+		void				inviteMember(Client &client);
+		bool				isInvited(int fd);
+
 		
 		void				displayMode(Client &emitter);
 		void				changeMode(size_t mode, bool disable);
@@ -40,6 +43,7 @@ class	Channel
 
 	private :
 		std::vector<int>		_operators;
+		std::vector<int>		_invitedList;
 		std::vector<Client>		_memberList;
 		std::string				_list;
 		std::string 			_name;
