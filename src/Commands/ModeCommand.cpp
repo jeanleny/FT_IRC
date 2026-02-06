@@ -253,6 +253,8 @@ void	ModeCommand::execCmd(Client &emitter, const std::vector<std::string>& arg)
 	else
 	{
 		initMode(emitter, arg);
+		if (!Server::getInstance().checkChannelOperator(_chanName, emitter))
+			throw NotAnOperatorException(emitter);
 		if (_flags.size() > 0)
 			modeParam(emitter);
 	}

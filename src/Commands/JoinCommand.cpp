@@ -27,6 +27,14 @@ void	isValidChannel(Client client, std::string channelName)
 		throw InvalidChannelException(client);
 }
 
+void	invitedChannel(std::string chanName, Client client)
+{
+	if (Server::getInstance().checkChannelMode(chanName, i, true))
+	{
+		if (!Server::getInstance().isInvitedInChannel(client, chanName))
+			throw InviteOnlyException(client);
+	}
+}
 
 void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 {
@@ -43,6 +51,7 @@ void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 				{
 					if (Server::getInstance().isInChannel(emitter, chanName))
 						throw AlreadyInChannelException(emitter);
+					invitedChannel(chanName, emitter);
 					Server::getInstance().addChannelMember(emitter, chanName);
 				}
 				else
