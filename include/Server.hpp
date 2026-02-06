@@ -72,6 +72,7 @@ class Server
 		void					kickChannelMember(Client & client, Client &kicked, std::string chanName);
 		bool					findChannel(std::string chanName);
 		void 					sendMessageToChannel(Client & client, std::string & chanName, const char *msg);
+		void 					sendJoinMessage(Client & client, std::string & chanName);
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);

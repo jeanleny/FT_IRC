@@ -14,6 +14,11 @@ const std::string Channel::getName()
 	return (_name);
 }
 
+const std::string	Channel::getList()
+{
+	return (_list);
+}
+
 size_t Channel::getMemberNb()
 {
 	return (_memberNb);
@@ -30,6 +35,8 @@ void	Channel::addMember(Client &client)
 		throw ChannelLimitExcedeedException();
 	_memberList.push_back(client);
 	_memberNb++;
+	_list += " ";
+	_list += client.getNickname();
 }
 
 void	Channel::kickMember(Client &client)

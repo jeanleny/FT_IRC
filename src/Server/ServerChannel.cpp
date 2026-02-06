@@ -80,6 +80,7 @@ void	Server::addChannelMember(Client &client, std::string chanName)
 	ssize_t id = getChannelByName(chanName);
 	
 	_channels[id].addMember(client);
+	sendJoinMessage(client, chanName);
 }
 
 void	Server::kickChannelMember(Client & client, Client &kicked, std::string chanName)
@@ -96,17 +97,13 @@ void	Server::kickChannelMember(Client & client, Client &kicked, std::string chan
 void	Server::createChannel(Client & emitter, std::string chanName)
 {
 	Channel	obj(chanName);
-	std::string msg = ":" + emitter.getNickname() + "!" + emitter.getUsername() + "@" + getHostname() + " JOIN " + chanName + "\r\n";
-	std::string msg2 = ":" + getHostname() + " 332 " + emitter.getNickname() +" " + chanName + " :topic\r\n";
-	std::string msg3 = ":" + getHostname() + " 353 " + emitter.getNickname() +" = " + chanName + " :" + "@" + emitter.getNickname() + "\r\n";
-	std::string msg4 = ":" + getHostname() + " 366 " + emitter.getNickname() +" " + chanName + " :End of /NAMES list\r\n";
+	ssize_t id;
 
 	_channels.push_back(obj);
-	_channels[_channels.size() - 1].addOperator(emitter);
-	send(emitter.getClientFd(), msg.c_str(), msg.size(), 0);
-	send(emitter.getClientFd(), msg2.c_str(), msg2.size(), 0);
-	send(emitter.getClientFd(), msg3.c_str(), msg3.size(), 0);
-	send(emitter.getClientFd(), msg4.c_str(), msg4.size(), 0);
+	id = getChannelByName(chanName);
+	_channels[id].addMember(emitter);
+	_channels[id].addOperator(emitter);
+	sendJoinMessage(emitter, chanName);
 }
 
 void	Server::sendMessageToChannel(Client & client, std::string & chanName, const char *msg)
@@ -124,4 +121,19 @@ void	Server::sendMessageToChannel(Client & client, std::string & chanName, const
 			continue ;
 		send(clientFd, msg, len, 0);
 	}
+}
+
+void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
+{
+	size_t 				index = getChannelByName(chanName);
+	
+	std::string msg = ":" + emitter.getNickname() + "!" + emitter.getUsername() + "@" + getHostname() + " JOIN " + chanName + "\r\n";
+	std::string msg2 = ":" + getHostname() + " 332 " + emitter.getNickname() +" " + chanName + " :topic\r\n";
+	std::string msg3 = ":" + getHostname() + " 353 " + emitter.getNickname() +" = " + chanName + " :" + _channels[index].getList() + "\r\n";
+	std::string msg4 = ":" + getHostname() + " 366 " + emitter.getNickname() +" " + chanName + " :End of /NAMES list\r\n";
+
+	send(emitter.getClientFd(), msg.c_str(), msg.size(), 0);
+	send(emitter.getClientFd(), msg2.c_str(), msg2.size(), 0);
+	send(emitter.getClientFd(), msg3.c_str(), msg3.size(), 0);
+	send(emitter.getClientFd(), msg4.c_str(), msg4.size(), 0);
 }

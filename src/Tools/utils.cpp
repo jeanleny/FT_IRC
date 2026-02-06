@@ -66,10 +66,10 @@ void	eraseTrailingSpaces(std::string &str)
 }
 void	displayCommand(Client & client)
 {
-	std::cout << client.getCommandId() << " | ";
+	std::cout << "cmd id : " << client.getCommandId() << " | ";
 	for (size_t i = 0; i < client.getCommandArgs().size(); i++)
 	{
-		std::cout << client.getCommandArgs()[i] << " ";
+		std::cout << "cmd arg" << client.getCommandArgs()[i] << " ";
 		std::cout << "|" << std::endl; 
 	}
 	std::cout << std::endl;
