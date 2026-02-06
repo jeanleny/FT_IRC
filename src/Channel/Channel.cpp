@@ -129,6 +129,11 @@ bool	Channel::checkOperator(Client client)
 	return (false);
 }
 
+bool	Channel::checkKey(std::string key)
+{
+	return (key == _keyword);
+}
+
 void	Channel::addOperator(Client target)
 {
 	_operators.push_back(target.getClientFd());

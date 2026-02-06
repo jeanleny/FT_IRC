@@ -128,8 +128,8 @@ bool	ModeCommand::manageKeyMode()
 	}
 	if (_paramArg.size() > 0)
 	{
-		addSendArgs();
 		Server::getInstance().changeChannelKey(_chanName, _paramArg[_id]);
+		addSendArgs();
 		return (true);
 	}
 	return (false);

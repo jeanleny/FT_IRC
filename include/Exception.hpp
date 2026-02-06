@@ -284,4 +284,17 @@ class InviteOnlyException : public std::exception //473
 		std::string	_msg;
 };
 
+class IncorrectKeyException : public std::exception //473
+{
+	public :
+
+		IncorrectKeyException(Client & client);
+		virtual ~IncorrectKeyException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
 #endif
