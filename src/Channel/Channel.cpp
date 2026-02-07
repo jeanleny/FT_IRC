@@ -1,7 +1,7 @@
 #include <Channel.hpp>
 #include <Server.hpp>
 
-Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10), _topic("No topic is set")
+Channel::Channel(std::string name) : _name(name), _topic("No topic is set"), _memberNb(0), _memberLimit(10)
 {
 	for (size_t i = 0; i < MODE_NB ; i++)
 		_mode[i] = false;
@@ -77,14 +77,15 @@ void	Channel::displayTopic(Client &client)
 	std::string	msg;
 	if (_topic == "No topic is set")
 	{
-		std::string msg = ":" + Server::getInstance().getHostname() + " 331 " + client.getNickname() + " " + _name 
+		msg = ":" + Server::getInstance().getHostname() + " 331 " + client.getNickname() + " " + _name 
         	+ " :" + _topic + "\r\n";
 	}
 	else
 	{
-		std::string msg = ":" + Server::getInstance().getHostname() + " 332 " + client.getNickname() + " " + _name 
+		msg = ":" + Server::getInstance().getHostname() + " 332 " + client.getNickname() + " " + _name 
         	+ " :" + _topic + "\r\n";
 	}
+	std::cout << msg << std::endl;
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
