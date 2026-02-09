@@ -71,6 +71,8 @@ void	Channel::removeMember(Client &client)
 	_memberNb -= 1;
 	if (isInvited(client.getClientFd()))
 		removeInvitedMember(client);
+	if (checkOperator(client))
+		rmOperator(client);
 }
 
 bool	Channel::isChannelMember(int fd)
