@@ -110,16 +110,24 @@ Client	Server::getClientByNickname(std::string nickname) const
 	return null;
 }
 
-void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
+void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 {	
 	if (bytes < 0)
 		throw RecvFailedException();
 	std::cout << "User disconnected from the server" << std::endl;
 	epoll_ctl(_epollFd, EPOLL_CTL_DEL, eventFd, &_userEvents);
-	removeIndex = findClient(eventFd);
-	if (removeIndex < 0)
+	rmIndex = findClient(eventFd);
+	if (rmIndex < 0)
 		return ;
-	_clients.erase(_clients.begin() + removeIndex);
+
+	std::string	chanName;
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		chanName = _channels[i].getName();
+		if (isInChannel(_clients[rmIndex], chanName))
+			removeChannelMember(_clients[rmIndex], chanName);
+	}
+	_clients.erase(_clients.begin() + rmIndex);
 }
 
 void	Server::serverRegistration(Client & client)
