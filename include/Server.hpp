@@ -14,6 +14,7 @@
 #include <KickCommand.hpp>
 #include <TopicCommand.hpp>
 #include <InviteCommand.hpp>
+#include <PartCommand.hpp>
 #include <ServerUtils.h>
 #include <Signals.hpp>
 #include <utils.h>
@@ -32,7 +33,7 @@
 
 
 #define MAX_EVENTS 10
-#define NB_CMD 9
+#define NB_CMD 10
 #define ERROR -1
 
 extern volatile sig_atomic_t   g_exit;

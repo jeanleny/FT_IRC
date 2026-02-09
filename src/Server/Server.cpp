@@ -34,6 +34,7 @@ void	Server::initICommands()
 	_iCommands[6] = new ModeCommand();
 	_iCommands[7] = new JoinCommand();
 	_iCommands[8] = new InviteCommand();
+	_iCommands[9] = new PartCommand();
 }
 
 
@@ -182,7 +183,7 @@ void	Server::manageCommand(int recvBytes, Client & client)
 
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
-	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"};
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (id == array[i])
