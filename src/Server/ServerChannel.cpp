@@ -93,6 +93,21 @@ void	Server::addChannelMember(Client &client, std::string chanName)
 	sendJoinMessage(client, chanName);
 }
 
+void	Server::removeChannelMember(Client &client, std::string chanName)
+{
+	ssize_t id = getChannelByName(chanName);
+	
+	std::string	msg = ":" + client.getNickname() + "!" + client.getUsername() + "@" + getHostname() 
+		+ " PART " + chanName + "\r\n";
+	sendMessageToChannel(client, chanName, msg.c_str());
+
+	_channels[id].removeMember(client);
+	if (_channels[id].getMemberNb() == 0)
+		_channels.erase(_channels.begin() + id);
+
+}
+
+
 void	Server::kickChannelMember(Client & client, Client &kicked, std::string chanName)
 {
 	ssize_t id = getChannelByName(chanName);
@@ -101,7 +116,7 @@ void	Server::kickChannelMember(Client & client, Client &kicked, std::string chan
 	+ " KICK " + chanName + " " + kicked.getNickname() + " :" + client.getNickname() + "\r\n";
 	sendMessageToChannel(client, chanName, msg.c_str());
 	
-	_channels[id].kickMember(kicked);
+	_channels[id].removeMember(kicked);
 }
 
 void	Server::inviteChannelMember(Client & client, Client &invited, std::string chanName)
@@ -159,3 +174,4 @@ void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
 	send(emitter.getClientFd(), msg3.c_str(), msg3.size(), 0);
 	send(emitter.getClientFd(), msg4.c_str(), msg4.size(), 0);
 }
+

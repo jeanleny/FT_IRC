@@ -71,6 +71,7 @@ class Server
 		bool					existChannel(std::string name);
 		void					createChannel(Client &emitter, std::string chanName);
 		void					addChannelMember(Client &client, std::string chanName);
+		void					removeChannelMember(Client &client, std::string chanName);
 		void					kickChannelMember(Client & client, Client &kicked, std::string chanName);
 		void					inviteChannelMember(Client & client, Client &kicked, std::string chanName);
 		bool					findChannel(std::string chanName);
@@ -79,7 +80,6 @@ class Server
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);
-		void					sendKickMessage(Client & client);
 		void					displayChannelMode(Client emitter, std::string arg);
 		void					changeChannelMode(std::string chanName, size_t mode, bool disable);
 		void					changeChannelKey(std::string chanName, std::string key);

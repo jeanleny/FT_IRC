@@ -1,4 +1,5 @@
 #pragma once
+
 #include <ICommand.hpp>
 #include <Exception.hpp>
 #include <Server.hpp>

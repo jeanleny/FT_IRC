@@ -12,7 +12,7 @@ ModeCommand::~ModeCommand()
 
 void	sendModeError(Client client, char arg)
 {
-	std::string msg = ":" + Server::getInstance().getHostname() + " 472 " + client.getNickname() + arg + ":is not a recognised channel mode.\r\n";
+	std::string msg = ":" + Server::getInstance().getHostname() + " 472 " + client.getNickname() + " " + arg + ":is not a recognised channel mode.\r\n";
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 

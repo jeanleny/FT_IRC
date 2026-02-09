@@ -25,6 +25,7 @@ typedef enum commandId
 	MODE,
 	JOIN,
 	INVITE,
+	PART,
 	UNKNOWN
 } e_commandId;
 
