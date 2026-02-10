@@ -33,7 +33,7 @@ void	Channel::addMember(Client &client)
 {
 	if (checkMode(l, true))
 	{
-		if (_memberNb == _memberLimit || _memberNb > _memberLimit)
+		if (_memberNb >= _memberLimit)
 			throw ChannelLimitExcedeedException(client);
 	}
 	_memberList.push_back(client);
