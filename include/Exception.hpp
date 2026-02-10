@@ -284,7 +284,7 @@ class InviteOnlyException : public std::exception //473
 		std::string	_msg;
 };
 
-class IncorrectKeyException : public std::exception //473
+class IncorrectKeyException : public std::exception //475
 {
 	public :
 
