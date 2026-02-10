@@ -28,16 +28,14 @@ const char *RecvFailedException::what() const throw()
 
 CustomErrorException::CustomErrorException(Client & client)
 {
-	if (client.getRegisterStatus() == PASS_STATUS)
-        _msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + ":Please enter password (PASS command)\r\n";
+	if (client.getCommandId() == USER && client.getRegisterStatus() == USER_STATUS)
+		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Erroneus Username\r\n";
+	else if (client.getRegisterStatus() == PASS_STATUS)
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + ":Please enter password (PASS command)\r\n";
 	else if (client.getRegisterStatus() == USER_STATUS)
-        _msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + ":Please enter a username (USER command)\r\n";
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + ":Please enter a username (USER command)\r\n";
     else if (client.getRegisterStatus() == NICK_STATUS)
-        _msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + ":Please enter a nickname (NICK Command)\r\n";
-	else if (client.getCommandId() == PASS)
-		_msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + client.getCommandArgs()[0] + " :Invalid Password\r\n";
-	else if (client.getCommandId() == USER)
-		_msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + client.getCommandArgs()[0] + " :Erroneus Username\r\n";
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + ":Please enter a nickname (NICK Command)\r\n";
 	else
 		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Too many parameters\r\n";
 }
@@ -112,6 +110,15 @@ NotEnoughParametersException::NotEnoughParametersException(Client & client)
 AlreadyRegisteredException::AlreadyRegisteredException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 462 " + client.getNickname() + " :Already Registered\r\n";
+}
+
+// 464 ERR_PASSWDMISMATCH
+// :irc.example.com 464 chris :Password Incorrect
+
+PasswordMismatchException::PasswordMismatchException(Client & client)
+{
+	(void) client;
+	_msg = ":" + Server::getInstance().getHostname() + " 464 " + client.getNickname() + " :Incorrect Password\r\n";
 }
 
 ChannelLimitExcedeedException::ChannelLimitExcedeedException(Client & client)

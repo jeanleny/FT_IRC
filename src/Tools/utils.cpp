@@ -13,7 +13,7 @@ std::vector<std::string> split(const std::string & str)
 			i++;
 		if (str[i] == ':')
 		{
-			start = i;
+			start = i + 1;
 			end = str.size();
 			split.push_back(str.substr(start, end - start));
 			return split;
@@ -27,7 +27,6 @@ std::vector<std::string> split(const std::string & str)
 			split.push_back(str.substr(start, end - start));
 		}
 	}
-	
 	return split;
 }
 
