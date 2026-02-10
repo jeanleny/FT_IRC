@@ -85,7 +85,6 @@ void	Channel::displayTopic(Client &client)
 		msg = ":" + Server::getInstance().getHostname() + " 332 " + client.getNickname() + " " + _name 
         	+ " :" + _topic + "\r\n";
 	}
-	std::cout << msg << std::endl;
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
 
