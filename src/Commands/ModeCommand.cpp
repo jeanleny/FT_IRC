@@ -203,7 +203,7 @@ void	ModeCommand::sendModeMessage(Client client)
 		msg += " " + _sendArgs + "\r\n";
 	else
 		msg += "\r\n";
-	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+	Server::getInstance().sendMessageToChannel(client, _chanName, msg.c_str());
 }
 
 void	ModeCommand::modeParam(Client client)
