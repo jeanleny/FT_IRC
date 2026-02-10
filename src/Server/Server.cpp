@@ -84,6 +84,7 @@ void	Server::addClient()
 	emitterFd = accept(_servFd, (struct sockaddr *)&emitter, &addrSize);
 	Client	obj(emitterFd);
 	_clients.push_back(obj);
+	_clientsFds.push_back(emitterFd);
 	_userEvents.events = EPOLLIN;
 	_userEvents.data.fd = emitterFd;
 	epoll_ctl(_epollFd, EPOLL_CTL_ADD, emitterFd, &_userEvents);
@@ -126,6 +127,7 @@ void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 		if (isInChannel(_clients[rmIndex], chanName))
 			removeChannelMember(_clients[rmIndex], chanName);
 	}
+	close(_clients[rmIndex].getClientFd());
 	_clients.erase(_clients.begin() + rmIndex);
 	epoll_ctl(_epollFd, EPOLL_CTL_DEL, eventFd, &_userEvents);
 }
@@ -276,6 +278,7 @@ void	Server::runningServer()
 			}
 		}
 	}
+	serverClosing();
 	freeaddrinfo(_servInfo);
 }
 
