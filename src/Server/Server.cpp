@@ -138,23 +138,21 @@ void	Server::serverRegistration(Client & client)
 	size_t cmdId = client.getCommandId();
 	std::vector<std::string> cmdArgs = client.getCommandArgs();
 
-	if (!isRegisterCommand(cmdId))
-		throw RegisterQueryException();
 	switch (status)
 	{
 		case PASS_STATUS :
 			if (cmdId != PASS)
-				throw PasswordQueryException();
+				throw CustomErrorException(client);
 			_iCommands[PASS]->execCmd(client, cmdArgs);
 			break ;
 		case USER_STATUS :
 			if (cmdId != USER)
-				throw UsernameQueryException();
+				throw CustomErrorException(client);
 			_iCommands[USER]->execCmd(client, cmdArgs);
 			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
-				throw NicknameQueryException();
+				throw CustomErrorException(client);
 			_iCommands[NICK]->execCmd(client, cmdArgs);
 			break ;
 	}
@@ -186,7 +184,9 @@ void	Server::manageCommand(int recvBytes, Client & client)
 		size_t	commandId = client.getCommandId();
 		std::vector<std::string> cmdArgs = client.getCommandArgs();
 		if (commandId == UNKNOWN)
-			throw WrongCommandException();
+		{
+			throw UnknownCommandException(client);
+		}
 		_iCommands[commandId]->execCmd(client, cmdArgs);
 	}
 }
@@ -211,7 +211,7 @@ int	Server::extractCommand(char *buf, Client & client)
 	std::string	extract;
 	std::string	str = buf;
 	if (isEmptyCommand(str))
-		return (-1);
+		return (ERROR);
 	eraseTrailingSpaces(str);
 	if (isOneArg(str))
 		extractCommandId(client, str);
@@ -246,7 +246,7 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 	{
 		buf[recvBytes] = '\0';
 		if (extractCommand(buf, _clients[clientIndex]) < 0)
-			return;
+			return ;
 		try
 		{
 			manageCommand(recvBytes, _clients[clientIndex]);

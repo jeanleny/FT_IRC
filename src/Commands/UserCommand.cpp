@@ -19,19 +19,17 @@ bool     UserCommand::validUsername(const std::string & username) const
 void    UserCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
     if (client.getRegisterStatus() == PASS_STATUS)
-        throw PasswordQueryException();
+        throw CustomErrorException(client);
     if (client.getRegisterStatus() == NICK_STATUS)
-        throw NicknameQueryException();
+        throw CustomErrorException(client);
     if (client.getRegisterStatus() == REGISTERED)
-        throw AlreadyRegisteredException();
+        throw AlreadyRegisteredException(client);
     if (args.size() == 0)
-        throw MissingArgumentsException();
-    if (args.size() > 1)
-        throw WrongCommandException();
+        throw NotEnoughParametersException(client);
 
     const std::string username = args[0];
     if (!validUsername(username))
-        throw ErroneusUsernameException();
+        throw CustomErrorException(client);
     client.setUsername(username);
     client.setRegisterStatus(NICK_STATUS);
 }
