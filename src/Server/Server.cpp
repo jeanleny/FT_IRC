@@ -111,6 +111,20 @@ Client	Server::getClientByNickname(std::string nickname) const
 	return null;
 }
 
+void	Server::clearWrongEvent(size_t rmIndex)
+{
+	std::string	chanName;
+
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		chanName = _channels[i].getName();
+		_clients[rmIndex].setCommandId(PRIVMSG);
+		if (isInChannel(_clients[rmIndex], chanName))
+			removeChannelMember(_clients[rmIndex], chanName);
+	}
+}
+
+
 void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 {	
 	if (bytes < 0)
@@ -119,14 +133,7 @@ void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 	rmIndex = findClient(eventFd);
 	if (rmIndex < 0)
 		return ;
-
-	std::string	chanName;
-	for (size_t i = 0; i < _channels.size(); i++)
-	{
-		chanName = _channels[i].getName();
-		if (isInChannel(_clients[rmIndex], chanName))
-			removeChannelMember(_clients[rmIndex], chanName);
-	}
+	clearWrongEvent(rmIndex);
 	close(_clients[rmIndex].getClientFd());
 	_clients.erase(_clients.begin() + rmIndex);
 	epoll_ctl(_epollFd, EPOLL_CTL_DEL, eventFd, &_userEvents);
