@@ -115,7 +115,6 @@ void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 	if (bytes < 0)
 		throw RecvFailedException();
 	std::cout << "User disconnected from the server" << std::endl;
-	epoll_ctl(_epollFd, EPOLL_CTL_DEL, eventFd, &_userEvents);
 	rmIndex = findClient(eventFd);
 	if (rmIndex < 0)
 		return ;
@@ -128,6 +127,7 @@ void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 			removeChannelMember(_clients[rmIndex], chanName);
 	}
 	_clients.erase(_clients.begin() + rmIndex);
+	epoll_ctl(_epollFd, EPOLL_CTL_DEL, eventFd, &_userEvents);
 }
 
 void	Server::serverRegistration(Client & client)
@@ -237,7 +237,7 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 		}
 		catch (std::exception &e)
 		{
-			sendException(currentEvent.data.fd, e);
+			std::cout << "Wrong Event Happened" << std::endl;
 		}
 	}
 	else if (recvBytes > 0)
