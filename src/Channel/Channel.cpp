@@ -49,7 +49,6 @@ void	Channel::inviteMember(Client &client)
 	_invitedList.push_back(client.getClientFd());
 }
 
-
 void	Channel::removeInvitedMember(Client &client)
 {
 	for (size_t i = 0;  i < _invitedList.size(); i++)
@@ -58,6 +57,17 @@ void	Channel::removeInvitedMember(Client &client)
 			break ;
 	}
 	_invitedList.erase(_invitedList.begin() + i);
+}
+
+void	Channel::removeFromListString(Client & client)
+{
+	std::string	nick = client.getNickname();
+	size_t pos = _list.find(nick);
+	
+	if (pos == std::string::npos)
+		return ;
+	
+	_list.erase(pos - 1, nick.size() + 1);
 }
 
 void	Channel::removeMember(Client &client)
@@ -69,6 +79,7 @@ void	Channel::removeMember(Client &client)
 	}
 	_memberList.erase(_memberList.begin() + i);
 	_memberNb -= 1;
+	removeFromListString(client);
 	if (isInvited(client.getClientFd()))
 		removeInvitedMember(client);
 	if (checkOperator(client))

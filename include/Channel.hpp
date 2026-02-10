@@ -29,6 +29,7 @@ class	Channel
 		void				addMember(Client &client);
 		void				removeMember(Client &client);
 		void				removeInvitedMember(Client &client);
+		void				removeFromListString(Client &client);
 		void				inviteMember(Client &client);
 		bool				isInvited(int fd);
 
