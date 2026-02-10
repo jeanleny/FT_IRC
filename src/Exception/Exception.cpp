@@ -84,8 +84,16 @@ UserNotInChannelException::UserNotInChannelException(Client & client)
 
 NotInThisChannelException::NotInThisChannelException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 442 " + client.getNickname() + " " + client.getCommandArgs()[1] 
-        + " :You are not in this channel\r\n";
+	if (client.getCommandId() == PART)
+	{
+		_msg = ":" + Server::getInstance().getHostname() + " 442 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+        	+ " :You are not in this channel\r\n";
+	}
+	else
+	{
+		_msg = ":" + Server::getInstance().getHostname() + " 442 " + client.getNickname() + " " + client.getCommandArgs()[1] 
+        	+ " :You are not in this channel\r\n";
+	}
 }
 
 AlreadyInChannelException::AlreadyInChannelException(Client & client)

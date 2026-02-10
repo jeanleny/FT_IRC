@@ -49,14 +49,30 @@ void	Channel::inviteMember(Client &client)
 	_invitedList.push_back(client.getClientFd());
 }
 
-void	Channel::kickMember(Client &client)
+
+void	Channel::removeInvitedMember(Client &client)
+{
+	for (size_t i = 0;  i < _invitedList.size(); i++)
+	{
+		if(client.getClientFd() == _invitedList[i])
+			break ;
+	}
+	_invitedList.erase(_invitedList.begin() + i);
+}
+
+void	Channel::removeMember(Client &client)
 {
 	for (size_t i = 0;  i < _memberList.size(); i++)
 	{
 		if(client.getClientFd() == _memberList[i].getClientFd())
-			_memberList.erase(_memberList.begin() + i);
+			break ;
 	}
+	_memberList.erase(_memberList.begin() + i);
 	_memberNb -= 1;
+	if (isInvited(client.getClientFd()))
+		removeInvitedMember(client);
+	if (checkOperator(client))
+		rmOperator(client);
 }
 
 bool	Channel::isChannelMember(int fd)

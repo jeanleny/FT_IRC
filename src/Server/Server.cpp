@@ -34,6 +34,7 @@ void	Server::initICommands()
 	_iCommands[6] = new ModeCommand();
 	_iCommands[7] = new JoinCommand();
 	_iCommands[8] = new InviteCommand();
+	_iCommands[9] = new PartCommand();
 }
 
 
@@ -109,16 +110,24 @@ Client	Server::getClientByNickname(std::string nickname) const
 	return null;
 }
 
-void	Server::manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd)
+void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 {	
 	if (bytes < 0)
 		throw RecvFailedException();
 	std::cout << "User disconnected from the server" << std::endl;
 	epoll_ctl(_epollFd, EPOLL_CTL_DEL, eventFd, &_userEvents);
-	removeIndex = findClient(eventFd);
-	if (removeIndex < 0)
+	rmIndex = findClient(eventFd);
+	if (rmIndex < 0)
 		return ;
-	_clients.erase(_clients.begin() + removeIndex);
+
+	std::string	chanName;
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		chanName = _channels[i].getName();
+		if (isInChannel(_clients[rmIndex], chanName))
+			removeChannelMember(_clients[rmIndex], chanName);
+	}
+	_clients.erase(_clients.begin() + rmIndex);
 }
 
 void	Server::serverRegistration(Client & client)
@@ -182,7 +191,7 @@ void	Server::manageCommand(int recvBytes, Client & client)
 
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
-	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE"};
+	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"};
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (id == array[i])

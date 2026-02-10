@@ -24,6 +24,7 @@ SRC			+= src/main.cpp						\
 			   src/Commands/TopicCommand.cpp	\
 			   src/Commands/InviteCommand.cpp	\
 			   src/Commands/ModeCommand.cpp		\
+			   src/Commands/PartCommand.cpp		\
 			   src/Signals/Signals.cpp			\
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
