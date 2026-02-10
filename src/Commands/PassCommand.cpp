@@ -21,8 +21,7 @@ void    PassCommand::execCmd(Client & client, const std::vector<std::string>& ar
         throw NotEnoughParametersException(client);
 
     std::string pass = args[0];
-    if (Server::getInstance().validPassword(pass) == true)
-        client.setRegisterStatus(USER_STATUS);
-    else
-        throw CustomErrorException(client);
+    if (!Server::getInstance().validPassword(pass))
+        throw PasswordMismatchException(client);
+    client.setRegisterStatus(USER_STATUS);
 }

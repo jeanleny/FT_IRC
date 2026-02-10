@@ -144,7 +144,6 @@ void	Server::serverRegistration(Client & client)
 	int status = client.getRegisterStatus();
 	size_t cmdId = client.getCommandId();
 	std::vector<std::string> cmdArgs = client.getCommandArgs();
-
 	switch (status)
 	{
 		case PASS_STATUS :
@@ -246,8 +245,7 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 		}
 		catch (std::exception &e)
 		{
-		//	clearWrongEvent(currentEvent.data.fd);
-			std::cout << "Wrong Event Happened" << std::endl;
+			std::cerr << "Wrong Event Happened" << std::endl;
 		}
 	}
 	else if (recvBytes > 0)

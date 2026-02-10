@@ -127,6 +127,19 @@ class AlreadyInChannelException : public std::exception //443
 		std::string	_msg;
 };
 
+class PasswordMismatchException : public std::exception //443
+{
+	public :
+
+		PasswordMismatchException(Client & client);
+		virtual ~PasswordMismatchException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
+};
+
 
 //USER COMMAND
 
