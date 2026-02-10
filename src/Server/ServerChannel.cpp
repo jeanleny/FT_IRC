@@ -184,13 +184,10 @@ void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
 	size_t 				index = getChannelByName(chanName);
 	
 	std::string msg = ":" + emitter.getNickname() + "!" + emitter.getUsername() + "@" + getHostname() + " JOIN " + chanName + "\r\n";
-	std::string msg2 = ":" + getHostname() + " 332 " + emitter.getNickname() +" " + chanName + " :topic\r\n";
-	std::string msg3 = ":" + getHostname() + " 353 " + emitter.getNickname() +" = " + chanName + " :" + _channels[index].getList() + "\r\n";
-	std::string msg4 = ":" + getHostname() + " 366 " + emitter.getNickname() +" " + chanName + " :End of /NAMES list\r\n";
-
-	send(emitter.getClientFd(), msg.c_str(), msg.size(), 0);
-	send(emitter.getClientFd(), msg2.c_str(), msg2.size(), 0);
-	send(emitter.getClientFd(), msg3.c_str(), msg3.size(), 0);
-	send(emitter.getClientFd(), msg4.c_str(), msg4.size(), 0);
+	msg += ":" + getHostname() + " 332 " + emitter.getNickname() +" " + chanName + " :topic\r\n";
+	msg += ":" + getHostname() + " 353 " + emitter.getNickname() +" = " + chanName + " :" + _channels[index].getList() + "\r\n";
+	msg += ":" + getHostname() + " 366 " + emitter.getNickname() +" " + chanName + " :End of /NAMES list\r\n";
+	
+	sendMessageToChannel(emitter, chanName, msg.c_str());
 }
 

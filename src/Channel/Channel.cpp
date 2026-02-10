@@ -1,7 +1,7 @@
 #include <Channel.hpp>
 #include <Server.hpp>
 
-Channel::Channel(std::string name) : _name(name), _topic("No topic is set"), _memberNb(0), _memberLimit(10)
+Channel::Channel(std::string name) : _name(name), _topic("No topic is set"), _memberNb(0), _memberLimit(0)
 {
 	for (size_t i = 0; i < MODE_NB ; i++)
 		_mode[i] = false;
@@ -31,8 +31,11 @@ const std::vector<Client>	Channel::getMemberList()
 
 void	Channel::addMember(Client &client)
 {
-	if (_memberNb == _memberLimit)
-		throw ChannelLimitExcedeedException(client);
+	if (checkMode(l, true))
+	{
+		if (_memberNb == _memberLimit || _memberNb > _memberLimit)
+			throw ChannelLimitExcedeedException(client);
+	}
 	_memberList.push_back(client);
 	_memberNb++;
 	_list += " ";
