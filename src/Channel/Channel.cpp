@@ -32,7 +32,7 @@ const std::vector<Client>	Channel::getMemberList()
 void	Channel::addMember(Client &client)
 {
 	if (_memberNb == _memberLimit)
-		throw ChannelLimitExcedeedException();
+		throw ChannelLimitExcedeedException(client);
 	_memberList.push_back(client);
 	_memberNb++;
 	_list += " ";

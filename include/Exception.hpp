@@ -35,55 +35,32 @@ class RecvFailedException : public std::exception
 		const char * what() const throw();
 };
 
-class RegisterQueryException : public std::exception
+class AlreadyRegisteredException : public std::exception //462
 {
 	public :
-		const char * what() const throw();
+
+		AlreadyRegisteredException(Client & client);
+		virtual ~AlreadyRegisteredException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
 };
 
-class PasswordQueryException : public std::exception
+
+class UnknownCommandException : public std::exception //421
 {
 	public :
-		const char * what() const throw();
-};
 
-class UsernameQueryException : public std::exception
-{
-	public :
-		const char * what() const throw();
-};
+		UnknownCommandException(Client & client);
+		virtual ~UnknownCommandException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
 
-class NicknameQueryException : public std::exception
-{
-	public :
-		const char * what() const throw();
-};
+	private :
 
-class AlreadyRegisteredException : public std::exception
-{
-	public :
-		const char * what() const throw();
+		std::string	_msg;
 };
-
-class WrongCommandException : public std::exception
-{
-	public :
-		const char * what() const throw();
-};
-
-class UnvalidPasswordException : public std::exception
-{
-	public :
-		const char * what() const throw();
-};
-
-class MissingArgumentsException : public std::exception
-{
-	public :
-		const char * what() const throw();
-};
-
-//NICK COMMAND
 
 class ErroneusNicknameException : public std::exception //432
 {
@@ -153,10 +130,17 @@ class AlreadyInChannelException : public std::exception //443
 
 //USER COMMAND
 
-class ErroneusUsernameException : public std::exception
+class CustomErrorException : public std::exception
 {
 	public :
-		const char * what() const throw();
+
+		CustomErrorException(Client & client);
+		virtual ~CustomErrorException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+
+		std::string	_msg;
 };
 
 //PRIVMSG COMMAND
@@ -227,7 +211,7 @@ class InvalidChannelException : public std::exception //476
 		std::string	_msg;
 };
 
-class NotAnOperatorException : public std::exception //476
+class NotAnOperatorException : public std::exception //482
 {
 	public :
 
@@ -239,10 +223,16 @@ class NotAnOperatorException : public std::exception //476
 		std::string	_msg;
 };
 
-class ChannelLimitExcedeedException : public std::exception
+class ChannelLimitExcedeedException : public std::exception //471
 {
 	public :
-		const char * what() const throw();
+
+		ChannelLimitExcedeedException(Client & client);
+		virtual ~ChannelLimitExcedeedException() throw() {}
+		const char * what() const throw() {return _msg.c_str();}
+
+	private :
+		std::string	_msg;
 };
 
 class NoSuchChannelException : public std::exception //403

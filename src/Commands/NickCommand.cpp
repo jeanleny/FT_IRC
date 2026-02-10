@@ -46,13 +46,11 @@ void    defineNickname(Client & client, const std::string & nickname)
 void    NickCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
     if (client.getRegisterStatus() == PASS_STATUS)
-        throw PasswordQueryException();
+        throw CustomErrorException(client);
     if (client.getRegisterStatus() == USER_STATUS)
-        throw UsernameQueryException();
+        throw CustomErrorException(client);
     if (args.size() == 0)
-        throw MissingArgumentsException();
-    if (args.size() > 1)
-        throw WrongCommandException();
+        throw NotEnoughParametersException(client);
         
     const std::string nickname = args[0];
     if (parseNickname(nickname) == -1)
