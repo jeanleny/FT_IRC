@@ -211,7 +211,9 @@ void	ModeCommand::modeParam(Client client)
 	for (size_t i = 0; i < _flags.size(); i++)
 	{
 		_mode = selectMode(_flags[i]);
-		if (Server::getInstance().checkChannelMode(_chanName, _mode ,_disable))
+		if (_mode != l)
+			if (!Server::getInstance().checkChannelMode(_chanName, _mode ,_disable))
+				continue ;
 		{
 			if (manageParamMode(_flags[i], client))
 			{
