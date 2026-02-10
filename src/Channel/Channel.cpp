@@ -56,10 +56,14 @@ void	Channel::removeInvitedMember(Client &client)
 {
 	for (size_t i = 0;  i < _invitedList.size(); i++)
 	{
+
 		if(client.getClientFd() == _invitedList[i])
-			break ;
+		{
+			_invitedList.erase(_invitedList.begin() + i);
+			return ;
+		}
 	}
-	_invitedList.erase(_invitedList.begin() + i);
+	std::cerr << "removeInviteMember : client not found" << std::endl;
 }
 
 void	Channel::removeFromListString(Client & client)
