@@ -33,6 +33,8 @@ class	Channel
 
 		
 		void				displayMode(Client &emitter);
+		void				displayTopic(Client &client);
+		void				changeTopic(Client & client, std::string newTopic);
 		void				changeMode(size_t mode, bool disable);
 		void				changeKey(std::string key);
 		void				changeLimit(size_t limit);

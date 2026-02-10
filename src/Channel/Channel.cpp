@@ -1,7 +1,7 @@
 #include <Channel.hpp>
 #include <Server.hpp>
 
-Channel::Channel(std::string name) : _name(name), _memberNb(0), _memberLimit(10)
+Channel::Channel(std::string name) : _name(name), _topic("No topic is set"), _memberNb(0), _memberLimit(10)
 {
 	for (size_t i = 0; i < MODE_NB ; i++)
 		_mode[i] = false;
@@ -90,6 +90,34 @@ void	Channel::displayMode(Client &client)
 	}
 	std::string msg = ":" + Server::getInstance().getHostname() + " 324 " + client.getNickname() + " " +_name + modes + " \r\n";
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	Channel::displayTopic(Client &client)
+{
+	std::string	msg;
+	if (_topic == "No topic is set")
+	{
+		msg = ":" + Server::getInstance().getHostname() + " 331 " + client.getNickname() + " " + _name 
+        	+ " :" + _topic + "\r\n";
+	}
+	else
+	{
+		msg = ":" + Server::getInstance().getHostname() + " 332 " + client.getNickname() + " " + _name 
+        	+ " :" + _topic + "\r\n";
+	}
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	Channel::changeTopic(Client & client, std::string newTopic)
+{
+	if (newTopic == _topic)
+		return ;
+
+	_topic = newTopic;
+
+	std::string	msg = ":" + client.getNickname() + "!" + client.getUsername() + "@" + Server::getInstance().getHostname() 
+		+ " TOPIC " + _name + " :" + newTopic + "\r\n";;
+	Server::getInstance().sendMessageToChannel(client, _name, msg.c_str());
 }
 
 void	Channel::changeKey(std::string key)

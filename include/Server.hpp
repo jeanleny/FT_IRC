@@ -75,6 +75,8 @@ class Server
 		bool					findChannel(std::string chanName);
 		void 					sendMessageToChannel(Client & client, std::string & chanName, const char *msg);
 		void 					sendJoinMessage(Client & client, std::string & chanName);
+		void 					displayChannelTopic(Client & client, std::string chanName);
+		void					changeChannelTopic(Client & client, std::string chanName, std::string newTopic);
 
 		void					sendWelcomeMessage(Client & client);
 		void					sendNickMessage(Client & client);

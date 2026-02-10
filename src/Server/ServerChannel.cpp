@@ -145,6 +145,20 @@ void	Server::sendMessageToChannel(Client & client, std::string & chanName, const
 	}
 }
 
+void	Server::displayChannelTopic(Client & client, std::string chanName)
+{
+	int	id = getChannelByName(chanName);
+
+	_channels[id].displayTopic(client);
+}
+
+void	Server::changeChannelTopic(Client & client, std::string chanName, std::string newTopic)
+{
+	int	id = getChannelByName(chanName);
+
+	_channels[id].changeTopic(client, newTopic);
+}
+
 void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
 {
 	size_t 				index = getChannelByName(chanName);
