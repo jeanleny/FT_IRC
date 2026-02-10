@@ -158,3 +158,13 @@ NotEnoughParametersException::NotEnoughParametersException(Client & client)
 {
 	_msg = ":" + Server::getInstance().getHostname() + " 461 " + client.getNickname() + " " + client.getCmd() + " :Not enough parameters\r\n";
 }
+
+InviteOnlyException::InviteOnlyException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 473 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :This channel is on invite only mode\r\n";
+}
+
+IncorrectKeyException::IncorrectKeyException(Client & client)
+{
+	_msg = ":" + Server::getInstance().getHostname() + " 475 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Incorrect channel key\r\n";
+}

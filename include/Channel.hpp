@@ -41,6 +41,7 @@ class	Channel
 		void				changeLimit(size_t limit);
 		bool				checkMode(size_t mode, bool state);
 		bool				checkOperator(Client client);
+		bool				checkKey(std::string key);
 		void				addOperator(Client target);
 		void				rmOperator(Client target);
 

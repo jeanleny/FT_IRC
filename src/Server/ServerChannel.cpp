@@ -40,6 +40,11 @@ void	Server::rmChannelOperator(std::string chanName, Client target)
 	_channels[getChannelByName(chanName)].rmOperator(target);
 }
 
+bool	Server::checkChannelKey(std::string chanName, std::string key)
+{
+	return (_channels[getChannelByName(chanName)].checkKey(key));
+}
+
 ssize_t	Server::getChannelByName(std::string chanName)
 {
 	for(size_t i = 0; i < _channels.size(); i++)

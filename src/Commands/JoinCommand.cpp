@@ -27,31 +27,54 @@ void	isValidChannel(Client client, std::string channelName)
 		throw InvalidChannelException(client);
 }
 
+void	invitedChannel(std::string chanName, Client client)
+{
+	if (Server::getInstance().checkChannelMode(chanName, i, true))
+	{
+		if (!Server::getInstance().isInvitedInChannel(client, chanName))
+			throw InviteOnlyException(client);
+	}
+}
+
+void	keyChannel(std::string chanName, Client client, const std::vector<std::string>& arg)
+{
+	std::string key;
+
+	if (Server::getInstance().checkChannelMode(chanName, k, true))
+	{
+		if (arg.size() < 2)
+			throw IncorrectKeyException(client);
+		key = arg[1];
+		if (!Server::getInstance().checkChannelKey(chanName, key))
+		{
+			throw IncorrectKeyException(client);
+		}
+	}
+}
 
 void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 {
 	std::string chanName;
 	
-	for (size_t i = 0; i < arg.size(); i++)
+	try
 	{
-		try
+		isValidChannel(emitter, arg[0]);
+		chanName = cutChannelName(arg[0]);
 		{
-			isValidChannel(emitter, arg[i]);
-			chanName = cutChannelName(arg[i]);
+			if (Server::getInstance().existChannel(chanName))
 			{
-				if (Server::getInstance().existChannel(chanName))
-				{
-					if (Server::getInstance().isInChannel(emitter, chanName))
-						throw AlreadyInChannelException(emitter);
-					Server::getInstance().addChannelMember(emitter, chanName);
-				}
-				else
-					Server::getInstance().createChannel(emitter, chanName);
+				if (Server::getInstance().isInChannel(emitter, chanName))
+					throw AlreadyInChannelException(emitter);
+				invitedChannel(chanName, emitter);
+				keyChannel(chanName, emitter, arg);
+				Server::getInstance().addChannelMember(emitter, chanName);
 			}
+			else
+				Server::getInstance().createChannel(emitter, chanName);
 		}
-		catch(std::exception &e)
-		{
-			sendException(emitter.getClientFd(), e);
-		}
+	}
+	catch(std::exception &e)
+	{
+		sendException(emitter.getClientFd(), e);
 	}
 }
