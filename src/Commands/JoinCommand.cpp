@@ -45,7 +45,6 @@ void	keyChannel(std::string chanName, Client client, const std::vector<std::stri
 		if (arg.size() < 2)
 			throw IncorrectKeyException(client);
 		key = arg[1];
-		std::cout << "key : " << key << std::endl;
 		if (!Server::getInstance().checkChannelKey(chanName, key))
 		{
 			throw IncorrectKeyException(client);
