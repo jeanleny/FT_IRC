@@ -136,8 +136,6 @@ void	Server::serverRegistration(Client & client)
 	size_t cmdId = client.getCommandId();
 	std::vector<std::string> cmdArgs = client.getCommandArgs();
 
-	// if (!isRegisterCommand(cmdId))
-	// 	throw RegisterQueryException();
 	switch (status)
 	{
 		case PASS_STATUS :
