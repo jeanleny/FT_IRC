@@ -51,6 +51,7 @@ class Server
 		void					initServer();
 		void					initICommands();
 		void					runningServer();
+		void					serverClosing();
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
 		void					manageCommand(int recvBytes, Client & client);
@@ -98,6 +99,7 @@ class Server
 		static	Server			*_instance;
 		std::vector<Client>		_clients;
 		std::vector<Channel>	_channels;
+		std::vector<int>		_clientsFds;
 		ICommand*				_iCommands[NB_CMD];
 		struct epoll_event		_userEvents;
 		struct epoll_event		_queuedEvents[MAX_EVENTS];

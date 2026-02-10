@@ -37,3 +37,14 @@ bool	Server::isInServer(Client &client)
 	}
 	return (false);
 }
+
+void	Server::serverClosing()
+{
+	if (g_exit)
+	{
+		for (size_t i = 0; i < _clientsFds.size(); i++)
+			close(_clientsFds[i]);
+	}
+	close(_servFd);
+	close(_epollFd);
+}
