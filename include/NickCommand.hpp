@@ -16,6 +16,4 @@ class NickCommand : public ICommand
         void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 
     private:
-
-        int     parseNickname(const std::string & nickname);
 };

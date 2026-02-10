@@ -55,7 +55,8 @@ void	keyChannel(std::string chanName, Client client, const std::vector<std::stri
 void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 {
 	std::string chanName;
-	
+	if (arg.size() > 2)
+		throw CustomErrorException(emitter);
 	try
 	{
 		isValidChannel(emitter, arg[0]);

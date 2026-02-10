@@ -12,6 +12,8 @@ PartCommand::~PartCommand()
 
 void    PartCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
+    if (args.size() > 1)
+        throw CustomErrorException(client);
     if (args.size() == 0)
         throw NotEnoughParametersException(client);
 

@@ -16,6 +16,4 @@ class UserCommand : public ICommand
         void    execCmd(Client & client, const std::vector<std::string>& arg);
 
     private:
-
-        bool    validUsername(const std::string & username) const;
 };

@@ -11,6 +11,8 @@ KickCommand::~KickCommand()
 
 void    parseKickArgs(Client & client, const std::vector<std::string>& args)
 {
+    if (args.size() > 2)
+        throw CustomErrorException(client);
     if (args.size() < 2)
         throw NotEnoughParametersException(client);
 

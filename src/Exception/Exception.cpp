@@ -35,9 +35,11 @@ CustomErrorException::CustomErrorException(Client & client)
     else if (client.getRegisterStatus() == NICK_STATUS)
         _msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + ":Please enter a nickname (NICK Command)\r\n";
 	else if (client.getCommandId() == PASS)
-		_msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + client.getCommandArgs()[0] + ":Invalid Password\r\n";
+		_msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + client.getCommandArgs()[0] + " :Invalid Password\r\n";
 	else if (client.getCommandId() == USER)
-		_msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + client.getCommandArgs()[0] + ":Erroneus Username\r\n";
+		_msg = ":" + Server::getInstance().getHostname() + " 400 " + "newUser " + client.getCommandArgs()[0] + " :Erroneus Username\r\n";
+	else
+		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Too many parameters\r\n";
 }
 
 NoSuchNicknameException::NoSuchNicknameException(Client & client)

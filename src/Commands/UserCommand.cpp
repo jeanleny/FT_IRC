@@ -9,9 +9,9 @@ UserCommand::~UserCommand()
 
 }
 
-bool     UserCommand::validUsername(const std::string & username) const
+bool     validUsername(const std::vector<std::string>& args)
 {
-    if (username.size() < 1 || username.size() > 9)
+    if (args.size() > 1 || args[0].size() < 1 || args[0].size() > 9)
         return false;
     return true;
 }
@@ -27,9 +27,9 @@ void    UserCommand::execCmd(Client & client, const std::vector<std::string>& ar
     if (args.size() == 0)
         throw NotEnoughParametersException(client);
 
-    const std::string username = args[0];
-    if (!validUsername(username))
+    if (!validUsername(args))
         throw CustomErrorException(client);
+    const std::string username = args[0];
     client.setUsername(username);
     client.setRegisterStatus(NICK_STATUS);
 }

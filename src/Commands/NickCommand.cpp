@@ -21,10 +21,12 @@ NickCommand::~NickCommand()
 
 }
 
-int     NickCommand::parseNickname(const std::string & nickname)
+int     parseNickname(const std::vector<std::string>& args)
 {
-    if (nickname.size() < 1 || nickname.size() > 9)
+    if (args.size() > 1 || args[0].size() < 1 || args[0].size() > 9)
         return -1;
+
+    std::string nickname = args[0];
     if (isdigit(nickname[0]) || !isvalidNickname(nickname))
         return -1;
     return 0;
@@ -52,9 +54,9 @@ void    NickCommand::execCmd(Client & client, const std::vector<std::string>& ar
     if (args.size() == 0)
         throw NotEnoughParametersException(client);
         
-    const std::string nickname = args[0];
-    if (parseNickname(nickname) == -1)
+    if (parseNickname(args) == -1)
         throw ErroneusNicknameException(client);
+    const std::string nickname = args[0];
     if (Server::getInstance().isUsedNickname(nickname))
         throw UsedNicknameException(client);
     defineNickname(client, nickname);
