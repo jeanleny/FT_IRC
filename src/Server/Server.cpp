@@ -200,10 +200,8 @@ void	Server::manageCommand(int recvBytes, Client & client)
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
-	std::cout << "id : " << id << std::endl;
 	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"};
 	emitter.setCmd(id);
-	std::cout << "getcmd : " << emitter.getCmd() << std::endl;
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (id == array[i])

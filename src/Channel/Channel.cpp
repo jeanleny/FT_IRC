@@ -19,6 +19,11 @@ const std::string	Channel::getList()
 	return (_list);
 }
 
+const std::string	Channel::getTopic()
+{
+	return (_topic);
+}
+
 size_t Channel::getMemberNb()
 {
 	return (_memberNb);
