@@ -41,11 +41,11 @@ CustomErrorException::CustomErrorException(Client & client)
 	if (client.getCommandId() == USER && client.getRegisterStatus() == USER_STATUS)
 		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Erroneus Username\r\n";
 	else if (client.getRegisterStatus() == PASS_STATUS)
-        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + ":Please enter password (PASS command)\r\n";
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter password (PASS command)\r\n";
 	else if (client.getRegisterStatus() == USER_STATUS)
-        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + ":Please enter a username (USER command)\r\n";
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a username (USER command)\r\n";
     else if (client.getRegisterStatus() == NICK_STATUS)
-        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + ":Please enter a nickname (NICK Command)\r\n";
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a nickname (NICK Command)\r\n";
 	else
 		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Too many parameters\r\n";
 }
@@ -53,9 +53,9 @@ CustomErrorException::CustomErrorException(Client & client)
 NoSuchNicknameException::NoSuchNicknameException(Client & client)
 {
 	if (client.getCommandId() == KICK)
-	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[1] + "  :No such nickname\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[1] + " :No such nickname\r\n";
 	else
-	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :No such nickname\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :No such nickname\r\n";
 }
 
 NoSuchChannelException::NoSuchChannelException(Client & client)
@@ -65,22 +65,22 @@ NoSuchChannelException::NoSuchChannelException(Client & client)
 
 CannotSendToChannelException::CannotSendToChannelException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 404 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :Cannot send to this channel\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 404 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Cannot send to this channel\r\n";
 }
 
 NoRecipientException::NoRecipientException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 411 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :No recipient given\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 411 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :No recipient given\r\n";
 }
 
 UnknownCommandException::UnknownCommandException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 421 " + client.getNickname() + " " + client.getCmd() + "  :Unknown Command\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 421 " + client.getNickname() + " " + client.getCmd() + " :Unknown Command\r\n";
 }
 
 NoTextToSendException::NoTextToSendException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 412 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :No text to send\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 412 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :No text to send\r\n";
 }
 
 ErroneusNicknameException::ErroneusNicknameException(Client & client)
@@ -148,12 +148,12 @@ IncorrectKeyException::IncorrectKeyException(Client & client)
 
 InvalidChannelException::InvalidChannelException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 476 " + client.getNickname() + " " + client.getCommandArgs()[0] + ":Invalid channel name\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 476 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Invalid channel name\r\n";
 }
 
 NotAnOperatorException::NotAnOperatorException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 482 " + client.getNickname() + " " + client.getCommandArgs()[0] + "  :You need to be an operator\r\n";
+	_msg = ":" + Server::getInstance().getHostname() + " 482 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :You need to be an operator\r\n";
 }
 
 
