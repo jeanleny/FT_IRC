@@ -1,5 +1,15 @@
 #include <Exception.hpp>
 
+const char *WrongServPassException::what() const throw ()
+{
+	return ("The password must be less than 60 character long");
+}
+
+const char *PortFailedException::what() const throw ()
+{
+	return ("These port are not available : \n Please select a port meant for IRC (6667 - 6697)\n Or an ephemere port (49185 - 65535)");
+}
+
 const char *AddrinfoFailedException::what() const throw ()
 {
 	return ("Error : Addrinfo call failed");

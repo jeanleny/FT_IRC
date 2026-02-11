@@ -40,6 +40,8 @@ void	Server::initICommands()
 
 void	Server::initServer()
 {
+	initICommands();
+	entryParsing(_password, _servPort);
 	struct addrinfo	servParam;
 
 	memset(&servParam, 0, sizeof(servParam));
@@ -63,7 +65,6 @@ void	Server::initServer()
 		close(_servFd);
 		throw ListenFailedException();
 	}
-	initICommands();
 }
 
 void	Server::initEpoll()
