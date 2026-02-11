@@ -26,7 +26,8 @@ typedef enum commandId
 	JOIN,
 	INVITE,
 	PART,
-	UNKNOWN
+	UNKNOWN,
+	IGNORED,
 } e_commandId;
 
 class Client

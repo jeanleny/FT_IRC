@@ -108,8 +108,15 @@ NotInThisChannelException::NotInThisChannelException(Client & client)
 
 AlreadyInChannelException::AlreadyInChannelException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 443 " + client.getNickname() + " " + client.getCommandArgs()[0] 
-		+ " " +  client.getCommandArgs()[1] + " :Is already in channel\r\n";
+	if (client.getCommandId() == JOIN)
+	{
+		_msg = ":" + Server::getInstance().getHostname() + " 443 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Is already in channel\r\n";
+	}
+	else
+	{
+		_msg = ":" + Server::getInstance().getHostname() + " 443 " + client.getNickname() + " " + client.getCommandArgs()[0] 
+			+ " " +  client.getCommandArgs()[1] + " :Is already in channel\r\n";
+	}
 }
 
 NotEnoughParametersException::NotEnoughParametersException(Client & client)

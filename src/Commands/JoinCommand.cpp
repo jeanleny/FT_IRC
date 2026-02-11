@@ -23,7 +23,7 @@ std::string	cutChannelName(std::string channelName)
 
 void	isValidChannel(Client client, std::string channelName)
 {
-	if (channelName.size() > 50 || !checkPrefix(channelName))
+	if (channelName.size() > 50 || !checkPrefix(channelName) || channelName.size() < 2)
 		throw InvalidChannelException(client);
 }
 
@@ -55,8 +55,6 @@ void	keyChannel(std::string chanName, Client client, const std::vector<std::stri
 void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 {
 	std::string chanName;
-	if (arg.size() > 2)
-		throw CustomErrorException(emitter);
 	try
 	{
 		isValidChannel(emitter, arg[0]);
