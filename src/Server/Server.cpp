@@ -213,7 +213,6 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 	}
 	if (id == "WHO")
 	{
-		std::cout << "id : WHO" << std::endl;
 		emitter.setCommandId(IGNORED);
 		return ;
 	}
@@ -237,10 +236,7 @@ int	Server::extractCommand(char *buf, Client & client)
 		client.setCommandArgs(splitArgs);
 	}
 	if (client.getCommandId() == IGNORED)
-	{
-		std::cout << "id : IGNORED" << std::endl;
 		return (ERROR);
-	}
 	return (1);
 }
 
