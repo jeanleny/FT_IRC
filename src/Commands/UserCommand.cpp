@@ -11,7 +11,7 @@ UserCommand::~UserCommand()
 
 bool     validUsername(const std::vector<std::string>& args)
 {
-    if (args.size() > 1 || args[0].size() < 1 || args[0].size() > 9)
+    if (args[0].size() < 1 || args[0].size() > 9)
         return false;
     return true;
 }
