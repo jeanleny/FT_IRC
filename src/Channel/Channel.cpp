@@ -82,15 +82,17 @@ void	Channel::removeMember(Client &client)
 	for (size_t i = 0;  i < _memberList.size(); i++)
 	{
 		if(client.getClientFd() == _memberList[i].getClientFd())
-			break ;
+		{
+			_memberList.erase(_memberList.begin() + i);
+			_memberNb -= 1;
+			removeFromListString(client);
+			if (isInvited(client.getClientFd()))
+				removeInvitedMember(client);
+			if (checkOperator(client))
+				rmOperator(client);
+			return ;
+		}
 	}
-	_memberList.erase(_memberList.begin() + i);
-	_memberNb -= 1;
-	removeFromListString(client);
-	if (isInvited(client.getClientFd()))
-		removeInvitedMember(client);
-	if (checkOperator(client))
-		rmOperator(client);
 }
 
 bool	Channel::isChannelMember(int fd)
