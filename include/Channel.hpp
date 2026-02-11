@@ -38,6 +38,7 @@ class	Channel
 		void				displayMode(Client &emitter);
 		void				displayTopic(Client &client);
 		void				changeTopic(Client & client, std::string newTopic);
+		void				changeNickList(Client client);
 		void				changeMode(size_t mode, bool disable);
 		void				changeKey(std::string key);
 		void				changeLimit(size_t limit);
@@ -45,6 +46,7 @@ class	Channel
 		bool				checkOperator(Client client);
 		bool				checkKey(std::string key);
 		void				addOperator(Client target);
+		void				addOpSign(Client target);
 		void				rmOperator(Client target);
 
 	private :

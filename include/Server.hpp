@@ -88,6 +88,7 @@ class Server
 		void					changeChannelMode(std::string chanName, size_t mode, bool disable);
 		void					changeChannelKey(std::string chanName, std::string key);
 		void					changeChannelLimit(std::string chanName, size_t limit);
+		void					changeChannelNickList(Client client);
 		bool					checkChannelMode(std::string chanName, size_t mode, bool state);
 		bool					checkChannelOperator(std::string chanName, Client client);
 		bool					checkChannelKey(std::string chanName, std::string key);
