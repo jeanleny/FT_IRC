@@ -66,10 +66,11 @@ bool	paramFlag(char flag)
 
 void	ModeCommand::addFlags(Client emitter, std::string arg)
 {
-	for (size_t i = 0; i < arg.size(); i++)
-	{
-		if (isAddSub(arg[i], _disable))
+	size_t i = 0;
+	if (isAddSub(arg[i], _disable))
 			i++;
+	for (i = 0; i < arg.size(); i++)
+	{
 		if (!validModeFlag(arg[i]))
 		{
 			sendModeError(emitter, arg[i]);
