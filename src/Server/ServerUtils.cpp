@@ -1,5 +1,16 @@
 #include "ServerUtils.h"
 
+bool	entryParsing(std::string password, std::string portEntry)
+{
+	size_t port = atoi(portEntry.c_str());
+	if (password.size() > 60)
+		throw WrongServPassException();
+	if ((port >= 6667 && port <= 6697) || (port >= 49185 && port <= 65535))
+		return (true);
+	throw PortFailedException();
+	return (false);
+}
+
 bool	isRegisterCommand(ssize_t cmdId)
 {
 	if (cmdId == USER || cmdId == NICK || cmdId == PASS)

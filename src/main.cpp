@@ -5,6 +5,7 @@ int main(int argc, char **argv)
 	if (argc == 3)
 	{
 		Server	servInstance(argv[1], argv[2]);
+
 		try 
 		{
 			servInstance.initServer();
@@ -12,6 +13,7 @@ int main(int argc, char **argv)
 		catch (std::exception &e)
 		{
 			std::cerr << e.what() << std::endl;
+			return (0);
 		}
 		servInstance.runningServer();
 	}

@@ -5,6 +5,18 @@
 #include "Client.hpp"
 #include "Server.hpp"
 
+class WrongServPassException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
+class PortFailedException : public std::exception
+{
+	public :
+		const char * what() const throw();
+};
+
 class AddrinfoFailedException : public std::exception
 {
 	public :

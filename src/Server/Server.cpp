@@ -40,6 +40,8 @@ void	Server::initICommands()
 
 void	Server::initServer()
 {
+	initICommands();
+	entryParsing(_password, _servPort);
 	struct addrinfo	servParam;
 
 	memset(&servParam, 0, sizeof(servParam));
@@ -63,7 +65,6 @@ void	Server::initServer()
 		close(_servFd);
 		throw ListenFailedException();
 	}
-	initICommands();
 }
 
 void	Server::initEpoll()
@@ -199,6 +200,7 @@ void	Server::manageCommand(int recvBytes, Client & client)
 
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
+	std::cout << "string id :" << id << "|" << std::endl;
 	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"};
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
