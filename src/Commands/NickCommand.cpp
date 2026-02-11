@@ -23,7 +23,7 @@ NickCommand::~NickCommand()
 
 int     parseNickname(const std::vector<std::string>& args)
 {
-    if (args.size() > 1 || args[0].size() < 1 || args[0].size() > 9)
+    if (args[0].size() < 1 || args[0].size() > 9)
         return -1;
 
     std::string nickname = args[0];
