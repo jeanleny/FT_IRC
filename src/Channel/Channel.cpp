@@ -203,8 +203,17 @@ bool	Channel::checkKey(std::string key)
 	return (key == _keyword);
 }
 
+void	Channel::addOpSign(Client target)
+{
+	std::string nick = target.getNickname();
+	size_t pos = _list.find(nick);
+	
+	_list.insert(pos, "@");
+}
+
 void	Channel::addOperator(Client target)
 {
+	addOpSign(target);
 	_operators.push_back(target.getClientFd());
 }
 
@@ -213,4 +222,21 @@ void	Channel::rmOperator(Client target)
 	int fd = target.getClientFd();
 	std::vector<int>::iterator pos = find(_operators.begin(), _operators.end(), fd);
 	_operators.erase(pos);
+}
+
+void	Channel::changeNickList(Client client)
+{
+	std::string nick = client.getNickname();
+	std::string oldNick = client.getOldNickname();
+	size_t pos = _list.find(oldNick);
+
+	if (pos != std::string::npos)
+	{
+		_list.replace(pos, oldNick.length(), nick);
+	}
+	else
+	{
+		_list.erase(pos, oldNick.size());
+		_list.insert(0, nick);
+	}
 }

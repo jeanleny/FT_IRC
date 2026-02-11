@@ -192,3 +192,11 @@ void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
 	sendMessageToChannel(emitter, chanName, msg.c_str());
 }
 
+void	Server::changeChannelNickList(Client client)
+{
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		if (isInChannel(client, _channels[i].getName()))
+			_channels[i].changeNickList(client);
+	}
+}
