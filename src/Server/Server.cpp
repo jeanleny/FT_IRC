@@ -40,9 +40,9 @@ void	Server::initICommands()
 
 void	Server::initServer()
 {
+	struct addrinfo	servParam;
 	initICommands();
 	entryParsing(_password, _servPort);
-	struct addrinfo	servParam;
 
 	memset(&servParam, 0, sizeof(servParam));
 	servParam.ai_family = AF_UNSPEC;
@@ -57,11 +57,13 @@ void	Server::initServer()
 	setsockopt(_servFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	if (bind(_servFd, _servInfo->ai_addr, _servInfo->ai_addrlen) == -1)
 	{
+		freeaddrinfo(_servInfo);
 		close(_servFd);
 		throw BindFailedException();
 	}
 	if (listen(_servFd, 10) == -1)
 	{
+		freeaddrinfo(_servInfo);
 		close(_servFd);
 		throw ListenFailedException();
 	}
