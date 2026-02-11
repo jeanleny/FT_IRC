@@ -40,9 +40,6 @@ class Client
 		std::string					_oldNickname;
 		std::string					_username;
 		std::string					_cmd;
-		//ssize_t						_cmdId;
-		//struct	sockaddr_storage	_clientAddr;
-		//socklen_t					_clientAddrSize;
 	
 	public :
 		int							getClientFd() const;

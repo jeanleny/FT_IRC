@@ -199,13 +199,14 @@ void	Server::manageCommand(int recvBytes, Client & client)
 
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
+	uppercaseStr(id);
 	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"};
+	emitter.setCmd(id);
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
 		if (id == array[i])
 		{
 			emitter.setCommandId(i);
-			emitter.setCmd(array[i]);
 			return ;
 		}
 	}
@@ -224,7 +225,6 @@ int	Server::extractCommand(char *buf, Client & client)
 	else
 	{
 		std::vector<std::string>	splitArgs = split(str);
-		uppercaseStr(splitArgs[0]);
 		extractCommandId(client, splitArgs[0]);
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);

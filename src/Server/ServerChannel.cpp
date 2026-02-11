@@ -182,9 +182,10 @@ void	Server::changeChannelTopic(Client & client, std::string chanName, std::stri
 void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
 {
 	size_t 				index = getChannelByName(chanName);
+	std::string			topic = _channels[index].getTopic();
 	
 	std::string msg = ":" + emitter.getNickname() + "!" + emitter.getUsername() + "@" + getHostname() + " JOIN " + chanName + "\r\n";
-	msg += ":" + getHostname() + " 332 " + emitter.getNickname() +" " + chanName + " :topic\r\n";
+	msg += ":" + getHostname() + " 332 " + emitter.getNickname() +" " + chanName + " :" + topic + "\r\n";
 	msg += ":" + getHostname() + " 353 " + emitter.getNickname() +" = " + chanName + " :" + _channels[index].getList() + "\r\n";
 	msg += ":" + getHostname() + " 366 " + emitter.getNickname() +" " + chanName + " :End of /NAMES list\r\n";
 	
