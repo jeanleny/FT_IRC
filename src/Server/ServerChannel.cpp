@@ -159,7 +159,7 @@ void	Server::sendMessageToChannel(Client & client, std::string & chanName, const
 	for (size_t i = 0; i < memberList.size(); i++)
 	{
 		clientFd = memberList[i].getClientFd();
-		if (clientFd == client.getClientFd() && client.getCommandId() == PRIVMSG)
+		if (clientFd == client.getClientFd() && (client.getCommandId() == PRIVMSG || client.getCommandId() == NICK))
 			continue ;
 		send(clientFd, msg, len, 0);
 	}
