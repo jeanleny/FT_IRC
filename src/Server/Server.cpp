@@ -213,7 +213,7 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 			return ;
 		}
 	}
-	if (id == "WHO")
+	if (id == "WHO" || id == "CAP")
 	{
 		emitter.setCommandId(IGNORED);
 		return ;
@@ -223,10 +223,12 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 
 int	Server::extractCommand(char *buf, Client & client)
 {
+	if (client.storeInBuf(buf) < 0)
+		return ERROR;
 	std::string	extract;
-	std::string	str = buf;
+	std::string	str = client.getBuf();
 	if (isEmptyCommand(str))
-		return (ERROR);
+		return ERROR;
 	eraseTrailingSpaces(str);
 	if (isOneArg(str))
 		extractCommandId(client, str);
@@ -238,8 +240,8 @@ int	Server::extractCommand(char *buf, Client & client)
 		client.setCommandArgs(splitArgs);
 	}
 	if (client.getCommandId() == IGNORED)
-		return (ERROR);
-	return (1);
+		return ERROR;
+	return 1;
 }
 
 void	Server::manageEvents(struct epoll_event &currentEvent)

@@ -118,6 +118,22 @@ void	uppercaseStr(std::string &str)
 	}
 }
 
+bool	isCtrlD(char *buf)
+{
+	int i = 0;
+	while (buf[i])
+	{
+		if (buf[i + 1] != '\0')
+		{
+			if (buf[i] == '\r' && buf[i + 1] == '\n')
+			return (false);
+		}
+		i++;
+	}
+	return (true);
+}
+
+
 
 //-----------------------DEBUG
 
