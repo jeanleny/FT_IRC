@@ -1,4 +1,5 @@
 #include <Client.hpp>
+#include <utils.h>
 
 int	Client::getClientFd() const
 {
@@ -33,6 +34,13 @@ size_t Client::getCommandId() const
 std::string Client::getCmd() const
 {
 	return(_cmd);
+}
+
+std::string	Client::getBuf() const
+{
+	std::string str = _buf;
+	std::memset((char *)_buf, 0, sizeof(_buf));
+	return(str);
 }
 
 std::vector<std::string>	Client::getCommandArgs() const
@@ -77,9 +85,24 @@ void	Client::clearCommandArgs()
 	_commandArgs.clear();
 }
 
+int	Client::storeInBuf(char *buf)
+{
+	int i = 0;
+	int j = strlen(_buf);
+	while (buf[i] && j < 1024)
+	{
+		_buf[j] = buf[i];
+		i++;
+		j++;
+	}
+	if (isCtrlD(buf))
+		return -1;
+	return 0;
+}
+
 Client::Client(int fd) : _clientFd(fd), _registerStatus(PASS_STATUS), _nickname("*"), _oldNickname("*")
 {
-
+	std::memset(_buf, 0, sizeof(_buf));
 };
 
 Client::~Client(){};

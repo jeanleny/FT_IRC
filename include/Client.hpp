@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <string>
 #include <vector>
+#include <cstring>
 
 typedef enum registeredStatus
 {
@@ -41,15 +42,18 @@ class Client
 		std::string					_oldNickname;
 		std::string					_username;
 		std::string					_cmd;
-	
+		char						_buf[1024];
+
 	public :
 		int							getClientFd() const;
 		int							getRegisterStatus() const;
+		int							storeInBuf(char *buf);
 		size_t						getCommandId() const;
 		std::string					getNickname() const;
 		std::string					getOldNickname() const;
 		std::string					getUsername() const;
 		std::string					getCmd() const;
+		std::string					getBuf() const;
 		std::vector<std::string>	getCommandArgs() const;
 		void						setCommandId(size_t id);
 		void						setCmd(std::string);

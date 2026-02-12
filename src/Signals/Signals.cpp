@@ -20,5 +20,4 @@ void    setSigaction()
     act.sa_flags = 0;
 
     sigaction(SIGINT, &act, NULL);
-    //letsgo Ctrl-D
 }
