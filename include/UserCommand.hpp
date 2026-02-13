@@ -13,7 +13,8 @@ class UserCommand : public ICommand
         UserCommand();
         ~UserCommand();
         
-        void    execCmd(Client & client, const std::vector<std::string>& arg);
-
+        
     private:
+    
+        void    execCmd(Client & client, const std::vector<std::string>& arg);
 };

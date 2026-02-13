@@ -12,7 +12,8 @@ class TopicCommand : public ICommand
 
         TopicCommand();
         ~TopicCommand();
-        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
-
+        
     private:
+    
+        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 };

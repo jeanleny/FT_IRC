@@ -96,6 +96,7 @@ void	Server::addClient()
 	_userEvents.events = EPOLLIN;
 	_userEvents.data.fd = emitterFd;
 	epoll_ctl(_epollFd, EPOLL_CTL_ADD, emitterFd, &_userEvents);
+	sendPassQuery(obj);
 }
 
 ssize_t	Server::findClient(int clientFd)

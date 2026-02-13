@@ -1,6 +1,6 @@
-#include "ServerUtils.h"
+#include "Server.hpp"
 
-void	entryParsing(std::string password, std::string portEntry)
+void	Server::entryParsing(std::string password, std::string portEntry)
 {
 	size_t port = atoi(portEntry.c_str());
 	if (password.size() > 60)
@@ -10,7 +10,7 @@ void	entryParsing(std::string password, std::string portEntry)
 	throw PortFailedException();
 }
 
-bool	isRegisterCommand(ssize_t cmdId)
+bool	Server::isRegisterCommand(ssize_t cmdId)
 {
 	if (cmdId == USER || cmdId == NICK || cmdId == PASS)
 		return (true);
@@ -23,6 +23,25 @@ void	Server::sendWelcomeMessage(Client & client)
         + " :Welcome to the Internet Relay Network " + client.getNickname() + "!" + client.getUsername() + "@localhost\r\n";
 	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
 }
+
+void	Server::sendPassQuery(Client & client)
+{
+	std::string	msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter password (PASS command)\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	Server::sendUserQuery(Client & client)
+{
+	std::string	msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a username (USER command)\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
+void	Server::sendNickQuery(Client & client)
+{
+	std::string	msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a nickname (NICK command)\r\n";
+	send(client.getClientFd(), msg.c_str(), msg.size(), 0);
+}
+
 
 void	Server::sendNickMessage(Client & client)
 {

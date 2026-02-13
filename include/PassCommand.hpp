@@ -12,7 +12,8 @@ class PassCommand : public ICommand
 
         PassCommand();
         ~PassCommand();
-        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
-
+        
     private:
+    
+        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 };

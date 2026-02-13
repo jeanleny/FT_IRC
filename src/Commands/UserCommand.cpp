@@ -32,4 +32,5 @@ void    UserCommand::execCmd(Client & client, const std::vector<std::string>& ar
     const std::string username = args[0];
     client.setUsername(username);
     client.setRegisterStatus(NICK_STATUS);
+    Server::getInstance().sendNickQuery(client);
 }

@@ -13,7 +13,8 @@ class NickCommand : public ICommand
         NickCommand();
         ~NickCommand();
         
-        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
-
+        
     private:
+    
+        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 };

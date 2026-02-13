@@ -3,9 +3,6 @@
 
 
 std::vector<std::string>	split(const std::string & str);
-void						displayClients(std::vector<Client> _clients);
-void	                    displayCommand(Client & client);
-void	                    displayMemberList(Channel & channel);
 void						eraseTrailingSpaces(std::string &str);
 void						uppercaseStr(std::string &str);
 bool						isEmptyCommand(std::string str);
