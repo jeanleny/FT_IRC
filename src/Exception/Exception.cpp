@@ -38,9 +38,6 @@ const char *RecvFailedException::what() const throw()
 
 CustomErrorException::CustomErrorException(Client & client)
 {
-	/*
-	_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " ";
-	*/
 	if (client.getCommandId() == USER && client.getRegisterStatus() == USER_STATUS)
 		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :Erroneus Username\r\n";
 	else if (client.getRegisterStatus() == PASS_STATUS)
