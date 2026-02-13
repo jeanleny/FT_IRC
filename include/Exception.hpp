@@ -152,9 +152,6 @@ class PasswordMismatchException : public std::exception //443
 		std::string	_msg;
 };
 
-
-//USER COMMAND
-
 class CustomErrorException : public std::exception
 {
 	public :
@@ -167,8 +164,6 @@ class CustomErrorException : public std::exception
 
 		std::string	_msg;
 };
-
-//PRIVMSG COMMAND
 
 class NoRecipientException : public std::exception //411
 {

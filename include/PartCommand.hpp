@@ -13,7 +13,8 @@ class PartCommand : public ICommand
 
         PartCommand();
         ~PartCommand();
-        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
-
+        
     private:
+    
+        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 };

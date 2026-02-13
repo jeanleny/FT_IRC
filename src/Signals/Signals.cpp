@@ -1,4 +1,3 @@
-#include "Signals.hpp"
 #include "Server.hpp"
 #include <iostream>
 #include <string.h>
@@ -11,7 +10,7 @@ void    sigint_handler(int sig)
         g_exit = 1;
 }
 
-void    setSigaction()
+void    Server::setSigaction()
 {
     struct sigaction    act;
 

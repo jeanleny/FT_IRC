@@ -3,8 +3,6 @@
 #include <Exception.hpp>
 #include <Server.hpp>
 
-
-
 class InviteCommand : public ICommand
 {
     
@@ -12,7 +10,8 @@ class InviteCommand : public ICommand
 
         InviteCommand();
         ~InviteCommand();
-        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
-
+        
     private:
+
+        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 };

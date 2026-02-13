@@ -33,18 +33,12 @@ typedef enum commandId
 
 class Client
 {
-	private :
-		int							_clientFd;
-		int							_registerStatus;
-		size_t						_commandId;
-		std::vector<std::string>	_commandArgs;
-		std::string					_nickname;
-		std::string					_oldNickname;
-		std::string					_username;
-		std::string					_cmd;
-		char						_buf[1024];
-
+	
 	public :
+
+		Client(int fd);
+		~Client();
+
 		int							getClientFd() const;
 		int							getRegisterStatus() const;
 		int							storeInBuf(char *buf);
@@ -62,9 +56,18 @@ class Client
 		void						setNickname(std::string nickname);
 		void						setUsername(std::string username);
 		void						clearCommandArgs();
+		
+	private :
 
-		Client(int fd);
-		~Client();
+		int							_clientFd;
+		int							_registerStatus;
+		size_t						_commandId;
+		std::vector<std::string>	_commandArgs;
+		std::string					_nickname;
+		std::string					_oldNickname;
+		std::string					_username;
+		std::string					_cmd;
+		char						_buf[1024];
 };
 
 #endif

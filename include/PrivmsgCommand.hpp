@@ -12,7 +12,8 @@ class PrivmsgCommand : public ICommand
 
         PrivmsgCommand();
         ~PrivmsgCommand();
-        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
-
+        
     private:
+    
+        void    execCmd(Client & emitter, const std::vector<std::string>& arg);
 };

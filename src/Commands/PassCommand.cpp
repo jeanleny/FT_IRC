@@ -22,4 +22,5 @@ void    PassCommand::execCmd(Client & client, const std::vector<std::string>& ar
     if (!Server::getInstance().validPassword(pass))
         throw PasswordMismatchException(client);
     client.setRegisterStatus(USER_STATUS);
+    Server::getInstance().sendUserQuery(client);
 }

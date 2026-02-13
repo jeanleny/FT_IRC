@@ -64,17 +64,6 @@ void	eraseTrailingSpaces(std::string &str)
 		str.clear();
 }
 
-void	displayCommand(Client & client)
-{
-	std::cout << "cmd id : " << client.getCommandId() << " | ";
-	for (size_t i = 0; i < client.getCommandArgs().size(); i++)
-	{
-		std::cout << "cmd arg" << client.getCommandArgs()[i] << " ";
-		std::cout << "|" << std::endl; 
-	}
-	std::cout << std::endl;
-}
-
 bool	strIsDigit(std::string str)
 {
 	for (size_t i = 0; i < str.size(); i++)
@@ -133,25 +122,3 @@ bool	isCtrlD(char *buf)
 	}
 	return (true);
 } 
-
-
-
-//-----------------------DEBUG
-
-void	displayClients(std::vector<Client> _clients)
-{
-	for(size_t i = 0; i < _clients.size(); i++)
-	{
-		std::cout << _clients[i].getClientFd() << std::endl;
-	}
-}
-
-void	displayMemberList(Channel & channel)
-{
-
-	std::vector<Client>	memberList = channel.getMemberList();
-	for(size_t i = 0; i < memberList.size(); i++)
-	{
-		std::cout << i << " | " << memberList[i].getNickname() << std::endl;
-	}
-}
