@@ -1,33 +1,5 @@
 #include <PrivmsgCommand.hpp>
 
-/*TODO PRIVMG <std::string target> <std::target text>:
-
-Parsing général : 
-
-- text vide --> err. no text
-- target vide --> err. no destinataire
-- text trop long --> refuser ou tronquer
-
-1. PRIVMG #channel <text> : envoie un message general sur le channel
-
-Attendu : message relayé a tous les membres du canal (sauf a l'expediteur ?)
-
-Erreurs :   - si le canal n'existe pas
-            - si le client n'est pas dans le canal
-            - si le client est restreint
-            - si le canal est en mode modéré
-
-2. PRIVMG #nickname <text> : envoie un message prive a l'utilisateur
-
-Attendu : message relayé a l'utilisateur cible
-
-Erreurs :   - si le client cible n'existe pas / pas authentifié
-            - pour un message a soi meme
-            - si le client cible n'est pas connecte ?
-
-*/
-
-
 PrivmsgCommand::PrivmsgCommand()
 {
 

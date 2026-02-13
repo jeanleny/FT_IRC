@@ -41,6 +41,3 @@ void    TopicCommand::execCmd(Client & client, const std::vector<std::string>& a
         Server::getInstance().changeChannelTopic(client, chanName, newTopic);
     }
 }
-
-// verifier que netcat fonctionne avec : TOPIC <channel> :bla bla bla 
-                        // et pas avec : TOPIC <channel> bla bla bla
