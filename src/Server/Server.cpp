@@ -52,7 +52,10 @@ void	Server::initServer()
 		throw AddrinfoFailedException();
 	_servFd = socket(_servInfo->ai_family, _servInfo->ai_socktype, _servInfo->ai_protocol);
 	if (_servFd == -1)
+	{
+		freeaddrinfo(_servInfo);
 		throw SocketFailedException();
+	}
 	int	opt = 1;
 	setsockopt(_servFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
 	if (bind(_servFd, _servInfo->ai_addr, _servInfo->ai_addrlen) == -1)
@@ -85,6 +88,10 @@ void	Server::addClient()
 	
 	addrSize = sizeof (struct sockaddr);
 	emitterFd = accept(_servFd, (struct sockaddr *)&emitter, &addrSize);
+	/*
+		if (emitterFd < 0)
+			...
+	*/
 	Client	obj(emitterFd);
 	_clients.push_back(obj);
 	_clientsFds.push_back(emitterFd);
@@ -182,12 +189,10 @@ bool	Server::validPassword(std::string pass)
 	return (pass == _password);
 }
 
-void	Server::manageCommand(int recvBytes, Client & client)
+void	Server::manageCommand(Client & client)
 {
-	(void)recvBytes;
-	
 	if (client.getRegisterStatus() != REGISTERED)
-			serverRegistration(client);
+		serverRegistration(client);
 	else
 	{
 		size_t	commandId = client.getCommandId();
@@ -225,7 +230,6 @@ int	Server::extractCommand(char *buf, Client & client)
 {
 	if (client.storeInBuf(buf) < 0)
 		return ERROR;
-	std::string	extract;
 	std::string	str = client.getBuf();
 	if (isEmptyCommand(str))
 		return ERROR;
@@ -267,7 +271,7 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 			return ;
 		try
 		{
-			manageCommand(recvBytes, _clients[clientIndex]);
+			manageCommand(_clients[clientIndex]);
 		}
 		catch(const std::exception& e)
 		{

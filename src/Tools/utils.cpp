@@ -63,6 +63,7 @@ void	eraseTrailingSpaces(std::string &str)
 	else
 		str.clear();
 }
+
 void	displayCommand(Client & client)
 {
 	std::cout << "cmd id : " << client.getCommandId() << " | ";
@@ -126,12 +127,12 @@ bool	isCtrlD(char *buf)
 		if (buf[i + 1] != '\0')
 		{
 			if (buf[i] == '\r' && buf[i + 1] == '\n')
-			return (false);
+				return (false);
 		}
 		i++;
 	}
 	return (true);
-}
+} 
 
 
 
