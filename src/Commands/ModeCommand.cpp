@@ -69,7 +69,7 @@ void	ModeCommand::addFlags(Client emitter, std::string arg)
 	size_t i = 0;
 	if (isAddSub(arg[i], _disable))
 			i++;
-	for (i = 0; i < arg.size(); i++)
+	for (;i < arg.size(); i++)
 	{
 		if (!validModeFlag(arg[i]))
 		{
