@@ -161,7 +161,7 @@ void	Server::sendMessageToChannel(Client & client, std::string & chanName, const
 		clientFd = memberList[i].getClientFd();
 		if (clientFd == client.getClientFd() && (client.getCommandId() == PRIVMSG || client.getCommandId() == NICK))
 			continue ;
-		send(clientFd, msg, len, 0);
+		send(clientFd, msg, len, MSG_NOSIGNAL);
 	}
 }
 
