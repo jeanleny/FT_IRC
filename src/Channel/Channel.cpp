@@ -14,11 +14,6 @@ const std::string Channel::getName()
 	return (_name);
 }
 
-const std::string	Channel::getList()
-{
-	return (_list);
-}
-
 const std::string	Channel::getTopic()
 {
 	return (_topic);
@@ -34,6 +29,18 @@ const std::vector<Client>	Channel::getMemberList()
 	return (_memberList);
 }
 
+std::string	Channel::buildList()
+{
+	std::string list;
+	
+	for (size_t i = 0; i < _chanList.size(); i++)
+	{
+		list += " ";
+		list += _chanList[i];
+	}
+	return (list);
+}
+
 void	Channel::addMember(Client &client)
 {
 	if (checkMode(l, true))
@@ -43,8 +50,7 @@ void	Channel::addMember(Client &client)
 	}
 	_memberList.push_back(client);
 	_memberNb++;
-	_list += " ";
-	_list += client.getNickname();
+	_chanList.push_back(client.getNickname());
 }
 
 void	Channel::inviteMember(Client &client)
@@ -74,12 +80,9 @@ void	Channel::removeInvitedMember(Client &client)
 void	Channel::removeFromListString(Client & client)
 {
 	std::string	nick = client.getNickname();
-	size_t pos = _list.find(nick);
+	std::vector<std::string>::iterator it = find(_chanList.begin(), _chanList.end(), nick);
 	
-	if (pos == std::string::npos)
-		return ;
-	
-	_list.erase(pos - 1, nick.size() + 1);
+	_chanList.erase(it);
 }
 
 void	Channel::removeMember(Client &client)
@@ -206,9 +209,15 @@ bool	Channel::checkKey(std::string key)
 void	Channel::addOpSign(Client target)
 {
 	std::string nick = target.getNickname();
-	size_t pos = _list.find(nick);
-	
-	_list.insert(pos, "@");
+
+	for (size_t i = 0; i < _chanList.size(); i++)
+	{
+		if (nick == _chanList[i])
+		{
+			_chanList[i].insert(0, "@");
+			return ;
+		}
+	}
 }
 
 void	Channel::addOperator(Client target)
@@ -217,10 +226,26 @@ void	Channel::addOperator(Client target)
 	_operators.push_back(target.getClientFd());
 }
 
+void	Channel::rmOpSign(Client target)
+{
+	std::string nick = target.getNickname();
+
+	if (checkOperator(target))
+		nick.insert(0, "@");
+	for (size_t i = 0; i < _chanList.size(); i++)
+	{
+		if (nick == _chanList[i])
+		{
+			_chanList[i].erase(0, 1);
+		}
+	}
+}
+
 void	Channel::rmOperator(Client target)
 {
 	int fd = target.getClientFd();
 	std::vector<int>::iterator pos = find(_operators.begin(), _operators.end(), fd);
+	rmOpSign(target);
 	_operators.erase(pos);
 }
 
@@ -228,15 +253,18 @@ void	Channel::changeNickList(Client client)
 {
 	std::string nick = client.getNickname();
 	std::string oldNick = client.getOldNickname();
-	size_t pos = _list.find(oldNick);
-
-	if (pos != std::string::npos)
+	
+	if (checkOperator(client))
 	{
-		_list.replace(pos, oldNick.length(), nick);
+		nick.insert(0, "@");
+		oldNick.insert(0, "@");
 	}
-	else
+	for (size_t i = 0; i < _chanList.size(); i++)
 	{
-		_list.erase(pos, oldNick.size());
-		_list.insert(0, nick);
+		if (oldNick == _chanList[i])
+		{
+			_chanList[i] = nick;
+			return ;
+		}
 	}
 }

@@ -20,11 +20,11 @@ class	Channel
 		Channel(std::string name);
 		~Channel();
 
-		const std::string			getName();
-		size_t 						getMemberNb();
-		const std::vector<Client>	getMemberList();
-		const	std::string			getList();
+		const	std::string			getName();
+		const	std::vector<Client>	getMemberList();
 		const	std::string			getTopic();
+		size_t 						getMemberNb();
+		std::string					buildList();
 		
 		bool				isChannelMember(int fd);
 		void				addMember(Client &client);
@@ -47,17 +47,18 @@ class	Channel
 		bool				checkKey(std::string key);
 		void				addOperator(Client target);
 		void				addOpSign(Client target);
+		void				rmOpSign(Client target);
 		void				rmOperator(Client target);
 
 	private :
-		std::vector<int>		_operators;
-		std::vector<int>		_invitedList;
-		std::vector<Client>		_memberList;
-		std::string				_list;
-		std::string 			_name;
-		std::string				_topic;
-		std::string				_keyword;
-		size_t					_memberNb;
-		size_t					_memberLimit;
-		bool 					_mode[MODE_NB];
+		std::vector<int>				_operators;
+		std::vector<int>				_invitedList;
+		std::vector<Client>				_memberList;
+		std::vector<std::string>		_chanList;
+		std::string 					_name;
+		std::string						_topic;
+		std::string						_keyword;
+		size_t							_memberNb;
+		size_t							_memberLimit;
+		bool 							_mode[MODE_NB];
 };
