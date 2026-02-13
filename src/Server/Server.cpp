@@ -89,10 +89,7 @@ void	Server::addClient()
 	addrSize = sizeof (struct sockaddr);
 	emitterFd = accept(_servFd, (struct sockaddr *)&emitter, &addrSize);
 	if (emitterFd < 0)
-	{
-		std::cout << "yoyoyo" << std::endl;
 		return ;
-	}
 	Client	obj(emitterFd);
 	_clients.push_back(obj);
 	_clientsFds.push_back(emitterFd);
