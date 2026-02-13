@@ -53,9 +53,9 @@ CustomErrorException::CustomErrorException(Client & client)
 NoSuchNicknameException::NoSuchNicknameException(Client & client)
 {
 	if (client.getCommandId() == KICK)
-	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[1] + " :No such nickname\r\n";
+		_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[1] + " :No such nickname\r\n";
 	else
-	_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :No such nickname\r\n";
+		_msg = ":" + Server::getInstance().getHostname() + " 401 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :No such nickname\r\n";
 }
 
 NoSuchChannelException::NoSuchChannelException(Client & client)
@@ -95,7 +95,10 @@ UsedNicknameException::UsedNicknameException(Client & client)
 
 UserNotInChannelException::UserNotInChannelException(Client & client)
 {
-	_msg = ":" + Server::getInstance().getHostname() + " 441 " + client.getNickname() + " " + client.getCommandArgs()[1] + " :User is not in channel\r\n";
+	if (client.getCommandId() == KICK)
+		_msg = ":" + Server::getInstance().getHostname() + " 441 " + client.getNickname() + " " + client.getCommandArgs()[1] + " :User is not in channel\r\n";
+	else
+		_msg = ":" + Server::getInstance().getHostname() + " 441 " + client.getNickname() + " " + client.getCommandArgs()[0] + " :User is not in channel\r\n";
 }
 
 NotInThisChannelException::NotInThisChannelException(Client & client)
@@ -129,12 +132,9 @@ AlreadyRegisteredException::AlreadyRegisteredException(Client & client)
 	_msg = ":" + Server::getInstance().getHostname() + " 462 " + client.getNickname() + " :Already Registered\r\n";
 }
 
-// 464 ERR_PASSWDMISMATCH
-// :irc.example.com 464 chris :Password Incorrect
 
 PasswordMismatchException::PasswordMismatchException(Client & client)
 {
-	(void) client;
 	_msg = ":" + Server::getInstance().getHostname() + " 464 " + client.getNickname() + " :Incorrect Password\r\n";
 }
 

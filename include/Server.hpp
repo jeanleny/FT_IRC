@@ -55,7 +55,7 @@ class Server
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
 		void					clearWrongEvent(size_t rmIndex);
-		void					manageCommand(int recvBytes, Client & client);
+		void					manageCommand(Client & client);
 		void					serverRegistration(Client & emitter);
 		void					identifyCommand(char *buf, int clientIndex);
 		void					extractCommandId(Client & ref, std::string id);

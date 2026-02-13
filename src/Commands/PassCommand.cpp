@@ -11,9 +11,7 @@ PassCommand::~PassCommand()
 
 void    PassCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
-    if (client.getRegisterStatus() == USER_STATUS)
-        throw CustomErrorException(client);
-    if (client.getRegisterStatus() == NICK_STATUS)
+    if (client.getRegisterStatus() == USER_STATUS || client.getRegisterStatus() == NICK_STATUS)
         throw CustomErrorException(client);
     if (client.getRegisterStatus() == REGISTERED)
         throw AlreadyRegisteredException(client);

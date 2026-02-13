@@ -1,17 +1,5 @@
 #include <NickCommand.hpp>
 
-/*TO-DO
-
-- [OK] Parsing : 9 caractères, 1er char : pas de chiffres. Reste : lettres, chiffres, caractères spéciaux (- [ ] \ ` ^ { }) (ERR_ERRONEUSNICKNAME)
-- [OK] During registration, set the nickname :
-        - [OK] si il n'est pas deja utilisé (ERR_NICKNAMEINUSE (433))
-        -->si validé, send : :WiZ!jto@tolsun.oulu.fi NICK Kilroy
-        -->envoie le message de welcome
-- After registration, remplace le nickname si il est différent et pas deja utilisé ERR_NICKNAMEINUSE (433)
-    + send un message a tous les clients du channel pour avertir du changement de nickname
-*/
-
-
 NickCommand::NickCommand()
 {
 
