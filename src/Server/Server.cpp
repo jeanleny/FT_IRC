@@ -76,8 +76,6 @@ void	Server::initServer()
 void	Server::gameSetup()
 {
 	GameMaster	gm;
-	std::cout << "gm fd : " << gm.getClientFd() << std::endl;
-	std::cout << "gm nick : " << gm.getNickname() << std::endl;
 	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
 	
 	for(size_t i = 0; i < 3; i++)
