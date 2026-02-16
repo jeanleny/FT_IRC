@@ -1,7 +1,9 @@
 #include <Client.hpp>
-#include <Server.hpp>
 
 #pragma once
+
+#define GMFD 1023
+
 
 class GameMaster : public Client
 {

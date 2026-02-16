@@ -31,6 +31,15 @@ typedef enum commandId
 	IGNORED,
 } e_commandId;
 
+typedef enum gCommandId
+{
+	CMD1,
+	CMD2,
+	CMD3,
+	CMD4,
+	INVALID,
+} e_gCommandId;
+
 struct weapon
 {
 	std::string		name;
@@ -61,6 +70,7 @@ class Client
 		std::string					getUsername() const;
 		std::string					getCmd() const;
 		std::string					getBuf() const;
+		std::string					getIncomingChannel() const;
 		std::vector<std::string>	getCommandArgs() const;
 		void						setCommandId(size_t id);
 		void						setCmd(std::string);
@@ -68,6 +78,7 @@ class Client
 		void						setRegisterStatus(int status);
 		void						setNickname(std::string nickname);
 		void						setUsername(std::string username);
+		void						setIncomingChannel(std::string chanName);
 		void						clearCommandArgs();
 		
 	private :
@@ -80,6 +91,7 @@ class Client
 		std::string					_oldNickname;
 		std::string					_username;
 		std::string					_cmd;
+		std::string					_incomingChannel;
 		char						_buf[1024];
 
 		game						g;

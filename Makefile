@@ -13,6 +13,7 @@ SRC			+= src/main.cpp						\
 			   src/Server/ServerChannel.cpp		\
 			   src/Exception/Exception.cpp		\
 			   src/Client/Client.cpp			\
+			   src/Client/GameMaster.cpp		\
 			   src/Commands/PassCommand.cpp		\
 			   src/Tools/utils.cpp				\
 			   src/Channel/Channel.cpp			\
