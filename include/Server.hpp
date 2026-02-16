@@ -5,6 +5,7 @@
 #include <Client.hpp>
 #include <Channel.hpp>
 #include <ICommand.hpp>
+#include <PlayCommand.hpp>
 #include <PassCommand.hpp>
 #include <NickCommand.hpp>
 #include <UserCommand.hpp>
@@ -15,6 +16,7 @@
 #include <TopicCommand.hpp>
 #include <InviteCommand.hpp>
 #include <PartCommand.hpp>
+#include <GameMaster.hpp>
 #include <utils.h>
 #include <iostream>
 #include <sys/socket.h>
@@ -31,7 +33,7 @@
 
 
 #define MAX_EVENTS 10
-#define NB_CMD 10
+#define NB_CMD 11
 #define ERROR -1
 #define GMFD 1023
 
@@ -75,6 +77,9 @@ class Server
 		void					removeChannelMember(Client &client, std::string chanName);
 		void					inviteChannelMember(Client & client, Client &kicked, std::string chanName);
 		void					kickChannelMember(Client & client, Client &kicked, std::string chanName);
+
+		//----GAME METHODS-----------------------------------------------------------------------------
+		void					ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
 		
 		//----MESSAGES METHODS-------------------------------------------------------------------------------
 		
