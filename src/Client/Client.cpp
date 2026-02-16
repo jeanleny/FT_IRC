@@ -36,6 +36,11 @@ std::string Client::getCmd() const
 	return(_cmd);
 }
 
+std::string Client::getIncomingChannel() const
+{
+	return(_incomingChannel);
+}
+
 std::string	Client::getBuf() const
 {
 	std::string str = _buf;
@@ -51,6 +56,11 @@ std::vector<std::string>	Client::getCommandArgs() const
 void Client::setCommandId(size_t id)
 {
 	_commandId = id;
+}
+
+void Client::setIncomingChannel(std::string chanName)
+{
+	_incomingChannel = chanName;
 }
 
 void Client::setCmd(std::string arg)

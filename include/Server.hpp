@@ -3,6 +3,7 @@
 
 #include <Exception.hpp>
 #include <Client.hpp>
+#include <GameMaster.hpp>
 #include <Channel.hpp>
 #include <ICommand.hpp>
 #include <PlayCommand.hpp>
@@ -34,8 +35,9 @@
 
 #define MAX_EVENTS 10
 #define NB_CMD 11
+#define NB_GCMD 4
 #define ERROR -1
-#define GMFD 1023
+#define GAME "#LOBBY"
 
 extern volatile sig_atomic_t   g_exit;
 
@@ -78,8 +80,6 @@ class Server
 		void					inviteChannelMember(Client & client, Client &kicked, std::string chanName);
 		void					kickChannelMember(Client & client, Client &kicked, std::string chanName);
 
-		//----GAME METHODS-----------------------------------------------------------------------------
-		void					ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
 		
 		//----MESSAGES METHODS-------------------------------------------------------------------------------
 		
@@ -94,6 +94,14 @@ class Server
 		void					displayChannelMode(Client emitter, std::string arg);
 		void 					displayChannelTopic(Client & client, std::string chanName);
 		
+		//----BONUS METHODS------------------------------------------------------------------------------------
+
+		bool	isCommandFromGame(std::string chanName);
+		void	extractGameCommandId(Client & client, std::string id);
+    void	ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
+		
+
+
 		private :
 		
 		static	Server			*_instance;
@@ -109,6 +117,7 @@ class Server
 		std::vector<Client>		_clients;
 		std::vector<int>		_clientsFds;
 		std::vector<Channel>	_channels;
+		// std::vector<Channel>	_gChannels;
 		ICommand*				_iCommands[NB_CMD];
 		ICommand*				_gCommands[];
 		
@@ -117,6 +126,7 @@ class Server
 		
 		void					initEpoll();
 		void					initICommands();
+		void					gameSetup();
 		void					serverClosing();
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
