@@ -27,6 +27,7 @@ typedef enum commandId
 	JOIN,
 	INVITE,
 	PART,
+	PLAY,
 	UNKNOWN,
 	IGNORED,
 } e_commandId;

@@ -11,6 +11,7 @@ SRC			+= src/main.cpp						\
 			   src/Server/Server.cpp			\
 			   src/Server/ServerUtils.cpp		\
 			   src/Server/ServerChannel.cpp		\
+			   src/Server/ServerGame.cpp		\
 			   src/Exception/Exception.cpp		\
 			   src/Client/Client.cpp			\
 			   src/Client/GameMaster.cpp		\
@@ -26,6 +27,7 @@ SRC			+= src/main.cpp						\
 			   src/Commands/InviteCommand.cpp	\
 			   src/Commands/ModeCommand.cpp		\
 			   src/Commands/PartCommand.cpp		\
+			   src/Commands/PlayCommand.cpp		\
 			   src/Signals/Signals.cpp			\
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
