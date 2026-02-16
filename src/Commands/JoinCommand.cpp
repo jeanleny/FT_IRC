@@ -58,6 +58,7 @@ void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 	try
 	{
 		isValidChannel(emitter, arg[0]);
+		std::cout << "arg 0 : " << arg[0] <<std::endl;
 		chanName = cutChannelName(arg[0]);
 		{
 			if (Server::getInstance().existChannel(chanName))
