@@ -105,6 +105,7 @@ class Server
 		std::vector<int>		_clientsFds;
 		std::vector<Channel>	_channels;
 		ICommand*				_iCommands[NB_CMD];
+		ICommand*				_gCommands[];
 		
 		
 		//----SERVER METHODS------------------------------------------------------------------------------
