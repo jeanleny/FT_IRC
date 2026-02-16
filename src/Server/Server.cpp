@@ -200,6 +200,9 @@ void	Server::manageCommand(Client & client)
 		{
 			throw UnknownCommandException(client);
 		}
+		//if (IsGameCommand(CommandId))
+		//	_gCommands[commandId]->execCmd(client, cmdArgs)
+		//else
 		_iCommands[commandId]->execCmd(client, cmdArgs);
 	}
 }
@@ -207,7 +210,7 @@ void	Server::manageCommand(Client & client)
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
-	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"};
+	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"}; //PLAY
 	emitter.setCmd(id);
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
@@ -222,6 +225,7 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 		emitter.setCommandId(IGNORED);
 		return ;
 	}
+	
 	emitter.setCommandId(UNKNOWN);
 }
 
@@ -239,6 +243,7 @@ int	Server::extractCommand(char *buf, Client & client)
 	{
 		std::vector<std::string>	splitArgs = split(str);
 		extractCommandId(client, splitArgs[0]);
+		//if (GameChannelExist() && ClientInGameChannel() && SplitArgs[1] == GameChannel)
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
 	}
@@ -270,6 +275,9 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 			return ;
 		try
 		{
+			//if (GameCommand)
+			//	manageGameCommand();
+			//else
 			manageCommand(_clients[clientIndex]);
 		}
 		catch(const std::exception& e)
