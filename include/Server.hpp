@@ -33,6 +33,7 @@
 #define MAX_EVENTS 10
 #define NB_CMD 10
 #define ERROR -1
+#define GMFD 1023
 
 extern volatile sig_atomic_t   g_exit;
 
