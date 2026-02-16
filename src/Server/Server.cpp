@@ -210,7 +210,7 @@ void	Server::manageCommand(Client & client)
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
-	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"}; //PLAY
+	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART"}; //PLAYY
 	emitter.setCmd(id);
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
