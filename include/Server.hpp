@@ -96,10 +96,9 @@ class Server
 		
 		//----BONUS METHODS------------------------------------------------------------------------------------
 
-		bool	isCommandFromGame(std::string chanName);
-		void	extractGameCommandId(Client & client, std::string id);
-    void	ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
-		
+		bool					isCommandFromGame(std::string chanName);
+    	void					ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
+		bool					isGameCommand(Client & client);
 
 
 		private :

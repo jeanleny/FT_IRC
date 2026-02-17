@@ -222,6 +222,10 @@ void	Server::manageCommand(Client & client)
 		{
 			throw UnknownCommandException(client);
 		}
+		if (isGameCommand(client) && isCommandFromGame(client.getIncomingChannel()))
+		{
+			//manageGameCommand()
+		}
 		_iCommands[commandId]->execCmd(client, cmdArgs);
 	}
 }
@@ -230,6 +234,8 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
 	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART", "PLAY"};
+	const std::string g_array[NB_GCMD]= {"CMD1", "CMD2", "CMD3", "CMD4"};
+
 	emitter.setCmd(id);
 	for (size_t i = 0; i < NB_CMD; i++)
 	{
@@ -239,27 +245,18 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 			return ;
 		}
 	}
-	if (id == "WHO" || id == "CAP")
-	{
-		emitter.setCommandId(IGNORED);
-		return ;
-	}
-	
-	emitter.setCommandId(UNKNOWN);
-}
-
-void	Server::extractGameCommandId(Client & emitter, std::string id)
-{
-	uppercaseStr(id);
-	const std::string array[NB_GCMD]= {"CMD1", "CMD2", "CMD3", "CMD4"};
-	emitter.setCmd(id);
 	for (size_t i = 0; i < NB_GCMD; i++)
 	{
-		if (id == array[i])
+		if (id == g_array[i])
 		{
 			emitter.setCommandId(i);
 			return ;
 		}
+	}
+	if (id == "WHO" || id == "CAP")
+	{
+		emitter.setCommandId(IGNORED);
+		return ;
 	}
 	emitter.setCommandId(UNKNOWN);
 }
@@ -278,13 +275,10 @@ int	Server::extractCommand(char *buf, Client & client)
 	{
 		std::vector<std::string>	splitArgs = split(str);
 		extractCommandId(client, splitArgs[0]);
-		if (existChannel(GAME) && isInChannel(client, GAME) && isCommandFromGame(splitArgs[1]))
-		{
-			extractGameCommandId(client, splitArgs[0]);
-			client.setIncomingChannel(splitArgs[0]);
-		}
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
+		if (existChannel(splitArgs[0]))
+			client.setIncomingChannel(splitArgs[0]);
 	}
 	if (client.getCommandId() == IGNORED)
 		return ERROR;
@@ -314,12 +308,7 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 			return ;
 		try
 		{
-			if (isCommandFromGame(_clients[clientIndex].getIncomingChannel()))
-			{
-				//manageGameCommand(_clients[clientIndex]);
-			}
-			else
-				manageCommand(_clients[clientIndex]);
+			manageCommand(_clients[clientIndex]);
 		}
 		catch(const std::exception& e)
 		{
