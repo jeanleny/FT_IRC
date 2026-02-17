@@ -31,6 +31,7 @@
 #include <list>
 #include <stdlib.h>
 #include <algorithm>
+#include <map>
 
 
 #define MAX_EVENTS 10
@@ -98,27 +99,35 @@ class Server
 
 		bool					isCommandFromGame(std::string chanName);
     	void					ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
+		void					manageGameCommand(Client &client);
+		void					gMapSetup();
+		void					displayMap();
 		bool					isGameCommand(Client & client);
+		void					manageLobbyCommand(Client &client);
 
 
 		private :
 		
-		static	Server			*_instance;
-		struct epoll_event		_userEvents;
-		struct epoll_event		_queuedEvents[MAX_EVENTS];
-		struct addrinfo			*_servInfo;
-		int						_servFd;
-		int						_epollFd;
-		std::string				_servPort;
-		std::string				_password;
-		char					_hostName[128];
+		static	Server									*_instance;
+		struct epoll_event								_userEvents;
+		struct epoll_event								_queuedEvents[MAX_EVENTS];
+		struct addrinfo									*_servInfo;
+		int												_servFd;
+		int												_epollFd;
+		std::string										_servPort;
+		std::string										_password;
+		char											_hostName[128];
 		
-		std::vector<Client>		_clients;
-		std::vector<int>		_clientsFds;
-		std::vector<Channel>	_channels;
-		// std::vector<Channel>	_gChannels;
-		ICommand*				_iCommands[NB_CMD];
-		ICommand*				_gCommands[];
+		std::vector<Client>								_clients;
+		std::vector<int>								_clientsFds;
+		std::vector<Channel>							_channels;
+		// std::vector<Channel>							_gChannels;
+		ICommand*										_iCommands[NB_CMD];
+
+		std::map<std::string, std::vector<std::string> >	_gmcmd;
+		GameMaster											_gm;
+
+
 		
 		
 		//----SERVER METHODS------------------------------------------------------------------------------

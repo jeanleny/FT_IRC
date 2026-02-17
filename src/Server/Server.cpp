@@ -74,26 +74,6 @@ void	Server::initServer()
 	gameSetup();
 }
 
-void	Server::gameSetup()
-{
-	GameMaster	gm;
-	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
-	
-	for(size_t i = 0; i < 3; i++)
-	{
-		std::vector<std::string> arg;
-		arg.push_back(rooms[i]);
-		_iCommands[JOIN]->execCmd(gm, arg);
-		if (i != 0)
-		{
-			arg.push_back("+i");
-			_iCommands[MODE]->execCmd(gm, arg);
-			arg.pop_back();
-		}
-		arg.pop_back();
-	}
-}
-
 void	Server::initEpoll()
 {
 	_epollFd = epoll_create1(0);
@@ -224,7 +204,8 @@ void	Server::manageCommand(Client & client)
 		}
 		if (isGameCommand(client) && isCommandFromGame(client.getIncomingChannel()))
 		{
-			//manageGameCommand()
+			manageGameCommand(client);
+			return ;
 		}
 		_iCommands[commandId]->execCmd(client, cmdArgs);
 	}
@@ -234,7 +215,7 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
 	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART", "PLAY"};
-	const std::string g_array[NB_GCMD]= {"CMD1", "CMD2", "CMD3", "CMD4"};
+	const std::string g_array[NB_GCMD]= {"START", "CMD2", "CMD3", "CMD4"};
 
 	emitter.setCmd(id);
 	for (size_t i = 0; i < NB_CMD; i++)

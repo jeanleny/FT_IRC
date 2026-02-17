@@ -17,30 +17,6 @@ bool	Server::isRegisterCommand(ssize_t cmdId)
 	return (false);
 }
 
-bool	Server::isCommandFromGame(std::string chanName)
-{
-	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
-
-	for (size_t i = 0; i < 3; i++)
-	{
-		if (chanName == rooms[i])
-			return true;
-	}
-	return false;
-}
-
-bool	Server::isGameCommand(Client & client)
-{
-	const std::string g_array[NB_GCMD]= {"CMD1", "CMD2", "CMD3", "CMD4"};
-
-	for (size_t i = 0; i < NB_GCMD; i++)
-	{
-		if (client.getCmd() == g_array[i])
-			return true;
-	}
-	return false;
-}
-
 void	Server::sendWelcomeMessage(Client & client)
 {
 	std::string msg = ":" + Server::getInstance().getHostname() + " 001 " + client.getNickname() 
