@@ -36,8 +36,10 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
     parsePrivmsgArgs(client, args);
     std::string     target = args[0];
     std::string     text = args[1];
+
     std::string     message = ":" + client.getNickname() + "!" + client.getUsername() + "@" + Server::getInstance().getHostname()
           + " PRIVMSG " + target + " :" + text + "\r\n";
+
      const char     *msg = message.c_str();
      int            len = strlen(msg);
 

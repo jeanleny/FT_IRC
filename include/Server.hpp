@@ -104,6 +104,7 @@ class Server
 		void					displayMap();
 		bool					isGameCommand(Client & client);
 		void					manageLobbyCommand(Client &client);
+		void					manageRoom1Command(Client &client);
 
 
 		private :
