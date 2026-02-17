@@ -44,8 +44,11 @@ void	Server::manageGameCommand(Client &client)
 			break ;
 		}
 		case 1 :
+		{
+			//lestgo
 			//manageRoom1Command(client);
 			break ;
+		}
 		case 2 :
 			//manageRoom2Command(client);
 			break ;
