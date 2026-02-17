@@ -69,7 +69,9 @@ void	JoinCommand::execCmd(Client & emitter, const std::vector<std::string>& arg)
 				Server::getInstance().addChannelMember(emitter, chanName);
 			}
 			else
+			{
 				Server::getInstance().createChannel(emitter, chanName);
+			}
 		}
 	}
 	catch(std::exception &e)
