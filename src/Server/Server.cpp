@@ -71,7 +71,7 @@ void	Server::initServer()
 		close(_servFd);
 		throw ListenFailedException();
 	}
-	gameSetup();
+	//gameSetup();
 }
 
 void	Server::initEpoll()

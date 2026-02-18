@@ -10,15 +10,18 @@
 class BotGameMaster 
 {
 	public :
-		BotGameMaster();
+		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void				initBot();
+		void				connectServer();
+		void				sendCommand(std::string msg);
 
 	private :
-		struct addrinfo		*_servInfo;
-		std::string			_pass;
-		std::string			_servPort;
-		int					_servFd;
+		struct addrinfo			*_servInfo;
+		std::string				_servPort;
+		std::string				_pass;
+		int						_botFd;
+		char					_hostName[128];
 
 };
 
