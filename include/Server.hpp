@@ -97,10 +97,13 @@ class Server
 		
 		//----BONUS METHODS------------------------------------------------------------------------------------
 
+		bool					isRunningGameRoom(std::string chanName);
 		bool					isCommandFromGame(std::string chanName);
     	void					ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
 		void					manageGameCommand(Client &client);
 		void					gMapSetup();
+		void					gClear();
+		void					callPartCommand(std::string chanName);
 		void					displayMap();
 		bool					isGameCommand(Client & client);
 		void					manageLobbyCommand(Client &client);

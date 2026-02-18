@@ -207,6 +207,10 @@ void	Server::manageCommand(Client & client)
 			manageGameCommand(client);
 			return ;
 		}
+		else if (isRunningGameRoom(client.getIncomingChannel()) && commandId == PART)
+		{
+			gClear();
+		}
 		_iCommands[commandId]->execCmd(client, cmdArgs);
 	}
 }
