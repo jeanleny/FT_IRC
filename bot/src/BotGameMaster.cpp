@@ -47,8 +47,10 @@ void	BotGameMaster::connectServer()
 		return ;
 	}
 	sendCommand("PASS " + _pass + "\r\n");
-	sendCommand("USER Master\r\n");
-	sendCommand("NICK Master\r\n");
+	usleep(100000);
+	sendCommand("USER Master \r\n");
+	usleep(100000);
+	sendCommand("NICK Master \r\n");
 	while (running)
 	{
 		char 	buf[1024];
@@ -62,7 +64,25 @@ void	BotGameMaster::connectServer()
 			return ;
 		}
 		std::cout << buf << std::endl;
+		parsePlayerCmd(buf);
 	}
+}
+
+std::string	parsePlayerNick(std::string content)
+{
+	std::string result;
+	size_t del = content.find("!");
+
+	result = content.substr(0, del);
+	result.erase(result.begin());
+	return (result);
+}
+
+void	parsePlayerCmd(char *str)
+{
+	t_parse parse;
+	parse.content = str;
+	parse.Player = parsePlayerNick(parse.content);
 }
 
 void	BotGameMaster::sendCommand(std::string msg)

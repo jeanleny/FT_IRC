@@ -20,6 +20,7 @@
 #include <GameMaster.hpp>
 #include <utils.h>
 #include <iostream>
+#include <fcntl.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <sys/epoll.h>

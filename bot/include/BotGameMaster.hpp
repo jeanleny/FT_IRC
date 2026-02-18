@@ -6,6 +6,14 @@
 #include <netdb.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+
+typedef struct s_parse
+{
+	std::string	content;
+	std::string	Player;
+	
+} t_parse;
 
 class BotGameMaster 
 {
@@ -24,4 +32,6 @@ class BotGameMaster
 		char					_hostName[128];
 
 };
+void		parsePlayerCmd(char *str);
+std::string	parsePlayerNick(std::string content);
 

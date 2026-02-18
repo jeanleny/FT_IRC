@@ -21,8 +21,22 @@ std::string	cutChannelName(std::string channelName)
 	return (channelName);
 }
 
+bool	reservedChannels(std::string chanName)
+{
+	std::string rooms[3] = {"#TAVERN", "#ROOM1", "#ROOM2"};
+	
+	for (size_t i = 0; i < 3; i++)
+	{
+		if (chanName == rooms[i])
+			return (true);
+	}
+	return (false);
+}
+
 void	isValidChannel(Client client, std::string channelName)
 {
+	if (reservedChannels(channelName))
+		throw CustomErrorException(client);
 	if (channelName.size() > 50 || !checkPrefix(channelName) || channelName.size() < 2)
 		throw InvalidChannelException(client);
 }

@@ -44,7 +44,6 @@ void    NickCommand::execCmd(Client & client, const std::vector<std::string>& ar
         throw CustomErrorException(client);
     if (args.size() == 0)
         throw NotEnoughParametersException(client);
-        
     if (parseNickname(args) == -1)
         throw ErroneusNicknameException(client);
     const std::string nickname = args[0];
