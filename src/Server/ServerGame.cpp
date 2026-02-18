@@ -180,26 +180,5 @@ void	Server::gClear()
 
 void	Server::gameSetup()
 {
-	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
-	std::string	topics[3] = {"**Welcome to the Dungeon Lobby ! Please take a sit, and when all the daring adventurers are present, enter the command START**", 
-								"**A forgotten and enigmatic room in the depths of a dungeon.**",
-								"Topic3"};
-
-	for(size_t i = 0; i < 3; i++)
-	{
-		std::vector<std::string> arg;
-		arg.push_back(rooms[i]);
-		_iCommands[JOIN]->execCmd(_gm, arg);
-		arg.push_back(topics[i]);
-		_iCommands[TOPIC]->execCmd(_gm, arg);
-		arg.pop_back();
-		if (i != 0)
-		{
-			arg.push_back("+i");
-			_iCommands[MODE]->execCmd(_gm, arg);
-			arg.pop_back();
-		}
-		arg.pop_back();
-	}
 	gMapSetup();
 }

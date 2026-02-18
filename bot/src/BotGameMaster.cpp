@@ -2,7 +2,13 @@
 
 BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pass)
 {
+	_rooms.push_back("#TAVERN");
+	_rooms.push_back("#CORRIDOR");
+	_rooms.push_back("#ROOM");
 
+	_topics.push_back("**Welcome to the Tavern ! Please take a sit, and when all the daring adventurers are present, enter the command START**");
+	_topics.push_back("**A dark corridor leading to a closed door.**");
+	_topics.push_back("**A forgotten and enigmatic room in the depths of a dungeon.**");
 }
 
 BotGameMaster::~BotGameMaster()
@@ -34,6 +40,24 @@ void	BotGameMaster::initBot()
 	}
 }
 
+void	BotGameMaster::createRooms()
+{
+	for(size_t i = 0; i < _rooms.size(); i++)
+	{
+		sendCommand("JOIN " + _rooms[i]);
+		sendCommand("TOPIC " + _topics[i]);
+		if (i != 0)
+			sendCommand("MODE " + _rooms[i] + " +i");
+	}
+}
+
+void	BotGameMaster::authentication()
+{
+	sendCommand("PASS " + _pass + "\r\n");
+	sendCommand("USER Master\r\n");
+	sendCommand("NICK Master\r\n");
+}
+
 void	BotGameMaster::connectServer()
 {
 	bool	running = true;
@@ -46,9 +70,8 @@ void	BotGameMaster::connectServer()
 		std::cout << "connect failed en fait c tro grav" << std::endl;
 		return ;
 	}
-	sendCommand("PASS " + _pass + "\r\n");
-	sendCommand("USER Master\r\n");
-	sendCommand("NICK Master\r\n");
+	authentication();
+	createRooms();
 	while (running)
 	{
 		char 	buf[1024];
