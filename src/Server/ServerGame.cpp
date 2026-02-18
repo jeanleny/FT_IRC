@@ -7,8 +7,10 @@ void	Server::manageLobbyCommand(Client &client)
 	std::vector<Client> clients = _channels[chan].getMemberList();
 	std::vector<std::string> joinArg;
 	std::vector<std::string> inviteArg;
+	std::vector<std::string> privmsgArg;
 	joinArg.push_back("#ROOM1");
 	inviteArg.push_back("#ROOM1");
+	privmsgArg.push_back("#ROOM1");
 	clients.erase(clients.begin());
 
 	cmd = client.getCmd();
@@ -21,7 +23,26 @@ void	Server::manageLobbyCommand(Client &client)
 			_iCommands[JOIN]->execCmd(clients[i], joinArg);
 			inviteArg.erase(inviteArg.begin());
 		}
+		privmsgArg.push_back(_gm.getMsg(ROOM1));
+		_iCommands[PRIVMSG]->execCmd(_gm, privmsgArg);
 	}
+}
+
+void	Server::manageRoom1Command(Client &client)
+{
+	std::string	cmd = client.getCmd();
+
+	// if (cmd == "DOOR")
+	// 	_gm.doorCommand();
+	// else if (cmd == "WALL")
+	// 	_gm.wallCommand();
+	// else if (cmd == "SKELETON")
+	// 	_gm.skeletonCommand();
+	// else if (cmd == "DESK")
+	// 	_gm.deskCommand();
+	// else if (cmd == "LEVER")
+	// 	_gm.leverCommand();
+
 }
 
 void	Server::manageGameCommand(Client &client)
@@ -33,7 +54,7 @@ void	Server::manageGameCommand(Client &client)
 	for (;i < 3; i++)
 	{
 		if (channel == rooms[i])
-			break ; 
+			break ;
 	}
 	switch (i)
 	{
@@ -43,8 +64,10 @@ void	Server::manageGameCommand(Client &client)
 			break ;
 		}
 		case 1 :
-			//manageRoom1Command(client);
+		{
+			manageRoom1Command(client);
 			break ;
+		}
 		case 2 :
 			//manageRoom2Command(client);
 			break ;
@@ -158,12 +181,18 @@ void	Server::gClear()
 void	Server::gameSetup()
 {
 	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
-	
+	std::string	topics[3] = {"**Welcome to the Dungeon Lobby ! Please take a sit, and when all the daring adventurers are present, enter the command START**", 
+								"**A forgotten and enigmatic room in the depths of a dungeon.**",
+								"Topic3"};
+
 	for(size_t i = 0; i < 3; i++)
 	{
 		std::vector<std::string> arg;
 		arg.push_back(rooms[i]);
 		_iCommands[JOIN]->execCmd(_gm, arg);
+		arg.push_back(topics[i]);
+		_iCommands[TOPIC]->execCmd(_gm, arg);
+		arg.pop_back();
 		if (i != 0)
 		{
 			arg.push_back("+i");
