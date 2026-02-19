@@ -37,14 +37,19 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
     std::string     target = args[0];
     std::string     text = args[1];
 
-    std::string     message = ":" + client.getNickname() + "!" + client.getUsername() + "@" + Server::getInstance().getHostname()
+     if (Server::getInstance().isGameChannel(target) && text[0]== '*')
+          target = "Master";
+
+     std::string     message = ":" + client.getNickname() + "!" + client.getUsername() + "@" + Server::getInstance().getHostname()
           + " PRIVMSG " + target + " :" + text + "\r\n";
 
      const char     *msg = message.c_str();
      int            len = strlen(msg);
 
      if (target[0] == '#')
+     {
           Server::getInstance().sendMessageToChannel(client, target, msg);
+     }
      else
      {
           Client    receiver = Server::getInstance().getClientByNickname(target);

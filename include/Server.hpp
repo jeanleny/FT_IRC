@@ -99,6 +99,7 @@ class Server
 
 		bool					isRunningGameRoom(std::string chanName);
 		bool					isCommandFromGame(std::string chanName);
+		bool					isGameChannel(std::string chanName);
     	void					ServerPlayCmd(Client &emitter, const std::vector<std::string> &arg);
 		void					manageGameCommand(Client &client);
 		void					gMapSetup();

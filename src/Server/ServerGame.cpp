@@ -3,28 +3,29 @@
 void	Server::manageLobbyCommand(Client &client)
 {
 	std::string cmd;
-	ssize_t		chan = getChannelByName("#LOBBY");
+	ssize_t		chan = getChannelByName("#TAVERN");
 	std::vector<Client> clients = _channels[chan].getMemberList();
 	std::vector<std::string> joinArg;
 	std::vector<std::string> inviteArg;
 	std::vector<std::string> privmsgArg;
-	joinArg.push_back("#ROOM1");
-	inviteArg.push_back("#ROOM1");
-	privmsgArg.push_back("#ROOM1");
+	joinArg.push_back("#CORRIDOR");
+	inviteArg.push_back("#CORRIDOR");
+	privmsgArg.push_back("#CORRIDOR");
 	clients.erase(clients.begin());
 
 	cmd = client.getCmd();
 	if (cmd == "START")
 	{
-		for (size_t i = 0; i < _channels[chan].getMemberNb() -1 ; i++)
+		for (size_t i = 0; i < _channels[chan].getMemberNb() - 1 ; i++)
 		{
 			inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
 			_iCommands[INVITE]->execCmd(_gm, inviteArg);
 			_iCommands[JOIN]->execCmd(clients[i], joinArg);
 			inviteArg.erase(inviteArg.begin());
+			// ajouter clients[i].getNickname() au message pour GM
 		}
-		privmsgArg.push_back(_gm.getMsg(ROOM1));
-		_iCommands[PRIVMSG]->execCmd(_gm, privmsgArg);
+		//envoyer un privmsg "*INFO" au GM
+		// _iCommands[PRIVMSG]->execCmd(_gm, privmsgArg);
 	}
 }
 
@@ -83,9 +84,9 @@ void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg
 	(void)arg;
 	std::vector<std::string> lobby;
 
-	if (!Server::getInstance().isInChannel(emitter, "#LOBBY"))
+	if (!Server::getInstance().isInChannel(emitter, "#TAVERN"))
 	{
-		lobby.push_back("#LOBBY");
+		lobby.push_back("#TAVERN");
 		_iCommands[JOIN]->execCmd(emitter, lobby);
 	}
 }
@@ -105,6 +106,18 @@ bool	Server::isRunningGameRoom(std::string chanName)
 bool	Server::isCommandFromGame(std::string chanName)
 {
 	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		if (chanName == rooms[i])
+			return true;
+	}
+	return false;
+}
+
+bool	Server::isGameChannel(std::string chanName)
+{
+	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM"};
 
 	for (size_t i = 0; i < 3; i++)
 	{
