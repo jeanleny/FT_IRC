@@ -29,6 +29,35 @@ BotGameMaster::~BotGameMaster()
 
 }
 
+std::vector<std::string> split(const std::string & str)
+{
+	std::vector<std::string> split;
+	std::string elem;
+	int		start = 0;
+	int		end = 0;
+	for (size_t i = 0; i < str.size();)
+	{
+		while (isspace(str[i]) && str[i])
+			i++;
+		if (str[i] == ':')
+		{
+			start = i + 1;
+			end = str.size();
+			split.push_back(str.substr(start, end - start));
+			return split;
+		}
+		else
+		{
+			start = i;
+			while (!isspace(str[i]) && str[i])
+				i++;
+			end = i;
+			split.push_back(str.substr(start, end - start));
+		}
+	}
+	return split;
+}
+
 void	BotGameMaster::initBot()
 {
 	struct addrinfo servParam;
@@ -89,12 +118,20 @@ void	BotGameMaster::connectServer()
 		std::cout << "connect failed en fait c tro grav" << std::endl;
 		return ;
 	}
+<<<<<<< BotRefacto
+	sendCommand("PASS " + _pass + "\r\n");
+	usleep(100000);
+	sendCommand("USER Master \r\n");
+	usleep(100000);
+	sendCommand("NICK Master \r\n");
+=======
 	authentication();
 	createRooms();
+>>>>>>> bonus
 	while (running)
 	{
 		char 	buf[1024];
-		recv_bytes = recv(_botFd, buf, sizeof(buf), 0);
+		recv_bytes = recv(_botFd, &buf, 1023, 0);
 		buf[recv_bytes] = '\0';
 		if (recv_bytes <= 0)
 		{
@@ -103,10 +140,98 @@ void	BotGameMaster::connectServer()
 			std::cout << "Server Connection's lost" << std::endl;
 			return ;
 		}
+<<<<<<< BotRefacto
+		else if (recv_bytes > 0)
+			parsePlayerCmd(buf);
+	}
+}
+
+std::string	BotGameMaster::parsePlayerNick(std::string content)
+{
+	std::string result;
+	size_t del = content.find("!");
+
+	result = content.substr(0, del);
+	result.erase(result.begin());
+	return (result);
+}
+
+std::string	BotGameMaster::getMessage(std::vector<std::string> args)
+{
+	size_t pos = args.size() - 1;
+
+	return (args[pos]);
+}
+
+
+bool BotGameMaster::isPrivMsg(std::vector<std::string> args)
+{
+	if (args.size() > 1)
+		return (args[1] == "PRIVMSG");
+	return (false);
+}
+
+std::vector<std::string>	BotGameMaster::getArgs(std::string str)
+{
+	std::vector<std::string> args;
+
+	str.erase(str.begin());
+	args = split(str);
+	return (args);	
+}
+
+bool BotGameMaster::isGameCmd(std::string str)
+{
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		if (!isspace(str[i]))
+		{
+			if (str[i] == '*')
+				return (true);
+		}
+	}
+	return (false);
+}
+
+std::string BotGameMaster::extractGameCmd(std::string str)
+{
+	std::vector<std::string> splitted = split(str);
+
+	splitted[0].erase(splitted[0].begin());
+	for (size_t i = 0; i < splitted[0].length(); i++)
+	{
+		splitted[0][i] = toupper(splitted[0][i]);
+	}
+	return (splitted[0]);
+}
+
+void	BotGameMaster::parsePlayerCmd(char *str)
+{
+	t_parse parse;
+
+	parse.player = parsePlayerNick(str);
+	parse.args = getArgs(str);
+	if (!isPrivMsg(parse.args))
+		return ;
+	parse.content = getMessage(parse.args);
+	if (parse.content.size() > 0)
+	{
+		if (isGameCmd(parse.content))
+		{
+			parse.cmd = extractGameCmd(parse.content);
+			parse.msg = "PRIVMSG " + parse.player + " :GameCommand received\r\n";
+			sendCommand(parse.msg);
+		}
+		else
+		{
+			parse.msg = "PRIVMSG " + parse.player + " :Kechia ?\r\n";
+			sendCommand(parse.msg);
+=======
 		else
 		{
 			std::cout << buf << std::endl;
 			// manageGameCommand()
+>>>>>>> bonus
 		}
 	}
 }

@@ -94,8 +94,6 @@ class Client
 		std::string					_cmd;
 		std::string					_incomingChannel;
 		char						_buf[1024];
-
-		game						g;
 };
 
 #endif

@@ -46,6 +46,8 @@ CustomErrorException::CustomErrorException(Client & client)
         _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a username (USER command)\r\n";
     else if (client.getRegisterStatus() == NICK_STATUS)
         _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a nickname (NICK Command)\r\n";
+	else if (client.getCommandId() == JOIN)
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :These Channels are reserved by the Master\r\n";
 	else
 		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Too many parameters\r\n";
 }

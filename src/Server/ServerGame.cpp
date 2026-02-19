@@ -178,7 +178,6 @@ void	Server::callPartCommand(std::string chanName)
 		if (clients[i].getNickname() != "GameMaster" && isInChannel(clients[i], chanName))
 			_iCommands[PART]->execCmd(clients[i], arg);
 	}
-	
 }
 
 void	Server::gClear()
