@@ -118,16 +118,8 @@ void	BotGameMaster::connectServer()
 		std::cout << "connect failed en fait c tro grav" << std::endl;
 		return ;
 	}
-<<<<<<< BotRefacto
-	sendCommand("PASS " + _pass + "\r\n");
-	usleep(100000);
-	sendCommand("USER Master \r\n");
-	usleep(100000);
-	sendCommand("NICK Master \r\n");
-=======
 	authentication();
 	createRooms();
->>>>>>> bonus
 	while (running)
 	{
 		char 	buf[1024];
@@ -140,7 +132,6 @@ void	BotGameMaster::connectServer()
 			std::cout << "Server Connection's lost" << std::endl;
 			return ;
 		}
-<<<<<<< BotRefacto
 		else if (recv_bytes > 0)
 			parsePlayerCmd(buf);
 	}
@@ -226,12 +217,7 @@ void	BotGameMaster::parsePlayerCmd(char *str)
 		{
 			parse.msg = "PRIVMSG " + parse.player + " :Kechia ?\r\n";
 			sendCommand(parse.msg);
-=======
-		else
-		{
-			std::cout << buf << std::endl;
 			// manageGameCommand()
->>>>>>> bonus
 		}
 	}
 }
