@@ -22,7 +22,15 @@ void	Server::startCommand(Client &client)
 		i_list += " ";
 		i_list += clients[i].getNickname();
 	}
+	privmsgArg.push_back("Master");
 	privmsgArg.push_back(i_list);
+	std::cout << "sayze : " << privmsgArg.size() << std::endl;
+	std::cout << "niquename : " << client.getNickname() << std::endl;
+	for (size_t i = 0; i < privmsgArg.size(); i++)
+	{
+		std::cout << "prvmsg [i] " << privmsgArg[i] << std::endl;
+	}
+	usleep(100000);
 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
 }
 

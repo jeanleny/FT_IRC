@@ -13,7 +13,6 @@ void parsePrivmsgArgs(Client & client, const std::vector<std::string>& args)
 {
      if (args.size() < 2)
           throw NotEnoughParametersException(client);
-
      std::string     target = args[0];
      std::string     text = args[1];
 
@@ -53,6 +52,8 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
      else
      {
           Client    receiver = Server::getInstance().getClientByNickname(target);
+		  std::cout << "ssageme : " << msg << std::endl;
+		  std::cout << "fd : " << receiver.getClientFd() << std::endl;
           send(receiver.getClientFd(), msg, len, 0);
      }
 }

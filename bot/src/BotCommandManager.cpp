@@ -17,24 +17,25 @@ bool    BotGameMaster::isPlayerInRoom(std::string nickname, e_roomId room)
 }
 
 
-void    BotGameMaster::manageGameCommand(std::string nickname, std::string command)
+void    BotGameMaster::manageGameCommand(t_parse parse)
 {
-    if (command == "START" && !_gameRunning)
+	std::cout << "manage cmd : " << parse.cmd << std::endl;
+    if (parse.cmd == "START" && !_gameRunning)
     {
-        sendCommand("START");
+        sendCommand("START\r\n");
         _gameRunning = true;
     }
-    else if (command == "INFO" && nickname == "Master")
-        setupPlayers(command);
-    else if (isRoomCommand(command, CORRIDOR) && isPlayerInRoom(nickname, CORRIDOR))
+    else if (parse.cmd == "INFO" && parse.player == "Master")
+        setupPlayers(parse.content);
+    else if (isRoomCommand(parse.cmd, CORRIDOR) && isPlayerInRoom(parse.player, CORRIDOR))
     {
         //manageRoom1Command();
     }
-    else if (isRoomCommand(command, ROOM) && isPlayerInRoom(nickname, ROOM))
+    else if (isRoomCommand(parse.cmd, ROOM) && isPlayerInRoom(parse.player, ROOM))
     {
         //manageRoom2Command();
     }
-    else if (isRoomCommand(command, HOLE) && isPlayerInRoom(nickname, HOLE))
+    else if (isRoomCommand(parse.cmd, HOLE) && isPlayerInRoom(parse.player, HOLE))
     {
         //manageRoom3Command();
     }

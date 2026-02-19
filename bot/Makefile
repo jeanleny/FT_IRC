@@ -9,7 +9,8 @@ BUILD_DIR	= object
 NAME		= GM
 SRC			+= src/main.cpp						\
 			   src/BotGameMaster.cpp			\
-			   src/BotCommandManager.cpp
+			   src/BotCommandManager.cpp		\
+			   src/BotCmdParsing.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)

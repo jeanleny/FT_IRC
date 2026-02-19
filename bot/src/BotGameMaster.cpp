@@ -29,35 +29,6 @@ BotGameMaster::~BotGameMaster()
 
 }
 
-std::vector<std::string> split(const std::string & str)
-{
-	std::vector<std::string> split;
-	std::string elem;
-	int		start = 0;
-	int		end = 0;
-	for (size_t i = 0; i < str.size();)
-	{
-		while (isspace(str[i]) && str[i])
-			i++;
-		if (str[i] == ':')
-		{
-			start = i + 1;
-			end = str.size();
-			split.push_back(str.substr(start, end - start));
-			return split;
-		}
-		else
-		{
-			start = i;
-			while (!isspace(str[i]) && str[i])
-				i++;
-			end = i;
-			split.push_back(str.substr(start, end - start));
-		}
-	}
-	return split;
-}
-
 void	BotGameMaster::initBot()
 {
 	struct addrinfo servParam;
@@ -106,22 +77,26 @@ void	BotGameMaster::authentication()
 	usleep(100000);
 }
 
-void	BotGameMaster::connectServer()
+int	BotGameMaster::servConnect()
 {
-	bool	running = true;
-	int		recv_bytes;
-	
 	if (connect(_botFd, _servInfo->ai_addr, _servInfo->ai_addrlen) < 0)
 	{
 		freeaddrinfo(_servInfo);
 		close(_botFd);
 		std::cout << "connect failed en fait c tro grav" << std::endl;
-		return ;
+		return (-1);
 	}
-	authentication();
-	createRooms();
+	return (0);
+}
+
+void	BotGameMaster::servProcess()
+{
+	bool	running = true;
+	int		recv_bytes;
+
 	while (running)
 	{
+		t_parse parse;
 		char 	buf[1024];
 		recv_bytes = recv(_botFd, &buf, 1023, 0);
 		buf[recv_bytes] = '\0';
@@ -133,94 +108,24 @@ void	BotGameMaster::connectServer()
 			return ;
 		}
 		else if (recv_bytes > 0)
-			parsePlayerCmd(buf);
-	}
-}
-
-std::string	BotGameMaster::parsePlayerNick(std::string content)
-{
-	std::string result;
-	size_t del = content.find("!");
-
-	result = content.substr(0, del);
-	result.erase(result.begin());
-	return (result);
-}
-
-std::string	BotGameMaster::getMessage(std::vector<std::string> args)
-{
-	size_t pos = args.size() - 1;
-
-	return (args[pos]);
-}
-
-
-bool BotGameMaster::isPrivMsg(std::vector<std::string> args)
-{
-	if (args.size() > 1)
-		return (args[1] == "PRIVMSG");
-	return (false);
-}
-
-std::vector<std::string>	BotGameMaster::getArgs(std::string str)
-{
-	std::vector<std::string> args;
-
-	str.erase(str.begin());
-	args = split(str);
-	return (args);	
-}
-
-bool BotGameMaster::isGameCmd(std::string str)
-{
-	for (size_t i = 0; i < str.length(); i++)
-	{
-		if (!isspace(str[i]))
 		{
-			if (str[i] == '*')
-				return (true);
+			parsePlayerCmd(buf, &parse);
 		}
+		if (parse.valid)
+			manageGameCommand(parse);
 	}
-	return (false);
 }
 
-std::string BotGameMaster::extractGameCmd(std::string str)
+void	BotGameMaster::botConnect()
 {
-	std::vector<std::string> splitted = split(str);
-
-	splitted[0].erase(splitted[0].begin());
-	for (size_t i = 0; i < splitted[0].length(); i++)
-	{
-		splitted[0][i] = toupper(splitted[0][i]);
-	}
-	return (splitted[0]);
-}
-
-void	BotGameMaster::parsePlayerCmd(char *str)
-{
-	t_parse parse;
-
-	parse.player = parsePlayerNick(str);
-	parse.args = getArgs(str);
-	if (!isPrivMsg(parse.args))
+	
+	if (servConnect() < 0)
 		return ;
-	parse.content = getMessage(parse.args);
-	if (parse.content.size() > 0)
-	{
-		if (isGameCmd(parse.content))
-		{
-			parse.cmd = extractGameCmd(parse.content);
-			parse.msg = "PRIVMSG " + parse.player + " :GameCommand received\r\n";
-			sendCommand(parse.msg);
-			manageGameCommand(parse.player, parse.cmd);
-		}
-		else
-		{
-			parse.msg = "PRIVMSG " + parse.player + " :Kechia ?\r\n";
-			sendCommand(parse.msg);
-		}
-	}
+	authentication();
+	createRooms();
+	servProcess();
 }
+
 
 void	BotGameMaster::sendCommand(std::string msg)
 {
@@ -229,11 +134,11 @@ void	BotGameMaster::sendCommand(std::string msg)
 
 void    BotGameMaster::setupPlayers(std::string command)
 {
-    int pos = command.find(":");
-    std::vector<std::string> playerList = split(command.substr(pos + 1));
-
-    for (size_t i = 0; i < playerList.size(); i++)
+    command.erase(command.begin());
+    std::vector<std::string> playerList = split(command);
+    for (size_t i = 1; i < playerList.size(); i++)
     {
-        _players[playerList[i]] = (e_roomId)1;
+        //_players[playerList[i]] = (e_roomId)1;
+		std::cout << "pleyeure : " << playerList[i] << std::endl;
     }
 }

@@ -9,6 +9,6 @@ int main(int argc, char **argv)
 	}
 	BotGameMaster gm(argv[1], argv[2]);
 	gm.initBot();
-	gm.connectServer();
+	gm.botConnect();
 	return (1);
 }
