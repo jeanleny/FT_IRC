@@ -7,25 +7,53 @@
 #include <string.h>
 #include <unistd.h>
 #include <vector>
+#include <map>
+
+typedef enum roomId
+{
+	TAVERN,
+	CORRIDOR,
+	ROOM,
+	HOLE,
+} e_roomId;
+
+typedef enum gameCmd
+{
+	START,
+	WALL,
+	SKELETON,
+	DOOR,
+	LEVER,
+} e_gameCmd;
+
 
 class BotGameMaster 
 {
 	public :
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
-		void				initBot();
-		void				connectServer();
-		void				sendCommand(std::string msg);
-		void				authentication();
-		void				createRooms();
+
+		void		initBot();
+		void		connectServer();
+		void		sendCommand(std::string msg);
+		void		authentication();
+		void		createRooms();
+		void   		manageGameCommand(std::string nickname, std::string command);
+		bool		isRoomCommand(std::string command, e_roomId room);
+		bool    	isPlayerInRoom(std::string nickname, e_roomId room);
 
 	private :
-		struct addrinfo				*_servInfo;
-		std::string					_servPort;
-		std::string					_pass;
-		int							_botFd;
-		char						_hostName[128];
-		std::vector<std::string>	_rooms;
-		std::vector<std::string>	_topics;
+		struct addrinfo										*_servInfo;
+		std::string											_servPort;
+		std::string											_pass;
+		int													_botFd;
+		char												_hostName[128];
+
+		//----GAME CONTENT
+		bool												_gameRunning;
+		std::vector<std::string>							_rooms;
+		std::vector<std::string>							_topics;
+		std::map<e_roomId, std::vector<std::string> >		_gameCmd;
+		std::map<std::string, e_roomId>						_players;
 };
 
