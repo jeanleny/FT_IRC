@@ -108,7 +108,7 @@ class Server
 		void					callPartCommand(std::string chanName);
 		void					displayMap();
 		bool					isGameCommand(Client & client);
-		void					manageLobbyCommand(Client &client);
+		void					startCommand(Client &client);
 		void					manageRoom1Command(Client &client);
 
 

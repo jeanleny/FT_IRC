@@ -35,8 +35,6 @@ bool	reservedChannels(std::string chanName)
 
 void	isValidChannel(Client client, std::string channelName)
 {
-	if (reservedChannels(channelName))
-		throw CustomErrorException(client);
 	if (channelName.size() > 50 || !checkPrefix(channelName) || channelName.size() < 2)
 		throw InvalidChannelException(client);
 }

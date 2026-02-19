@@ -1,32 +1,29 @@
 #include <Server.hpp>
 
-void	Server::manageLobbyCommand(Client &client)
+void	Server::startCommand(Client &client)
 {
 	std::string cmd;
+	std::string	cor = "#CORRIDOR";
+	std::string	i_list = "*INFO";
 	ssize_t		chan = getChannelByName("#TAVERN");
 	std::vector<Client> clients = _channels[chan].getMemberList();
-	std::vector<std::string> joinArg;
-	std::vector<std::string> inviteArg;
-	std::vector<std::string> privmsgArg;
-	joinArg.push_back("#CORRIDOR");
-	inviteArg.push_back("#CORRIDOR");
-	privmsgArg.push_back("#CORRIDOR");
-	clients.erase(clients.begin());
+	std::vector<std::string> joinArg, inviteArg, privmsgArg;
 
+	joinArg.push_back(cor);
+	inviteArg.push_back(cor);
+	clients.erase(clients.begin());
 	cmd = client.getCmd();
-	if (cmd == "START")
+	for (size_t i = 0; i < _channels[chan].getMemberNb() - 1 ; i++)
 	{
-		for (size_t i = 0; i < _channels[chan].getMemberNb() - 1 ; i++)
-		{
-			inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
-			_iCommands[INVITE]->execCmd(_gm, inviteArg);
-			_iCommands[JOIN]->execCmd(clients[i], joinArg);
-			inviteArg.erase(inviteArg.begin());
-			// ajouter clients[i].getNickname() au message pour GM
-		}
-		//envoyer un privmsg "*INFO" au GM
-		// _iCommands[PRIVMSG]->execCmd(_gm, privmsgArg);
+		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
+		_iCommands[INVITE]->execCmd(client, inviteArg);
+		_iCommands[JOIN]->execCmd(clients[i], joinArg);
+		inviteArg.erase(inviteArg.begin());
+		i_list += " ";
+		i_list += clients[i].getNickname();
 	}
+	privmsgArg.push_back(i_list);
+	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
 }
 
 void	Server::manageRoom1Command(Client &client)
@@ -48,35 +45,13 @@ void	Server::manageRoom1Command(Client &client)
 
 void	Server::manageGameCommand(Client &client)
 {
-	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
-	std::string	channel = client.getIncomingChannel();
-	size_t i = 0;
+	std::string cmd = client.getCmd();
+	std::string	nick = client.getNickname();
+	if (cmd == "START" && nick == "Master")
+	{
+		startCommand(client);
+	}
 
-	for (;i < 3; i++)
-	{
-		if (channel == rooms[i])
-			break ;
-	}
-	switch (i)
-	{
-		case 0 :
-		{
-			manageLobbyCommand(client);
-			break ;
-		}
-		case 1 :
-		{
-			manageRoom1Command(client);
-			break ;
-		}
-		case 2 :
-			//manageRoom2Command(client);
-			break ;
-	}
-	/*for (size_t i = 0; i < _gmcmd[client.getIncomingChannel].size(); i++)
-	{
-	
-	}*/
 }
 
 void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg)
@@ -103,18 +78,6 @@ bool	Server::isRunningGameRoom(std::string chanName)
 	return false;
 }
 
-bool	Server::isCommandFromGame(std::string chanName)
-{
-	std::string rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
-
-	for (size_t i = 0; i < 3; i++)
-	{
-		if (chanName == rooms[i])
-			return true;
-	}
-	return false;
-}
-
 bool	Server::isGameChannel(std::string chanName)
 {
 	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM"};
@@ -129,7 +92,7 @@ bool	Server::isGameChannel(std::string chanName)
 
 bool	Server::isGameCommand(Client & client)
 {
-	const std::string g_array[NB_GCMD]= {"START", "CMD2", "CMD3", "CMD4"};
+	const std::string g_array[NB_GCMD]= {"START", "INFO", "CMD3", "CMD4"};
 
 	for (size_t i = 0; i < NB_GCMD; i++)
 	{
