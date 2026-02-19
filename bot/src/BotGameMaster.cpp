@@ -226,3 +226,14 @@ void	BotGameMaster::sendCommand(std::string msg)
 {
 	send(_botFd, msg.c_str(), msg.length(), 0);
 }
+
+void    BotGameMaster::setupPlayers(std::string command)
+{
+    int pos = command.find(":");
+    std::vector<std::string> playerList = split(command.substr(pos + 1));
+
+    for (size_t i = 0; i < playerList.size(); i++)
+    {
+        _players[playerList[i]] = (e_roomId)1;
+    }
+}

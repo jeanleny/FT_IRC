@@ -16,32 +16,31 @@ bool    BotGameMaster::isPlayerInRoom(std::string nickname, e_roomId room)
     return (_players[nickname] == room);
 }
 
+
 void    BotGameMaster::manageGameCommand(std::string nickname, std::string command)
 {
-    if (command == "START")
+    if (command == "START" && !_gameRunning)
     {
-        if (_gameRunning)
-            //throw InvalidCommand
+        sendCommand("START");
         _gameRunning = true;
-            //startGame(); + s'envoyer un PRIVMSG avec les nickname des joueurs
     }
-    // else if (command == "INFO")
-    // {
-
-    // }
-    else
+    else if (command == "INFO" && nickname == "Master")
+        setupPlayers(command);
+    else if (isRoomCommand(command, CORRIDOR) && isPlayerInRoom(nickname, CORRIDOR))
     {
-        if (isRoomCommand(command, CORRIDOR) && isPlayerInRoom(nickname, CORRIDOR))
-        {
-            //manageRoom1Command();
-        }
-        if (isRoomCommand(command, ROOM) && isPlayerInRoom(nickname, ROOM))
-        {
-            //manageRoom2Command();
-        }
-        if (isRoomCommand(command, HOLE) && isPlayerInRoom(nickname, HOLE))
-        {
-            //manageRoom3Command();
-        }
+        //manageRoom1Command();
     }
+    else if (isRoomCommand(command, ROOM) && isPlayerInRoom(nickname, ROOM))
+    {
+        //manageRoom2Command();
+    }
+    else if (isRoomCommand(command, HOLE) && isPlayerInRoom(nickname, HOLE))
+    {
+        //manageRoom3Command();
+    }
+}
+
+void    BotGameMaster::sendInvalidCommandException(std::string nickname)
+{
+    sendCommand("PRIVMSG " + nickname + " :Invalid Command Exception\r\n");
 }
