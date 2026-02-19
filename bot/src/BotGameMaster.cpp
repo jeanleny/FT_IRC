@@ -212,12 +212,12 @@ void	BotGameMaster::parsePlayerCmd(char *str)
 			parse.cmd = extractGameCmd(parse.content);
 			parse.msg = "PRIVMSG " + parse.player + " :GameCommand received\r\n";
 			sendCommand(parse.msg);
+			manageGameCommand(parse.player, parse.cmd);
 		}
 		else
 		{
 			parse.msg = "PRIVMSG " + parse.player + " :Kechia ?\r\n";
 			sendCommand(parse.msg);
-			// manageGameCommand()
 		}
 	}
 }

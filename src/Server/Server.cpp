@@ -201,7 +201,7 @@ void	Server::manageCommand(Client & client)
 		{
 			throw UnknownCommandException(client);
 		}
-		if (isGameCommand(client) && isCommandFromGame(client.getIncomingChannel()))
+		if (isGameCommand(client))
 		{
 			manageGameCommand(client);
 			return ;
