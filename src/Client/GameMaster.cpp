@@ -5,17 +5,10 @@ GameMaster::GameMaster() : Client(GMFD)
 	setCommandId(IGNORED);
 	setRegisterStatus(REGISTERED);
 	setNickname("GameMaster");
-
-	_msg.push_back("Texte de presentation de la premiere piece, avec 4 choix possibles");
 }
 
 GameMaster::~GameMaster()
 {
-}
-
-std::string	GameMaster::getMsg(size_t i)
-{
-	return (_msg[i]);
 }
 
 

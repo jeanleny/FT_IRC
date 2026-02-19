@@ -15,8 +15,6 @@ class GameMaster : public Client
 		GameMaster();
 		~GameMaster();
 
-		std::string	getMsg(size_t);
-
 		void	doorCommand(Client & client);
 		void	wallCommand(Client & client);
 		void	skeletonCommand(Client & client);
@@ -28,6 +26,5 @@ class GameMaster : public Client
 	private :
 
 		std::vector<Client> 		players;
-		std::vector<std::string>	_msg;
 
 };
