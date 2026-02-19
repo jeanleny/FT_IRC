@@ -54,8 +54,11 @@ class BotGameMaster
 		void						authentication();
 		void						createRooms();
 		void   						manageGameCommand(std::string nickname, std::string command);
+		void						setupPlayers(std::string command);
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
+
+		void						sendInvalidCommandException(std::string nickname);
 
 	private :
 		struct addrinfo			*_servInfo;
