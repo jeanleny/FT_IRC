@@ -17,6 +17,7 @@ typedef struct s_parse
 	std::string	player;
 	std::string	cmd;
 	std::string	msg;
+	bool		valid;
 } t_parse;
 
 typedef enum roomId
@@ -42,7 +43,9 @@ class BotGameMaster
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void						initBot();
-		void						connectServer();
+		void						botConnect();
+		int							servConnect();
+		void						servProcess();
 		void						sendCommand(std::string msg);
 		std::string					parsePlayerNick(std::string content);
 		std::string					getMessage(std::vector<std::string> args);
@@ -50,10 +53,10 @@ class BotGameMaster
 		std::vector<std::string>	getArgs(std::string str);
 		bool						isPrivMsg(std::vector<std::string> args);
 		bool						isGameCmd(std::string str);
-		void						parsePlayerCmd(char *str);
+		void						parsePlayerCmd(char *str, t_parse *parse);
 		void						authentication();
 		void						createRooms();
-		void   						manageGameCommand(std::string nickname, std::string command);
+		void   						manageGameCommand(t_parse parse);
 		void						setupPlayers(std::string command);
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
@@ -74,5 +77,6 @@ class BotGameMaster
 		std::map<e_roomId, std::vector<std::string> >		_gameCmd;
 		std::map<std::string, e_roomId>						_players;
 };
-void		parsePlayerCmd(char *str);
+void						parsePlayerCmd(char *str);
+std::vector<std::string> 	split(const std::string & str);
 
