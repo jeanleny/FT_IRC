@@ -53,7 +53,7 @@ class BotGameMaster
 		std::vector<std::string>	getArgs(std::string str);
 		bool						isPrivMsg(std::vector<std::string> args);
 		bool						isGameCmd(std::string str);
-		void						parsePlayerCmd(char *str, t_parse *parse);
+		void						parsePlayerCmd(std::string str, t_parse *parse);
 		void						authentication();
 		void						createRooms();
 		void   						manageGameCommand(t_parse parse);
@@ -80,4 +80,5 @@ class BotGameMaster
 
 void						parsePlayerCmd(char *str);
 std::vector<std::string> 	split(const std::string & str);
+std::vector<std::string> 	trailingSplit(std::string str);
 
