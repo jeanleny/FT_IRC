@@ -3,12 +3,11 @@
 
 bool    BotGameMaster::isRoomCommand(std::string command, e_roomId room)
 {
-    for(size_t i = 0; i < _gameCmd[room].size(); i++)
-    {
-        if (command == _gameCmd[room][i])
-            return true;
-    }
-    return false;
+    std::map<std::string, std::vector<std::string> >::iterator it = _library[room].find(command);
+
+    if (it == _library[room].end())
+        return false;
+    return true;
 }
 
 bool    BotGameMaster::isPlayerInRoom(std::string nickname, e_roomId room)
@@ -16,17 +15,8 @@ bool    BotGameMaster::isPlayerInRoom(std::string nickname, e_roomId room)
     return (_players[nickname] == room);
 }
 
-void	displayMap(std::map<std::string, e_roomId> map)
-{
-	for(std::map<std::string, e_roomId >::iterator it = map.begin(); it != map.end(); it++)
-	{
-			std::cout << it->first << " : " << it->second << std::endl;
-	}
-}
-
 void    BotGameMaster::setupPlayers(std::string command)
 {
-    std::cout << "INFO : " << command << std::endl;
     std::vector<std::string> playerList = split(command);
     playerList.erase(playerList.begin());
     for (size_t i = 0; i < playerList.size() - 1; i++)
@@ -57,9 +47,11 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     {
         //manageRoom3Command();
     }
+    else
+        sendInvalidCommandMessage(parse.player);
 }
 
-void    BotGameMaster::sendInvalidCommandException(std::string nickname)
+void    BotGameMaster::sendInvalidCommandMessage(std::string nickname)
 {
     sendCommand("PRIVMSG " + nickname + " :Invalid Command Exception\r\n");
 }

@@ -1,27 +1,53 @@
 #include <BotGameMaster.hpp>
 
+void	BotGameMaster::createLibrary()
+{
+	std::vector<std::string>	startTxts;
+	startTxts.push_back("start paragraph");
+	std::vector<std::string>	drinkTxts;
+	startTxts.push_back("drink paragraph");
+	std::vector<std::string>	eatTxts;
+	startTxts.push_back("eat paragraph");
+	std::vector<std::string>	wallTxts;
+	startTxts.push_back("wall paragraph");
+	std::vector<std::string>	skeletonTxts;
+	startTxts.push_back("skeleton paragraph");
+	std::vector<std::string>	doorTxts;
+	startTxts.push_back("door paragraph1");
+	startTxts.push_back("door paragraph2");
+	std::vector<std::string>	leverTxts;
+	startTxts.push_back("lever paragraph1");
+	startTxts.push_back("lever paragraph2");
+	// + room paragraphs
+
+	std::map<std::string, std::vector<std::string> > tavern;
+	tavern["START"] = startTxts;
+	tavern["DRINK"] = drinkTxts;
+	tavern["EAT"] = startTxts;
+	std::map<std::string, std::vector<std::string> > corridor;
+	corridor["WALL"] = wallTxts;
+	corridor["SKELETON"] = skeletonTxts;
+	corridor["DOOR"] = doorTxts;
+	corridor["LEVER"] = leverTxts;
+	// std::map<std::string, std::vector<std::string> > room;
+
+	_library[TAVERN] = tavern;
+	_library[CORRIDOR] = corridor;
+	// _library[ROOM] = room;
+}
+
 BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pass), _gameRunning(false)
 {
 	_rooms.push_back("#TAVERN");
 	_rooms.push_back("#CORRIDOR");
 	_rooms.push_back("#ROOM");
 
-	_topics.push_back("**Welcome to the Tavern ! Please take a sit, and when all the daring adventurers are present, enter the command START**");
-	_topics.push_back("**A dark corridor leading to a closed door.**");
-	_topics.push_back("**A forgotten and enigmatic room in the depths of a dungeon.**");
+	_topics.push_back("Welcome to the Tavern ! Please take a sit, and when all the daring adventurers are present, enter the command START preceded by the symbol '*'");
+	_topics.push_back("A dark corridor leading to a closed door.");
+	_topics.push_back("A forgotten and enigmatic room in the depths of a dungeon.");
 
-	std::vector<std::string> tavern;
-	tavern.push_back("START");
-	std::vector<std::string> corridor;
-	corridor.push_back("WALL");
-	corridor.push_back("SKELETON");
-	corridor.push_back("DOOR");
-	corridor.push_back("LEVER");
-	std::vector<std::string> room;
-	//room.push_back();
-	_gameCmd[TAVERN] = tavern;
-	_gameCmd[CORRIDOR] = corridor;
-	_gameCmd[ROOM] = room;
+	createLibrary();
+	
 }
 
 BotGameMaster::~BotGameMaster()
