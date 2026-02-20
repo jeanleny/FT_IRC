@@ -77,6 +77,7 @@ class BotGameMaster
 		std::map<e_roomId, std::vector<std::string> >		_gameCmd;
 		std::map<std::string, e_roomId>						_players;
 };
+
 void						parsePlayerCmd(char *str);
 std::vector<std::string> 	split(const std::string & str);
 

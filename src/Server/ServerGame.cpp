@@ -17,20 +17,15 @@ void	Server::startCommand(Client &client)
 	{
 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
 		_iCommands[INVITE]->execCmd(client, inviteArg);
+		usleep(100000);
 		_iCommands[JOIN]->execCmd(clients[i], joinArg);
+		usleep(100000);
 		inviteArg.erase(inviteArg.begin());
 		i_list += " ";
 		i_list += clients[i].getNickname();
 	}
 	privmsgArg.push_back("Master");
 	privmsgArg.push_back(i_list);
-	std::cout << "sayze : " << privmsgArg.size() << std::endl;
-	std::cout << "niquename : " << client.getNickname() << std::endl;
-	for (size_t i = 0; i < privmsgArg.size(); i++)
-	{
-		std::cout << "prvmsg [i] " << privmsgArg[i] << std::endl;
-	}
-	usleep(100000);
 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
 }
 
@@ -126,16 +121,7 @@ void	Server::gMapSetup()
 	_gmcmd["#ROOM2"] = room2;
 }
 
-void	Server::displayMap()
-{
-	for(std::map<std::string, std::vector<std::string> >::iterator it = _gmcmd.begin(); it != _gmcmd.end(); it++)
-	{
-		for (size_t i = 0; i < it->second.size(); i++)
-		{
-			std::cout << it->first << " : " << it->second[i] << std::endl;
-		}
-	}
-}
+
 
 void	Server::callPartCommand(std::string chanName)
 {

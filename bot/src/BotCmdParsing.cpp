@@ -90,7 +90,7 @@ std::string BotGameMaster::extractGameCmd(std::string str)
 
 void	BotGameMaster::parsePlayerCmd(char *str, t_parse *parse)
 {
-	parse->valid = true;
+	parse->valid = false;
 	parse->player = parsePlayerNick(str);
 	parse->args = getArgs(str);
 	if (!isPrivMsg(parse->args))
@@ -101,13 +101,13 @@ void	BotGameMaster::parsePlayerCmd(char *str, t_parse *parse)
 		if (isGameCmd(parse->content))
 		{
 			parse->cmd = extractGameCmd(parse->content);
+			parse->valid = true;
 			parse->msg = "PRIVMSG " + parse->player + " :GameCommand received\r\n";
 			sendCommand(parse->msg);
 		}
 		else
 		{
-			parse->valid = false;
-			parse->msg = "PRIVMSG " + parse->player + " :Kechia ?\r\n";
+			parse->msg = "PRIVMSG " + parse->player + " :Invalid command\r\n";
 			sendCommand(parse->msg);
 		}
 	}
