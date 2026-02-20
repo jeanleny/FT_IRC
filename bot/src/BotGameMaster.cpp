@@ -91,12 +91,12 @@ int	BotGameMaster::servConnect()
 
 void	BotGameMaster::servProcess()
 {
+	std::vector<std::string> array;
 	bool	running = true;
 	int		recv_bytes;
 
 	while (running)
 	{
-		t_parse parse;
 		char 	buf[1024];
 		recv_bytes = recv(_botFd, &buf, 1023, 0);
 		buf[recv_bytes] = '\0';
@@ -109,10 +109,15 @@ void	BotGameMaster::servProcess()
 		}
 		else if (recv_bytes > 0)
 		{
-			parsePlayerCmd(buf, &parse);
+			array = trailingSplit(buf);	
+			for (size_t i = 0; i < array.size(); i++)
+			{
+				t_parse parse;
+				parsePlayerCmd(array[i], &parse);
+				if (parse.valid)
+					manageGameCommand(parse);
+			}
 		}
-		if (parse.valid)
-			manageGameCommand(parse);
 	}
 }
 
