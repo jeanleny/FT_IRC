@@ -33,8 +33,6 @@ void    BotGameMaster::setupPlayers(std::string command)
     {
         _players[playerList[i]] = CORRIDOR;
     }
-	displayMap(_players);
-
 }
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
