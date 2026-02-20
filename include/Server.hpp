@@ -150,7 +150,7 @@ class Server
 		
 		//----PARSING METHODS------------------------------------------------------------------------------
 		
-		int						extractCommand(char *buf, Client & client);
+		int						extractCommand(std::string str, Client & client);
 		void					extractCommandId(Client & ref, std::string id);
 		void					serverRegistration(Client & emitter);
 		bool					isRegisterCommand(ssize_t cmdId);

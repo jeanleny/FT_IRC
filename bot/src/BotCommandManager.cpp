@@ -48,7 +48,9 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
         //manageRoom3Command();
     }
     else
+	{
         sendInvalidCommandMessage(parse.player);
+	}
 }
 
 void    BotGameMaster::sendInvalidCommandMessage(std::string nickname)

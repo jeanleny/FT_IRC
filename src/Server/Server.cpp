@@ -245,11 +245,8 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 	emitter.setCommandId(UNKNOWN);
 }
 
-int	Server::extractCommand(char *buf, Client & client)
+int	Server::extractCommand(std::string str, Client & client)
 {
-	if (client.storeInBuf(buf) < 0)
-		return ERROR;
-	std::string	str = client.getBuf();
 	if (isEmptyCommand(str))
 		return ERROR;
 	eraseTrailingSpaces(str);
@@ -287,16 +284,30 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 	}
 	else if (recvBytes > 0)
 	{
+		std::vector<std::string>	i_request;
 		buf[recvBytes] = '\0';
-		if (extractCommand(buf, _clients[clientIndex]) < 0)
-			return ;
-		try
+		for (size_t i = 0; i < i_request.size(); i++)
 		{
-			manageCommand(_clients[clientIndex]);
+			std::cout << "i_request : " << i_request[i] << std::endl;
 		}
-		catch(const std::exception& e)
+		if (_clients[clientIndex].storeInBuf(buf) < 0)
+			return ;
+		i_request = trailingSplit(_clients[clientIndex].getBuf());
+		std::cout << "client.getbuf : " << _clients[clientIndex].getBuf() << std::endl;
+		for (size_t i = 0; i < i_request.size(); i++)
 		{
-			sendException(currentEvent.data.fd, e);
+			std::cout << "i_request loop: " << i_request[i] << std::endl;
+			std::cout << "client nick : " << _clients[clientIndex].getNickname() << std::endl;
+			if (extractCommand(i_request[i], _clients[clientIndex]) < 0)
+				continue ;
+			try
+			{
+				manageCommand(_clients[clientIndex]);
+			}
+			catch(const std::exception& e)
+			{
+				sendException(currentEvent.data.fd, e);
+			}
 		}
 	}
 	_clients[clientIndex].clearCommandArgs();

@@ -3,6 +3,7 @@
 
 
 std::vector<std::string>	split(const std::string & str);
+std::vector<std::string> 	trailingSplit(std::string  str);
 void						eraseTrailingSpaces(std::string &str);
 void						uppercaseStr(std::string &str);
 bool						isEmptyCommand(std::string str);
