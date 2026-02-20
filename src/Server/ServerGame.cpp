@@ -7,8 +7,9 @@ void	Server::startCommand(Client &client)
 	std::string	i_list = "*INFO";
 	ssize_t		chan = getChannelByName("#TAVERN");
 	std::vector<Client> clients = _channels[chan].getMemberList();
-	std::vector<std::string> joinArg, inviteArg, privmsgArg;
+	std::vector<std::string> joinArg, inviteArg, privmsgArg, partArg;
 
+	partArg.push_back("#TAVERN");
 	joinArg.push_back(cor);
 	inviteArg.push_back(cor);
 	clients.erase(clients.begin());
@@ -17,9 +18,8 @@ void	Server::startCommand(Client &client)
 	{
 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
 		_iCommands[INVITE]->execCmd(client, inviteArg);
-		usleep(100000);
 		_iCommands[JOIN]->execCmd(clients[i], joinArg);
-		usleep(100000);
+		_iCommands[PART]->execCmd(clients[i], partArg);
 		inviteArg.erase(inviteArg.begin());
 		i_list += " ";
 		i_list += clients[i].getNickname();
