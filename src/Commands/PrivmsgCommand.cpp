@@ -52,8 +52,6 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
      else
      {
           Client    receiver = Server::getInstance().getClientByNickname(target);
-		  std::cout << "ssageme : " << msg << std::endl;
-		  std::cout << "fd : " << receiver.getClientFd() << std::endl;
           send(receiver.getClientFd(), msg, len, 0);
      }
 }
