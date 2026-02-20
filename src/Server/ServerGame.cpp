@@ -26,7 +26,6 @@ void	Server::startCommand(Client &client)
 	}
 	privmsgArg.push_back("Master");
 	privmsgArg.push_back(i_list);
-	// usleep(100000);
 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
 }
 
