@@ -59,6 +59,7 @@ class BotGameMaster
 		void						authentication();
 		void						createRooms();
 		void   						manageGameCommand(t_parse parse);
+		void    					manageRoom1Command(t_parse parse);
 		void						setupPlayers(std::string command);
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);

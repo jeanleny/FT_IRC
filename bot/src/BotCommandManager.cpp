@@ -23,7 +23,15 @@ void    BotGameMaster::setupPlayers(std::string command)
     {
         _players[playerList[i]] = CORRIDOR;
     }
-    sendPrivmsg("#CORRIDOR", _messages[CORRIDOR_MSG]);
+    sendPrivmsg("#CORRIDOR", _library[TAVERN]["START"][0]);
+}
+
+void    BotGameMaster::manageRoom1Command(t_parse parse)
+{
+    if (parse.cmd == "WALL")
+        sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["WALL"][0]);
+    else if (parse.cmd == "SKELETON")
+        sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["SKELETON"][0]);
 }
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
@@ -38,7 +46,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
         setupPlayers(parse.content);
     else if (isRoomCommand(parse.cmd, CORRIDOR) && isPlayerInRoom(parse.player, CORRIDOR))
     {
-        //manageRoom1Command();
+        manageRoom1Command(parse);
     }
     else if (isRoomCommand(parse.cmd, ROOM) && isPlayerInRoom(parse.player, ROOM))
     {

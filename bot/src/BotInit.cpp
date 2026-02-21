@@ -1,24 +1,30 @@
 #include <BotGameMaster.hpp>
 
+/*
+To access a paragraph in the library, syntax is : _library[ROOM]["COMMAND"][index]
+Example : 	_library[CORRIDOR]["DOOR"][1]
+			_library[TAVERN]["START"][0]
+
+*/
 
 void	BotGameMaster::createLibrary()
 {
 	std::vector<std::string>	startTxts;
 	startTxts.push_back("start paragraph");
 	std::vector<std::string>	drinkTxts;
-	startTxts.push_back("drink paragraph");
+	drinkTxts.push_back("drink paragraph");
 	std::vector<std::string>	eatTxts;
-	startTxts.push_back("eat paragraph");
+	eatTxts.push_back("eat paragraph");
 	std::vector<std::string>	wallTxts;
-	startTxts.push_back("wall paragraph");
+	wallTxts.push_back("wall paragraph");
 	std::vector<std::string>	skeletonTxts;
-	startTxts.push_back("skeleton paragraph");
+	skeletonTxts.push_back("skeleton paragraph");
 	std::vector<std::string>	doorTxts;
-	startTxts.push_back("door paragraph1");
-	startTxts.push_back("door paragraph2");
+	doorTxts.push_back("door paragraph1");
+	doorTxts.push_back("door paragraph2");
 	std::vector<std::string>	leverTxts;
-	startTxts.push_back("lever paragraph1");
-	startTxts.push_back("lever paragraph2");
+	leverTxts.push_back("lever paragraph1");
+	leverTxts.push_back("lever paragraph2");
 	// + room paragraphs
 
 	std::map<std::string, std::vector<std::string> > tavern;
@@ -35,6 +41,7 @@ void	BotGameMaster::createLibrary()
 	_library[TAVERN] = tavern;
 	_library[CORRIDOR] = corridor;
 	// _library[ROOM] = room;
+
 }
 
 void    BotGameMaster::createTopics()
