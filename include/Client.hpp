@@ -10,16 +10,16 @@
 typedef enum registeredStatus
 {
 	PASS_STATUS,
-	USER_STATUS,
 	NICK_STATUS,
+	USER_STATUS,
 	REGISTERED
 } e_registeredStatus;
 
 typedef enum commandId
 {
 	PASS,
-	USER,
 	NICK,
+	USER,
 	KICK,
 	PRIVMSG,
 	TOPIC,
@@ -31,15 +31,6 @@ typedef enum commandId
 	UNKNOWN,
 	IGNORED,
 } e_commandId;
-
-typedef enum gCommandId
-{
-	CMD1,
-	CMD2,
-	CMD3,
-	CMD4,
-	INVALID,
-} e_gCommandId;
 
 struct weapon
 {
