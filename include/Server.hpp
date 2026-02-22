@@ -130,7 +130,6 @@ class Server
 		// std::vector<Channel>							_gChannels;
 		ICommand*										_iCommands[NB_CMD];
 
-		std::map<std::string, std::vector<std::string> >	_gmcmd;
 		GameMaster											_gm;
 
 
@@ -140,7 +139,6 @@ class Server
 		
 		void					initEpoll();
 		void					initICommands();
-		void					gameSetup();
 		void					serverClosing();
 		void					parseBuffer(Client &client, int currFd);
 		void					manageEvents(struct epoll_event &currentEvent);

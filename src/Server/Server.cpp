@@ -26,8 +26,8 @@ std::string	Server::getHostname() const
 void	Server::initICommands()
 {
 	_iCommands[0] = new PassCommand();
-	_iCommands[1] = new UserCommand();
-	_iCommands[2] = new NickCommand();
+	_iCommands[1] = new NickCommand();
+	_iCommands[2] = new UserCommand();
 	_iCommands[3] = new KickCommand();
 	_iCommands[4] = new PrivmsgCommand();
 	_iCommands[5] = new TopicCommand();
@@ -161,15 +161,15 @@ void	Server::serverRegistration(Client & client)
 				throw CustomErrorException(client);
 			_iCommands[PASS]->execCmd(client, cmdArgs);
 			break ;
-		case USER_STATUS :
-			if (cmdId != USER)
-				throw CustomErrorException(client);
-			_iCommands[USER]->execCmd(client, cmdArgs);
-			break ;
 		case NICK_STATUS :
 			if (cmdId != NICK)
 				throw CustomErrorException(client);
 			_iCommands[NICK]->execCmd(client, cmdArgs);
+			break ;
+		case USER_STATUS :
+			if (cmdId != USER)
+				throw CustomErrorException(client);
+			_iCommands[USER]->execCmd(client, cmdArgs);
 			break ;
 	}
 }
@@ -217,7 +217,7 @@ void	Server::manageCommand(Client & client)
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
-	const std::string array[NB_CMD]= {"PASS", "USER", "NICK", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART", "PLAY"};
+	const std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART", "PLAY"};
 	const std::string g_array[NB_GCMD]= {"START", "CMD2", "CMD3", "CMD4"};
 
 	emitter.setCmd(id);

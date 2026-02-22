@@ -6,6 +6,7 @@ void	Server::startCommand(Client &client)
 	std::string	cor = "#CORRIDOR";
 	std::string	i_list = "*INFO";
 	ssize_t		chan = getChannelByName("#TAVERN");
+	size_t		playerNb = _channels[chan].getMemberNb();
 	std::vector<Client> clients = _channels[chan].getMemberList();
 	std::vector<std::string> joinArg, inviteArg, privmsgArg, partArg;
 
@@ -14,7 +15,7 @@ void	Server::startCommand(Client &client)
 	inviteArg.push_back(cor);
 	clients.erase(clients.begin());
 	cmd = client.getCmd();
-	for (size_t i = 0; i < _channels[chan].getMemberNb() - 1; i++)
+	for (size_t i = 0; i < playerNb - 1 ; i++)
 	{
 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
 		_iCommands[INVITE]->execCmd(client, inviteArg);
@@ -26,7 +27,7 @@ void	Server::startCommand(Client &client)
 	}
 	privmsgArg.push_back("Master");
 	privmsgArg.push_back(i_list);
-	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
+	_iCommands[PRIVMSG]->execCmd(client, privmsgArg); //INFO message
 }
 
 void	Server::manageRoom1Command(Client &client)
@@ -105,22 +106,6 @@ bool	Server::isGameCommand(Client & client)
 	return false;
 }
 
-void	Server::gMapSetup()
-{
-	std::vector<std::string> lobby;
-	lobby.push_back("START");
-	lobby.push_back("cmd2");
-	std::vector<std::string> room1;
-	room1.push_back("cmd1");
-	room1.push_back("cmd2");
-	std::vector<std::string> room2;
-	room2.push_back("cmd1");
-	room2.push_back("cmd2");
-	_gmcmd["#LOBBY"] = lobby;
-	_gmcmd["#ROOM1"] = room1;
-	_gmcmd["#ROOM2"] = room2;
-}
-
 
 
 void	Server::callPartCommand(std::string chanName)
@@ -145,9 +130,4 @@ void	Server::gClear()
 	{
 		callPartCommand(rooms[i]);
 	}
-}
-
-void	Server::gameSetup()
-{
-	gMapSetup();
 }
