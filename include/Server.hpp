@@ -142,6 +142,7 @@ class Server
 		void					initICommands();
 		void					gameSetup();
 		void					serverClosing();
+		void					parseBuffer(Client &client, int currFd);
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
 		void					clearWrongEvent(size_t rmIndex);

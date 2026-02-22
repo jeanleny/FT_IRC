@@ -14,7 +14,7 @@ void	Server::startCommand(Client &client)
 	inviteArg.push_back(cor);
 	clients.erase(clients.begin());
 	cmd = client.getCmd();
-	for (size_t i = 0; i < _channels[chan].getMemberNb() - 1 ; i++)
+	for (size_t i = 0; i < _channels[chan].getMemberNb() - 1; i++)
 	{
 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
 		_iCommands[INVITE]->execCmd(client, inviteArg);

@@ -266,6 +266,26 @@ int	Server::extractCommand(std::string str, Client & client)
 	return 1;
 }
 
+void	Server::parseBuffer(Client &client, int currFd)
+{
+	std::vector<std::string>	i_request;
+
+	i_request = trailingSplit(client.getBuf());
+	for (size_t i = 0; i < i_request.size(); i++)
+	{
+		if (extractCommand(i_request[i], client) < 0)
+			continue ;
+		try
+		{
+			manageCommand(client);
+		}
+		catch(const std::exception& e)
+		{
+			sendException(currFd, e);
+		}
+	}
+}
+
 void	Server::manageEvents(struct epoll_event &currentEvent)
 {
 	char buf[1024];
@@ -284,31 +304,10 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 	}
 	else if (recvBytes > 0)
 	{
-		std::vector<std::string>	i_request;
 		buf[recvBytes] = '\0';
-		for (size_t i = 0; i < i_request.size(); i++)
-		{
-			std::cout << "i_request : " << i_request[i] << std::endl;
-		}
 		if (_clients[clientIndex].storeInBuf(buf) < 0)
 			return ;
-		i_request = trailingSplit(_clients[clientIndex].getBuf());
-		std::cout << "client.getbuf : " << _clients[clientIndex].getBuf() << std::endl;
-		for (size_t i = 0; i < i_request.size(); i++)
-		{
-			std::cout << "i_request loop: " << i_request[i] << std::endl;
-			std::cout << "client nick : " << _clients[clientIndex].getNickname() << std::endl;
-			if (extractCommand(i_request[i], _clients[clientIndex]) < 0)
-				continue ;
-			try
-			{
-				manageCommand(_clients[clientIndex]);
-			}
-			catch(const std::exception& e)
-			{
-				sendException(currentEvent.data.fd, e);
-			}
-		}
+		parseBuffer(_clients[clientIndex], currentEvent.data.fd);
 	}
 	_clients[clientIndex].clearCommandArgs();
 }
