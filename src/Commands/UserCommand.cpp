@@ -18,10 +18,6 @@ bool     validUsername(const std::vector<std::string>& args)
 
 void    UserCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
-    if (client.getRegisterStatus() == PASS_STATUS)
-        throw CustomErrorException(client);
-    if (client.getRegisterStatus() == NICK_STATUS)
-        throw CustomErrorException(client);
     if (client.getRegisterStatus() == REGISTERED)
         throw AlreadyRegisteredException(client);
     if (args.size() == 0)
@@ -31,6 +27,6 @@ void    UserCommand::execCmd(Client & client, const std::vector<std::string>& ar
         throw CustomErrorException(client);
     const std::string username = args[0];
     client.setUsername(username);
-    client.setRegisterStatus(NICK_STATUS);
-    Server::getInstance().sendNickQuery(client);
+    client.setRegisterStatus(REGISTERED);
+    Server::getInstance().sendWelcomeMessage(client);
 }

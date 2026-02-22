@@ -25,8 +25,8 @@ void    defineNickname(Client & client, const std::string & nickname)
     client.setNickname(nickname);
     if (client.getRegisterStatus() == NICK_STATUS)
     {
-        client.setRegisterStatus(REGISTERED);
-        Server::getInstance().sendWelcomeMessage(client);
+        client.setRegisterStatus(USER);
+        Server::getInstance().sendUserQuery(client);
     }
     else // Nick Command typed after registration
 	{
@@ -38,10 +38,6 @@ void    defineNickname(Client & client, const std::string & nickname)
 
 void    NickCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
-    if (client.getRegisterStatus() == PASS_STATUS)
-        throw CustomErrorException(client);
-    if (client.getRegisterStatus() == USER_STATUS)
-        throw CustomErrorException(client);
     if (args.size() == 0)
         throw NotEnoughParametersException(client);
     if (parseNickname(args) == -1)
