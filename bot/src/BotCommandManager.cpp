@@ -19,10 +19,19 @@ void    BotGameMaster::setupPlayers(std::string command)
 {
     std::vector<std::string> playerList = split(command);
     playerList.erase(playerList.begin());
-    for (size_t i = 0; i < playerList.size() - 1; i++)
+    for (size_t i = 0; i < playerList.size(); i++)
     {
         _players[playerList[i]] = CORRIDOR;
     }
+    sendPrivmsg("#CORRIDOR", _library[TAVERN]["START"][0]);
+}
+
+void    BotGameMaster::manageRoom1Command(t_parse parse)
+{
+    if (parse.cmd == "WALL")
+        sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["WALL"][0]);
+    else if (parse.cmd == "SKELETON")
+        sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["SKELETON"][0]);
 }
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
@@ -37,7 +46,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
         setupPlayers(parse.content);
     else if (isRoomCommand(parse.cmd, CORRIDOR) && isPlayerInRoom(parse.player, CORRIDOR))
     {
-        //manageRoom1Command();
+        manageRoom1Command(parse);
     }
     else if (isRoomCommand(parse.cmd, ROOM) && isPlayerInRoom(parse.player, ROOM))
     {
@@ -48,10 +57,10 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
         //manageRoom3Command();
     }
     else
-        sendInvalidCommandMessage(parse.player);
+        sendPrivmsg(parse.player, _messages[INVALID]);
 }
 
-void    BotGameMaster::sendInvalidCommandMessage(std::string nickname)
+void    BotGameMaster::sendPrivmsg(std::string nickname, std::string message)
 {
-    sendCommand("PRIVMSG " + nickname + " :Invalid Command Exception\r\n");
+    sendCommand("PRIVMSG " + nickname + " :" + message + "\r\n");
 }

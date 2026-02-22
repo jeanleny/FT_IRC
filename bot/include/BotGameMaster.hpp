@@ -28,17 +28,27 @@ typedef enum roomId
 	HOLE,
 } e_roomId;
 
+typedef enum msgId
+{
+	PRESENTATION,
+	INVALID,
+	CORRIDOR_MSG,
+} e_msgId;
+
 class BotGameMaster 
 {
 	public :
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void						initBot();
+		void						createLibrary();
+		void						createTopics();
+		void						createRoomsName();
+		void						createMessages();
+
 		void						botConnect();
 		int							servConnect();
 		void						servProcess();
-		void						createLibrary();
-		void						sendCommand(std::string msg);
 		std::string					parsePlayerNick(std::string content);
 		std::string					getMessage(std::vector<std::string> args);
 		std::string					extractGameCmd(std::string str);
@@ -49,11 +59,13 @@ class BotGameMaster
 		void						authentication();
 		void						createRooms();
 		void   						manageGameCommand(t_parse parse);
+		void    					manageRoom1Command(t_parse parse);
 		void						setupPlayers(std::string command);
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
-
-		void						sendInvalidCommandMessage(std::string nickname);
+		
+		void						sendCommand(std::string msg);
+		void						sendPrivmsg(std::string nickname, std::string message);
 
 	private :
 		struct addrinfo			*_servInfo;
@@ -66,6 +78,7 @@ class BotGameMaster
 		bool																	_gameRunning;
 		std::vector<std::string>												_rooms;
 		std::vector<std::string>												_topics;
+		std::vector<std::string>												_messages;
 		std::map<e_roomId, std::map<std::string, std::vector<std::string> > >	_library;
 		std::map<std::string, e_roomId>											_players;
 };
