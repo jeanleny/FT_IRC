@@ -3,7 +3,6 @@
 
 #include <Exception.hpp>
 #include <Client.hpp>
-#include <GameMaster.hpp>
 #include <Channel.hpp>
 #include <ICommand.hpp>
 #include <PlayCommand.hpp>
@@ -17,7 +16,6 @@
 #include <TopicCommand.hpp>
 #include <InviteCommand.hpp>
 #include <PartCommand.hpp>
-#include <GameMaster.hpp>
 #include <utils.h>
 #include <iostream>
 #include <fcntl.h>
@@ -131,11 +129,6 @@ class Server
 		// std::vector<Channel>							_gChannels;
 		ICommand*										_iCommands[NB_CMD];
 
-		GameMaster											_gm;
-
-
-		
-		
 		//----SERVER METHODS------------------------------------------------------------------------------
 		
 		void					initEpoll();

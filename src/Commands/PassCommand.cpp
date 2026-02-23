@@ -21,5 +21,4 @@ void    PassCommand::execCmd(Client & client, const std::vector<std::string>& ar
         throw PasswordMismatchException(client);
     client.setRegisterStatus(NICK_STATUS);
     Server::getInstance().sendNickQuery(client);
-    std::cout << "set nick status" << std::endl;
 }
