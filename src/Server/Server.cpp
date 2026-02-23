@@ -134,7 +134,6 @@ void	Server::clearWrongEvent(size_t rmIndex)
 	}
 }
 
-
 void	Server::manageWrongEvents(int bytes, ssize_t rmIndex, int eventFd)
 {	
 	if (bytes < 0)
@@ -206,7 +205,7 @@ void	Server::manageCommand(Client & client)
 			manageGameCommand(client);
 			return ;
 		}
-		else if (isRunningGameRoom(client.getIncomingChannel()) && commandId == PART)
+		else if (leavingGameSession(client))
 		{
 			gClear();
 		}
