@@ -52,6 +52,6 @@ void    PrivmsgCommand::execCmd(Client & client, const std::vector<std::string>&
      else
      {
           Client    receiver = Server::getInstance().getClientByNickname(target);
-          send(receiver.getClientFd(), msg, len, 0);
+          send(receiver.getClientFd(), msg, len, MSG_NOSIGNAL);
      }
 }

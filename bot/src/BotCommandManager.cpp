@@ -26,6 +26,12 @@ void    BotGameMaster::setupPlayers(std::string command)
     sendPrivmsg("#CORRIDOR", _library[TAVERN]["START"][0]);
 }
 
+void	BotGameMaster::shutDownGame()
+{
+	_gameRunning = 0;
+	_players.clear();
+}
+
 void    BotGameMaster::manageRoom1Command(t_parse parse)
 {
     if (parse.cmd == "WALL")
@@ -50,6 +56,8 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     }
     else if (parse.cmd == "INFO" && parse.player == "Master")
         setupPlayers(parse.content);
+    else if (parse.cmd == "SHUTDOWN" && parse.player == "Master")
+		    shutDownGame();
     else if (isRoomCommand(parse.cmd, TAVERN) && isPlayerInRoom(parse.player, TAVERN))
     {
         manageTavernCommand(parse);

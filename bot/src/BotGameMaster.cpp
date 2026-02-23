@@ -13,7 +13,6 @@ BotGameMaster::~BotGameMaster()
 {
 }
 
-
 void	BotGameMaster::createRooms()
 {
 	for(size_t i = 0; i < _rooms.size(); i++)
@@ -58,6 +57,7 @@ void	BotGameMaster::servProcess()
 		if (recv_bytes <= 0)
 		{
 			freeaddrinfo(_servInfo);
+			sendCommand("PART #CORRIDOR\r\n");
 			close(_botFd);
 			std::cout << "Server Connection's lost" << std::endl;
 			return ;
@@ -89,6 +89,6 @@ void	BotGameMaster::botConnect()
 
 void	BotGameMaster::sendCommand(std::string msg)
 {
-	send(_botFd, msg.c_str(), msg.length(), 0);
+	send(_botFd, msg.c_str(), msg.length(), MSG_NOSIGNAL);
 }
 

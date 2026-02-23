@@ -77,7 +77,7 @@ void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg
 
 bool	Server::isRunningGameRoom(std::string chanName)
 {
-	std::string rooms[2] = {"#ROOM1", "#ROOM2"};
+	std::string rooms[2] = {"#CORRIDOR", "#ROOM"};
 
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -85,6 +85,20 @@ bool	Server::isRunningGameRoom(std::string chanName)
 			return true;
 	}
 	return false;
+}
+
+bool	Server::leavingGameSession(Client & client)
+{
+	std::vector<std::string>	cmdArgs = client.getCommandArgs();
+	if (client.getCommandId() == PART)
+	{
+		if (cmdArgs.size() > 0)
+		{
+			if (isRunningGameRoom(cmdArgs[0]))
+				return (true);
+		}
+	}
+	return (false);
 }
 
 bool	Server::isGameChannel(std::string chanName)
@@ -101,7 +115,7 @@ bool	Server::isGameChannel(std::string chanName)
 
 bool	Server::isGameCommand(Client & client)
 {
-	const std::string g_array[NB_GCMD]= {"START", "INFO", "CMD3", "CMD4"};
+	const std::string g_array[NB_GCMD]= {"START", "INFO", "SHUTDOWN", "CMD4"};
 
 	for (size_t i = 0; i < NB_GCMD; i++)
 	{
@@ -122,17 +136,23 @@ void	Server::callPartCommand(std::string chanName)
 	arg.push_back(chanName);
 	for (size_t i = 0; i < memberNb; i++)
 	{
-		if (clients[i].getNickname() != "GameMaster" && isInChannel(clients[i], chanName))
+		if (clients[i].getNickname() != "Master" && isInChannel(clients[i], chanName))
 			_iCommands[PART]->execCmd(clients[i], arg);
 	}
 }
 
 void	Server::gClear()
 {
-	std::string				rooms[3] = {"#LOBBY", "#ROOM1", "#ROOM2"};
+	Client					gm = getClientByNickname("Master");
+	std::vector<std::string>arg;
+	std::string				rooms[3] = {"#CORRIDOR", "#ROOM"};
+	std::string				msg = "*SHUTDOWN";
 
+	arg.push_back("Master");
+	arg.push_back(msg);
 	for (size_t i = 0; i < 2; i++)
 	{
 		callPartCommand(rooms[i]);
 	}
+	_iCommands[PRIVMSG]->execCmd(gm, arg);
 }
