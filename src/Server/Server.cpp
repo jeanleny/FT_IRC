@@ -245,11 +245,8 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 	emitter.setCommandId(UNKNOWN);
 }
 
-int	Server::extractCommand(char *buf, Client & client)
+int	Server::extractCommand(std::string str, Client & client)
 {
-	if (client.storeInBuf(buf) < 0)
-		return ERROR;
-	std::string	str = client.getBuf();
 	if (isEmptyCommand(str))
 		return ERROR;
 	eraseTrailingSpaces(str);
@@ -267,6 +264,26 @@ int	Server::extractCommand(char *buf, Client & client)
 	if (client.getCommandId() == IGNORED)
 		return ERROR;
 	return 1;
+}
+
+void	Server::parseBuffer(Client &client, int currFd)
+{
+	std::vector<std::string>	i_request;
+
+	i_request = trailingSplit(client.getBuf());
+	for (size_t i = 0; i < i_request.size(); i++)
+	{
+		if (extractCommand(i_request[i], client) < 0)
+			continue ;
+		try
+		{
+			manageCommand(client);
+		}
+		catch(const std::exception& e)
+		{
+			sendException(currFd, e);
+		}
+	}
 }
 
 void	Server::manageEvents(struct epoll_event &currentEvent)
@@ -288,16 +305,9 @@ void	Server::manageEvents(struct epoll_event &currentEvent)
 	else if (recvBytes > 0)
 	{
 		buf[recvBytes] = '\0';
-		if (extractCommand(buf, _clients[clientIndex]) < 0)
+		if (_clients[clientIndex].storeInBuf(buf) < 0)
 			return ;
-		try
-		{
-			manageCommand(_clients[clientIndex]);
-		}
-		catch(const std::exception& e)
-		{
-			sendException(currentEvent.data.fd, e);
-		}
+		parseBuffer(_clients[clientIndex], currentEvent.data.fd);
 	}
 	_clients[clientIndex].clearCommandArgs();
 }

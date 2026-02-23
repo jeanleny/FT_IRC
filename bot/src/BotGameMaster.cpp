@@ -19,23 +19,17 @@ void	BotGameMaster::createRooms()
 	for(size_t i = 0; i < _rooms.size(); i++)
 	{
 		sendCommand("JOIN " + _rooms[i] + "\r\n");
-		usleep(100000);
 		sendCommand("TOPIC " + _rooms[i] + " :" + _topics[i] + "\r\n");
-		usleep(100000);
 		if (i != 0)
 			sendCommand("MODE " + _rooms[i] + " +i" + "\r\n");
-		usleep(100000);
 	}
 }
 
 void	BotGameMaster::authentication()
 {
 	sendCommand("PASS " + _pass + "\r\n");
-	usleep(100000);
 	sendCommand("USER Master\r\n");
-	usleep(100000);
 	sendCommand("NICK Master\r\n");
-	usleep(100000);
 }
 
 int	BotGameMaster::servConnect()

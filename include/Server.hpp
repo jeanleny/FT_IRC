@@ -140,6 +140,7 @@ class Server
 		void					initEpoll();
 		void					initICommands();
 		void					serverClosing();
+		void					parseBuffer(Client &client, int currFd);
 		void					manageEvents(struct epoll_event &currentEvent);
 		void					manageWrongEvents(int bytes, ssize_t removeIndex, int eventFd);
 		void					clearWrongEvent(size_t rmIndex);
@@ -148,7 +149,7 @@ class Server
 		
 		//----PARSING METHODS------------------------------------------------------------------------------
 		
-		int						extractCommand(char *buf, Client & client);
+		int						extractCommand(std::string str, Client & client);
 		void					extractCommandId(Client & ref, std::string id);
 		void					serverRegistration(Client & emitter);
 		bool					isRegisterCommand(ssize_t cmdId);

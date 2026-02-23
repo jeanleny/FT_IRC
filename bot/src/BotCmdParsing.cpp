@@ -121,10 +121,5 @@ void	BotGameMaster::parsePlayerCmd(std::string str, t_parse *parse)
 			parse->msg = "PRIVMSG " + parse->player + " :GameCommand received\r\n";
 			sendCommand(parse->msg);
 		}
-		else
-		{
-			parse->msg = "PRIVMSG " + parse->player + " :Invalid command\r\n";
-			sendCommand(parse->msg);
-		}
 	}
 }

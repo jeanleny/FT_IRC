@@ -36,7 +36,6 @@ void    BotGameMaster::manageRoom1Command(t_parse parse)
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
-	std::cout << "manage cmd : " << parse.cmd << std::endl;
     if (parse.cmd == "START" && !_gameRunning)
     {
         sendCommand("START\r\n");

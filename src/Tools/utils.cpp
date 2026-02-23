@@ -1,5 +1,20 @@
 #include <Server.hpp>
 
+std::vector<std::string> trailingSplit(std::string  str)
+{
+	std::vector<std::string> full;
+	std::string res;
+	size_t i = str.find("\r\n", 0);
+
+	while (i != std::string::npos)
+	{
+		res = str.substr(0, i);
+		full.push_back(res);
+		str.erase(0, 0 + i + 2);
+		i = str.find("\r\n", 0);
+	}
+	return (full);
+}
 
 std::vector<std::string> split(const std::string & str)
 {
