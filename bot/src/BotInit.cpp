@@ -10,7 +10,7 @@ Example : 	_library[CORRIDOR]["DOOR"][1]
 void	BotGameMaster::createLibrary()
 {
 	std::vector<std::string>	startTxts;
-	startTxts.push_back("Presentation du Corridor. Choix : WALL | SKELETON | DOOR");
+	startTxts.push_back("You are now walking through a long, dark, and narrow corridor that leads to a wooden closed door. On the left, on the wall, a series of wooden levers seem to control a mechanism (use *WALL to examine them). On the ground, sitting near the door, lies a skeleton, probably that of an unfortunate adventurer who died in this place (use *CORPSE to search it). Finally, the wooden door in front of you seems to have different inscriptions carved directly into the wood (use *DOOR to read them).");
 	std::vector<std::string>	drinkTxts;
 	drinkTxts.push_back(" drinks a Pina Colada and start zouking avec Magic System ça c'est le son qu'on aime.");
 	drinkTxts.push_back(" drinks a big chug of water with Salmonelles inside.");
@@ -27,34 +27,24 @@ void	BotGameMaster::createLibrary()
 	eatTxts.push_back(" eat a big slice of old cheddar.");
 	eatTxts.push_back(" eat 1 pound of salami.");
 	eatTxts.push_back(" eat a motherf****n caille en sarcophage.");
-	std::vector<std::string>	chatTxts;
-	chatTxts.push_back(" : \"Cette armure en obsidienne elfique me fait un mal de chien, je savais que j'aurais pas du l'acheter sur Ali Express, elle est meme pas garantie\"");
-	chatTxts.push_back(" : \"Vous avez vu, il pleut. Alors qu'hier il faisait beau. C'est fou il y a plus de saisons en vrai, vous ne trouvez pas ?\"");
-	chatTxts.push_back(" : \"Comme mon grand-père dit toujours avant de commencer une nouvelle aventure : Macron EXPLOSION!!!! hahaa vous avez la ref ?\"");
-	chatTxts.push_back(" : \"Je trouve que Costa-Gavras fait un cinema très Lynchien comparé a son père qui s'est toujours cantonné a des plans rapprochés en focale courte. Non ? Allô ? Quelqu'un pour interagir avec moi ? S'il vous plait, j'ai besoin d'attention.\"");
-	chatTxts.push_back(" : \"PAYS DE GALLES INDEPENDANT ! Pardon je l'ai dit à voix haute ça ?\"");
-	chatTxts.push_back(" : \"Qu'est ce qui est jaune et qui attend ?\"");
-	chatTxts.push_back(" : \"Je pense que je serai le premier a sortir du donjon. Je dit ça parce que j'ai extrêmement confiance en moi et que mon père m'a donné beaucoup d'attention étant jeune, contrairement a mon frère qu'on a vendu la semaine dernière sur le marché aux esclaves.\"");
 	std::vector<std::string>	wallTxts;
-	wallTxts.push_back("wall paragraph");
-	std::vector<std::string>	skeletonTxts;
-	skeletonTxts.push_back("skeleton paragraph");
+	wallTxts.push_back("On the wall, five levers seem to control the door mechanism's opening. Each lever have an symbol, unfortunately worn away by time : [?][?][?][?][?]			Use the *LEVER command followed par the positions you want to activate. Example : *LEVERS 135 to activate levers 1, 3, 5.");
+	std::vector<std::string>	corpseTxts;
+	corpseTxts.push_back("In front of you lies the body of an unlucky adventurer, probably unable to open this cursed door. Searching the pockets of his old clothes, you find a scroll with a cryptic message written on it : 1 = '!' ; 2 = '@' ; 3 = '#' ; 4 = '%'");
 	std::vector<std::string>	doorTxts;
-	doorTxts.push_back("door paragraph1");
-	doorTxts.push_back("door paragraph2");
+	doorTxts.push_back("You are facing a large wooden door which seems to be closed. Three stranges inscriptions are carved into the wood, which are difficult to decipher. \"ON $ % !\" \"OFF @ #\"");
 	std::vector<std::string>	leverTxts;
-	leverTxts.push_back("lever paragraph1");
-	leverTxts.push_back("lever paragraph2");
+	leverTxts.push_back("You pull the levers, but nothing happens.");
+	leverTxts.push_back("You pull the levers, and suddenly a metallic sound comes from the door. The door is unlocked!");
 	// + room paragraphs
 
 	std::map<std::string, std::vector<std::string> > tavern;
 	tavern["START"] = startTxts;
 	tavern["DRINK"] = drinkTxts;
 	tavern["EAT"] = eatTxts;
-	tavern["CHAT"] = chatTxts;
 	std::map<std::string, std::vector<std::string> > corridor;
 	corridor["WALL"] = wallTxts;
-	corridor["SKELETON"] = skeletonTxts;
+	corridor["CORPSE"] = corpseTxts;
 	corridor["DOOR"] = doorTxts;
 	corridor["LEVER"] = leverTxts;
 	// std::map<std::string, std::vector<std::string> > room;
@@ -83,6 +73,19 @@ void    BotGameMaster::createMessages()
     _messages.push_back("Hello young adventurers! It’s me, Jean-Claude. I will be your Game Master for the duration of this game. Whenever you wish to make one of the actions available to you, you must send me the corresponding keyword preceded by the symbol ‘*’. Examples : *LOOK ; *FIGHT ; *HELP");
     _messages.push_back("Invalid command. I don’t understand a single bit of what you’re telling me.");
     _messages.push_back("Texte de présentation du corridor. 4 choix");
+}
+
+void	BotGameMaster::lockDoors()
+{
+	_doors.push_back(0);
+}
+
+void	BotGameMaster::initalizeLevers()
+{
+	for(int i = 0; i < 5; i++)
+	{
+		_levers.push_back("[-]");
+	}
 }
 
 void	BotGameMaster::initBot()

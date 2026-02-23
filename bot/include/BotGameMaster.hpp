@@ -54,6 +54,8 @@ class BotGameMaster
 		void						createTopics();
 		void						createRoomsName();
 		void						createMessages();
+		void						initalizeLevers();
+		void						lockDoors();
 
 		void						botConnect();
 		int							servConnect();
@@ -70,6 +72,10 @@ class BotGameMaster
 		void   						manageGameCommand(t_parse parse);
 		void    					manageTavernCommand(t_parse parse);
 		void    					manageRoom1Command(t_parse parse);
+		void						manageLeverCommand(t_parse parse);
+		void						switchLever(int leverPos);
+		bool						isGoodLevers();
+		void 						resetLevers();
 		void						setupPlayers(std::string command);
 		void						shutDownGame();
 		bool						isRoomCommand(std::string command, e_roomId room);
@@ -92,6 +98,8 @@ class BotGameMaster
 		std::vector<std::string>												_messages;
 		std::map<e_roomId, std::map<std::string, std::vector<std::string> > >	_library;
 		std::map<std::string, e_roomId>											_players;
+		std::vector<std::string>												_levers;
+		std::vector<bool>														_doors;
 };
 
 void						parsePlayerCmd(char *str);

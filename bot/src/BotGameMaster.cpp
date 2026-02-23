@@ -7,6 +7,8 @@ BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pa
 	createTopics();
 	createLibrary();
 	createMessages();
+	initalizeLevers();
+	lockDoors();
 }
 
 BotGameMaster::~BotGameMaster()

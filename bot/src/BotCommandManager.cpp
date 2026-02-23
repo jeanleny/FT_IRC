@@ -32,12 +32,75 @@ void	BotGameMaster::shutDownGame()
 	_players.clear();
 }
 
+void BotGameMaster::switchLever(int pos)
+{
+    if (_levers[pos] == "[-]")
+        _levers[pos] = "[o]";
+    else
+        _levers[pos] = "[-]";
+}
+
+void BotGameMaster::resetLevers()
+{
+    for (size_t i = 0; i < _levers.size(); i++)
+    {
+        _levers[i] = "[-]";
+    }
+}
+
+bool    BotGameMaster::isGoodLevers()
+{
+    return (_levers[0] == "[o]" && _levers[1] == "[-]" && _levers[2] == "[-]" && _levers[3] == "[o]" && _levers[4] == "[o]");
+}
+
+void    BotGameMaster::manageLeverCommand(t_parse parse)
+{
+    std::string leverCmd = parse.args[3];
+    for(size_t i = 0; i < leverCmd.size(); i++)
+    {
+        if (leverCmd == "*lever")
+        {
+            resetLevers();
+            break ;
+        }
+        if (leverCmd[i] >= '1' && leverCmd[i] <= '5')
+        {
+            int pos = leverCmd[i] - 48;
+            switchLever(pos - 1);
+        }
+    }
+    std::string levers = _levers[0] + _levers[1] + _levers[2] + _levers[3] + _levers[4];
+    sendPrivmsg(parse.player, levers);
+    if (isGoodLevers())
+    {
+        sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][1]);
+        _doors[0] = 1;
+    }
+    else
+        sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][0]);
+}
+
 void    BotGameMaster::manageRoom1Command(t_parse parse)
 {
+    // if (parse.cmd == "DOOR" && isDoorOpen())
+    //     enter in room;
     if (parse.cmd == "WALL")
-        sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["WALL"][0]);
-    else if (parse.cmd == "SKELETON")
-        sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["SKELETON"][0]);
+    {
+        sendPrivmsg(parse.player, _library[CORRIDOR]["WALL"][0]);
+        sendPrivmsg("#CORRIDOR", parse.player + " is examining the wall");
+    }
+    else if (parse.cmd == "DOOR")
+    {
+        sendPrivmsg(parse.player, _library[CORRIDOR]["DOOR"][0]);
+        sendPrivmsg("#CORRIDOR", parse.player + " is reading inscriptions on the door");
+    }
+    else if (parse.cmd == "CORPSE")
+    {
+        sendPrivmsg(parse.player, _library[CORRIDOR]["CORPSE"][0]);
+        sendPrivmsg("#CORRIDOR", parse.player + " is searching the dead adventurer");
+    }
+    else if (parse.cmd == "LEVER")
+        manageLeverCommand(parse);
 }
 
 void    BotGameMaster::manageTavernCommand(t_parse parse)
