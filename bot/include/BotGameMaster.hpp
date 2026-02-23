@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <signal.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <netdb.h>
@@ -9,6 +10,8 @@
 #include <fcntl.h>
 #include <vector>
 #include <map>
+
+
 
 typedef struct s_parse
 {
@@ -35,12 +38,16 @@ typedef enum msgId
 	CORRIDOR_MSG,
 } e_msgId;
 
+
+extern volatile sig_atomic_t   g_exit;
+
 class BotGameMaster 
 {
 	public :
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void						initBot();
+		void    					setSigaction();
 		void						createLibrary();
 		void						createTopics();
 		void						createRoomsName();
