@@ -10,6 +10,8 @@
 #include <fcntl.h>
 #include <vector>
 #include <map>
+#include <cstdlib>
+#include <ctime>
 
 
 
@@ -66,6 +68,7 @@ class BotGameMaster
 		void						authentication();
 		void						createRooms();
 		void   						manageGameCommand(t_parse parse);
+		void    					manageTavernCommand(t_parse parse);
 		void    					manageRoom1Command(t_parse parse);
 		void						setupPlayers(std::string command);
 		void						shutDownGame();

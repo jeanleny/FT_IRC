@@ -40,6 +40,13 @@ void    BotGameMaster::manageRoom1Command(t_parse parse)
         sendPrivmsg("#CORRIDOR", _library[CORRIDOR]["SKELETON"][0]);
 }
 
+void    BotGameMaster::manageTavernCommand(t_parse parse)
+{
+    std::vector<std::string>    tab = _library[TAVERN][parse.cmd];
+    std::string msg = parse.player + tab[std::rand() % tab.size()];
+    sendPrivmsg("#TAVERN", msg);
+}
+
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
     if (parse.cmd == "START" && !_gameRunning)
@@ -50,7 +57,11 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     else if (parse.cmd == "INFO" && parse.player == "Master")
         setupPlayers(parse.content);
     else if (parse.cmd == "SHUTDOWN" && parse.player == "Master")
-		shutDownGame();
+		    shutDownGame();
+    else if (isRoomCommand(parse.cmd, TAVERN) && isPlayerInRoom(parse.player, TAVERN))
+    {
+        manageTavernCommand(parse);
+    }
     else if (isRoomCommand(parse.cmd, CORRIDOR) && isPlayerInRoom(parse.player, CORRIDOR))
     {
         manageRoom1Command(parse);
@@ -67,7 +78,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
         sendPrivmsg(parse.player, _messages[INVALID]);
 }
 
-void    BotGameMaster::sendPrivmsg(std::string nickname, std::string message)
+void    BotGameMaster::sendPrivmsg(std::string target, std::string message)
 {
-    sendCommand("PRIVMSG " + nickname + " :" + message + "\r\n");
+    sendCommand("PRIVMSG " + target + " :" + message + "\r\n");
 }

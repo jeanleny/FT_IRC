@@ -20,7 +20,7 @@ void	BotGameMaster::createRooms()
 		sendCommand("JOIN " + _rooms[i] + "\r\n");
 		sendCommand("TOPIC " + _rooms[i] + " :" + _topics[i] + "\r\n");
 		if (i != 0)
-			sendCommand("MODE " + _rooms[i] + " +i" + "\r\n");
+			sendCommand("MODE " + _rooms[i] + " +il" + " 5 " + "\r\n");
 	}
 }
 
