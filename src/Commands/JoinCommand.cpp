@@ -23,7 +23,7 @@ std::string	cutChannelName(std::string channelName)
 
 bool	reservedChannels(std::string chanName)
 {
-	std::string rooms[3] = {"#TAVERN", "#ROOM1", "#ROOM2"};
+	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM2"};
 	
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -33,8 +33,19 @@ bool	reservedChannels(std::string chanName)
 	return (false);
 }
 
-void	isValidChannel(Client client, std::string channelName)
+void	isValidChannel(Client &client, std::string channelName)
 {
+	Client	gm = Server::getInstance().getClientByNickname("Master");
+	if (reservedChannels(channelName))
+	{
+		if (client.getNickname() == "Master")
+			return ;
+		if (gm.getClientFd() == - 1)
+		{
+			client.setCommandId(JOIN);
+			throw CustomErrorException(client);
+		}
+	}
 	if (channelName.size() > 50 || !checkPrefix(channelName) || channelName.size() < 2)
 		throw InvalidChannelException(client);
 }

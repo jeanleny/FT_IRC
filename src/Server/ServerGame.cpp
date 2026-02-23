@@ -17,6 +17,11 @@ void	Server::startCommand(Client &client)
 	cmd = client.getCmd();
 	for (size_t i = 0; i < playerNb - 1 ; i++)
 	{
+		if (clients[i].getNickname() == "Master")
+		{
+			if (!checkChannelOperator("#TAVERN", clients[i]))
+				return ;
+		}
 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
 		_iCommands[INVITE]->execCmd(client, inviteArg);
 		_iCommands[JOIN]->execCmd(clients[i], joinArg);
@@ -63,7 +68,7 @@ void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg
 	(void)arg;
 	std::vector<std::string> lobby;
 
-	if (!Server::getInstance().isInChannel(emitter, "#TAVERN"))
+	if (!isInChannel(emitter, "#TAVERN"))
 	{
 		lobby.push_back("#TAVERN");
 		_iCommands[JOIN]->execCmd(emitter, lobby);

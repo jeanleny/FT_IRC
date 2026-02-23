@@ -28,8 +28,8 @@ void	BotGameMaster::createRooms()
 void	BotGameMaster::authentication()
 {
 	sendCommand("PASS " + _pass + "\r\n");
-	sendCommand("USER Master\r\n");
 	sendCommand("NICK Master\r\n");
+	sendCommand("USER Master\r\n");
 }
 
 int	BotGameMaster::servConnect()
