@@ -90,13 +90,17 @@ bool	Server::isRunningGameRoom(std::string chanName)
 bool	Server::leavingGameSession(Client & client)
 {
 	std::vector<std::string>	cmdArgs = client.getCommandArgs();
-	if (client.getCommandId() == PART)
+	if (client.getCommandId() == PART && cmdArgs.size() > 0)
 	{
-		if (cmdArgs.size() > 0)
+		if (client.getNickname() == "Master")
 		{
-			if (isRunningGameRoom(cmdArgs[0]))
+			if (isGameChannel(cmdArgs[0]))
+			{
 				return (true);
+			}
 		}
+		else if (isRunningGameRoom(cmdArgs[0]))
+			return (true);
 	}
 	return (false);
 }
@@ -145,7 +149,7 @@ void	Server::gClear()
 {
 	Client					gm = getClientByNickname("Master");
 	std::vector<std::string>arg;
-	std::string				rooms[3] = {"#CORRIDOR", "#ROOM"};
+	std::string				rooms[3] = {"#TAVERN","#CORRIDOR", "#ROOM"};
 	std::string				msg = "*SHUTDOWN";
 
 	arg.push_back("Master");
