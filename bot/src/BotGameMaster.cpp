@@ -47,10 +47,10 @@ int	BotGameMaster::servConnect()
 void	BotGameMaster::servProcess()
 {
 	std::vector<std::string> array;
-	bool	running = true;
 	int		recv_bytes;
 
-	while (running)
+	setSigaction();
+	while (!g_exit)
 	{
 		char 	buf[1024];
 		recv_bytes = recv(_botFd, &buf, 1023, 0);
