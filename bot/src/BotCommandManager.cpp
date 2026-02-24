@@ -23,7 +23,7 @@ void    BotGameMaster::setupPlayers(std::string command)
     {
         _players[playerList[i]] = CORRIDOR;
     }
-    sendPrivmsg("#CORRIDOR", _library[TAVERN]["START"][0]);
+    sendLibraryContent("#CORRIDOR", _library[TAVERN]["START"]);
 }
 
 void	BotGameMaster::shutDownGame()
@@ -80,23 +80,32 @@ void    BotGameMaster::manageLeverCommand(t_parse parse)
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][0]);
 }
 
+void	BotGameMaster::sendLibraryContent(std::string player, std::vector<std::string> content)
+{
+	size_t c_size = content.size();
+	for (size_t i = 0; i < c_size ; i++)
+	{
+       	sendPrivmsg(player, content[i]);
+	}
+}
+
 void    BotGameMaster::manageRoom1Command(t_parse parse)
 {
     // if (parse.cmd == "DOOR" && isDoorOpen())
     //     enter in room;
     if (parse.cmd == "WALL")
     {
-        sendPrivmsg(parse.player, _library[CORRIDOR]["WALL"][0]);
+		sendLibraryContent(parse.player, _library[CORRIDOR]["WALL"]);
         sendPrivmsg("#CORRIDOR", parse.player + " is examining the wall");
     }
     else if (parse.cmd == "DOOR")
     {
-        sendPrivmsg(parse.player, _library[CORRIDOR]["DOOR"][0]);
+		sendLibraryContent(parse.player, _library[CORRIDOR]["DOOR"]);
         sendPrivmsg("#CORRIDOR", parse.player + " is reading inscriptions on the door");
     }
     else if (parse.cmd == "CORPSE")
     {
-        sendPrivmsg(parse.player, _library[CORRIDOR]["CORPSE"][0]);
+		sendLibraryContent(parse.player, _library[CORRIDOR]["CORPSE"]);
         sendPrivmsg("#CORRIDOR", parse.player + " is searching the dead adventurer");
     }
     else if (parse.cmd == "LEVER")
