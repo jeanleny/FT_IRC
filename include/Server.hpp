@@ -145,6 +145,7 @@ class Server
 		
 		int						extractCommand(std::string str, Client & client);
 		void					extractCommandId(Client & ref, std::string id);
+		bool					searchCmd(const std::string array[], std::string id, Client &emitter, size_t size);
 		void					serverRegistration(Client & emitter);
 		bool					isRegisterCommand(ssize_t cmdId);
 		void					entryParsing(std::string password, std::string portEntry);

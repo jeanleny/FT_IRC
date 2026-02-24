@@ -213,6 +213,19 @@ void	Server::manageCommand(Client & client)
 	}
 }
 
+bool	Server::searchCmd(const std::string array[], std::string id, Client &emitter, size_t size)
+{
+	for (size_t i = 0; i < size; i++)
+	{
+		if (id == array[i])
+		{
+			emitter.setCommandId(i);
+			return (true);
+		}
+	}
+	return (false);
+}
+
 void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
@@ -220,22 +233,10 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 	const std::string g_array[NB_GCMD]= {"START", "CMD2", "CMD3", "CMD4"};
 
 	emitter.setCmd(id);
-	for (size_t i = 0; i < NB_CMD; i++)
-	{
-		if (id == array[i])
-		{
-			emitter.setCommandId(i);
-			return ;
-		}
-	}
-	for (size_t i = 0; i < NB_GCMD; i++)
-	{
-		if (id == g_array[i])
-		{
-			emitter.setCommandId(i);
-			return ;
-		}
-	}
+	if (searchCmd(array, id, emitter, NB_CMD))
+		return;
+	else if(searchCmd(g_array,id, emitter, NB_GCMD))
+		return ;
 	if (id == "WHO" || id == "CAP")
 	{
 		emitter.setCommandId(IGNORED);
