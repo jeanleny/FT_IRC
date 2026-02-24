@@ -83,6 +83,7 @@ class BotGameMaster
 		
 		void						sendCommand(std::string msg);
 		void						sendPrivmsg(std::string nickname, std::string message);
+		void						sendLibraryContent(std::string player, std::vector<std::string> content);
 
 	private :
 		struct addrinfo			*_servInfo;

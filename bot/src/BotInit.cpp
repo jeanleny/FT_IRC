@@ -10,7 +10,10 @@ Example : 	_library[CORRIDOR]["DOOR"][1]
 void	BotGameMaster::createLibrary()
 {
 	std::vector<std::string>	startTxts;
-	startTxts.push_back("You are now walking through a long, dark, and narrow corridor that leads to a wooden closed door. On the left, on the wall, a series of wooden levers seem to control a mechanism (use *WALL to examine them). On the ground, sitting near the door, lies a skeleton, probably that of an unfortunate adventurer who died in this place (use *CORPSE to search it). Finally, the wooden door in front of you seems to have different inscriptions carved directly into the wood (use *DOOR to read them).");
+	startTxts.push_back("You are now walking through a long, dark, and narrow corridor that leads to a wooden closed door.");
+	startTxts.push_back("On the left, on the wall, a series of wooden levers seem to control a mechanism (use *WALL to examine them).");
+	startTxts.push_back("On the ground, sitting near the door, lies a skeleton, probably that of an unfortunate adventurer who died in this place (use *CORPSE to search it).");
+	startTxts.push_back("Finally, the wooden door in front of you seems to have different inscriptions carved directly into the wood (use *DOOR to read them).");
 	std::vector<std::string>	drinkTxts;
 	drinkTxts.push_back(" drinks a Pina Colada and start zouking avec Magic System ça c'est le son qu'on aime.");
 	drinkTxts.push_back(" drinks a big chug of water with Salmonelles inside.");
@@ -28,11 +31,17 @@ void	BotGameMaster::createLibrary()
 	eatTxts.push_back(" eat 1 pound of salami.");
 	eatTxts.push_back(" eat a motherf****n caille en sarcophage.");
 	std::vector<std::string>	wallTxts;
-	wallTxts.push_back("On the wall, five levers seem to control the door mechanism's opening. Each lever have an symbol, unfortunately worn away by time : [?][?][?][?][?]			Use the *LEVER command followed par the positions you want to activate. Example : *LEVERS 135 to activate levers 1, 3, 5.");
+	wallTxts.push_back("On the wall, five levers seem to control the door mechanism's opening.");
+	wallTxts.push_back("Each lever have an symbol, unfortunately worn away by time : [?][?][?][?][?]");
+	wallTxts.push_back("Use the *LEVER command followed par the positions you want to activate. Example : *LEVERS 135 to activate levers 1, 3, 5.");
 	std::vector<std::string>	corpseTxts;
-	corpseTxts.push_back("In front of you lies the body of an unlucky adventurer, probably unable to open this cursed door. Searching the pockets of his old clothes, you find a scroll with a cryptic message written on it : 1 = '!' ; 2 = '@' ; 3 = '#' ; 4 = '%'");
+	corpseTxts.push_back("In front of you lies the body of an unlucky adventurer, probably unable to open this cursed door.");
+	corpseTxts.push_back(" Searching the pockets of his old clothes, you find a scroll with a cryptic message written on it : ");
+	corpseTxts.push_back("1 = '!' ; 2 = '@' ; 3 = '#' ; 4 = '%'");
 	std::vector<std::string>	doorTxts;
-	doorTxts.push_back("You are facing a large wooden door which seems to be closed. Three stranges inscriptions are carved into the wood, which are difficult to decipher. \"ON $ % !\" \"OFF @ #\"");
+	doorTxts.push_back("You are facing a large wooden door which seems to be closed.");
+	doorTxts.push_back( "Three stranges inscriptions are carved into the wood, which are difficult to decipher.");
+	doorTxts.push_back("\"ON $ % !\" \"OFF @ #\"");
 	std::vector<std::string>	leverTxts;
 	leverTxts.push_back("You pull the levers, but nothing happens.");
 	leverTxts.push_back("You pull the levers, and suddenly a metallic sound comes from the door. The door is unlocked!");
