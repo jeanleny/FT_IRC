@@ -83,7 +83,7 @@ void    BotGameMaster::manageLeverCommand(t_parse parse)
 void    BotGameMaster::manageRoom1Command(t_parse parse)
 {
     // if (parse.cmd == "DOOR" && isDoorOpen())
-    //     enter in room;
+    //     enter in room letsgo;
     if (parse.cmd == "WALL")
     {
         sendPrivmsg(parse.player, _library[CORRIDOR]["WALL"][0]);
