@@ -23,7 +23,7 @@ std::string	cutChannelName(std::string channelName)
 
 bool	reservedChannels(std::string chanName)
 {
-	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM2"};
+	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM1"};
 	
 	for (size_t i = 0; i < 3; i++)
 	{

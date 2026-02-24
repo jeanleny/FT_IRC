@@ -29,8 +29,8 @@ typedef enum roomId
 {
 	TAVERN,
 	CORRIDOR,
-	ROOM,
-	HOLE,
+	ROOM1,
+	PIT,
 } e_roomId;
 
 typedef enum msgId

@@ -110,7 +110,7 @@ ssize_t	Server::findClient(int clientFd)
 	return (-1);
 }
 
-Client	Server::getClientByNickname(std::string nickname) const
+Client	Server::getClientByNickname(std::string nickname)
 {
 	for (size_t i = 0; i < _clients.size(); i++)
 	{

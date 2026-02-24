@@ -75,6 +75,7 @@ void    BotGameMaster::manageLeverCommand(t_parse parse)
     {
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][1]);
         _doors[0] = 1;
+        sendPrivmsg("#CORRIDOR", "The door is open !!! Use *DOOR to enter the next room\r\n");
     }
     else
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][0]);
@@ -91,9 +92,22 @@ void	BotGameMaster::sendLibraryContent(std::string player, std::vector<std::stri
 
 void    BotGameMaster::manageRoom1Command(t_parse parse)
 {
-    // if (parse.cmd == "DOOR" && isDoorOpen())
-    //     enter in room;
-    if (parse.cmd == "WALL")
+    static bool first = true;
+    if (parse.cmd == "DOOR" && _doors[0] == 1)
+    {
+        if (first == true)
+        {
+            sendCommand("START #CORRIDOR #PIT " + parse.player + "\r\n");
+            _players[parse.player] = PIT;
+            first = false;
+        }
+        else
+        {
+            sendCommand("START #CORRIDOR #ROOM1 " + parse.player + "\r\n");
+            _players[parse.player] = ROOM1;
+        }
+    }
+    else if (parse.cmd == "WALL")
     {
 		sendLibraryContent(parse.player, _library[CORRIDOR]["WALL"]);
         sendPrivmsg("#CORRIDOR", parse.player + " is examining the wall");
@@ -121,9 +135,10 @@ void    BotGameMaster::manageTavernCommand(t_parse parse)
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
+   
     if (parse.cmd == "START" && !_gameRunning)
     {
-        sendCommand("START\r\n");
+        sendCommand("START #TAVERN #CORRIDOR all\r\n");
         _gameRunning = true;
     }
     else if (parse.cmd == "INFO" && parse.player == "Master")
@@ -138,11 +153,11 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     {
         manageRoom1Command(parse);
     }
-    else if (isRoomCommand(parse.cmd, ROOM) && isPlayerInRoom(parse.player, ROOM))
+    else if (isRoomCommand(parse.cmd, ROOM1) && isPlayerInRoom(parse.player, ROOM1))
     {
         //manageRoom2Command();
     }
-    else if (isRoomCommand(parse.cmd, HOLE) && isPlayerInRoom(parse.player, HOLE))
+    else if (isRoomCommand(parse.cmd, PIT) && isPlayerInRoom(parse.player, PIT))
     {
         //manageRoom3Command();
     }

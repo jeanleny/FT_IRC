@@ -62,7 +62,7 @@ class Server
 		bool					existChannel(std::string name);
 		bool					isUsedNickname(std::string nickname);
 		bool					isInServer(Client &client);
-		Client					getClientByNickname(std::string nickname) const;
+		Client					getClientByNickname(std::string nickname);
 		
 		//----MODE METHODS------------------------------------------------------------------------------
 	
@@ -107,8 +107,10 @@ class Server
 		void					displayMap();
 		bool					isGameCommand(Client & client);
 		bool					leavingGameSession(Client &client);
-		void					startCommand(Client &client);
+		void					startCommand(Client &client, std::vector<std::string> args);
+		std::vector<Client>		startPlayersList(std::string oldRoom, std::vector<std::string> args);
 		void					manageRoom1Command(Client &client);
+		void					sendInfoMessage(Client & client, std::vector<Client> players);
 
 
 		private :
@@ -159,6 +161,7 @@ class Server
 		//----UTILS METHODS----------------------------------------------------------------------------------
 		
 		ssize_t					findClient(int clientFd);
+
 };
 
 #endif
