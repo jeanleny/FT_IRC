@@ -110,15 +110,15 @@ ssize_t	Server::findClient(int clientFd)
 	return (-1);
 }
 
-Client&	Server::getClientByNickname(std::string nickname)
+Client	Server::getClientByNickname(std::string nickname)
 {
 	for (size_t i = 0; i < _clients.size(); i++)
 	{
 		if (_clients[i].getNickname() == nickname)
 			return _clients[i];
 	}
-	Client*	null = new Client(-1);
-	return *null;
+	Client	null(-1);
+	return null;
 }
 
 void	Server::clearWrongEvent(size_t rmIndex)

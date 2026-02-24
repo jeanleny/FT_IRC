@@ -62,7 +62,7 @@ class Server
 		bool					existChannel(std::string name);
 		bool					isUsedNickname(std::string nickname);
 		bool					isInServer(Client &client);
-		Client&					getClientByNickname(std::string nickname);
+		Client					getClientByNickname(std::string nickname);
 		
 		//----MODE METHODS------------------------------------------------------------------------------
 	
