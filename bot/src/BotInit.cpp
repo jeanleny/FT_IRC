@@ -45,6 +45,10 @@ void	BotGameMaster::createLibrary()
 	std::vector<std::string>	leverTxts;
 	leverTxts.push_back("You pull the levers, but nothing happens.");
 	leverTxts.push_back("You pull the levers, and suddenly a metallic sound comes from the door. The door is unlocked!");
+	std::vector<std::string>	entryTxts;
+	entryTxts.push_back("You fell into the pit ! You're stuck in there on your own...");
+	entryTxts.push_back("Maybe the surrounding paints on the walls can help you to get out of here.");
+	entryTxts.push_back("Type any numbers between 1 to 4 to check if there are any clues on them");
 	// + room paragraphs
 
 	std::map<std::string, std::vector<std::string> > tavern;
@@ -56,10 +60,19 @@ void	BotGameMaster::createLibrary()
 	corridor["CORPSE"] = corpseTxts;
 	corridor["DOOR"] = doorTxts;
 	corridor["LEVER"] = leverTxts;
+	std::map<std::string, std::vector<std::string> > pit;
+	pit["ENTRY"] = entryTxts;
+	pit["1"] = entryTxts;
+	pit["2"] = entryTxts;
+	pit["3"] = entryTxts;
+	pit["4"] = entryTxts;
+	//pit["1"] = mermaidTxts;
+
 	// std::map<std::string, std::vector<std::string> > room;
 
 	_library[TAVERN] = tavern;
 	_library[CORRIDOR] = corridor;
+	_library[PIT] = pit;
 	// _library[ROOM] = room;
 }
 

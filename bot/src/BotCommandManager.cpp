@@ -99,6 +99,7 @@ void    BotGameMaster::manageRoom1Command(t_parse parse)
         {
             sendCommand("START #CORRIDOR #PIT " + parse.player + "\r\n");
             _players[parse.player] = PIT;
+			sendLibraryContent("#PIT", _library[PIT]["ENTRY"]);
             first = false;
         }
         else
@@ -133,6 +134,26 @@ void    BotGameMaster::manageTavernCommand(t_parse parse)
     sendPrivmsg("#TAVERN", msg);
 }
 
+void	BotGameMaster::managePitCommand(t_parse parse)
+{
+	if (parse.cmd == "1")
+	{
+		sendPrivmsg(parse.player, "ce genre de sirène");
+	}
+	else if (parse.cmd == "2")
+	{
+		sendPrivmsg(parse.player, "sisi le serpent");
+	}
+	else if (parse.cmd == "3")
+	{
+		sendPrivmsg(parse.player, "tema laraignée");
+	}
+	else if (parse.cmd == "4")
+	{
+		sendPrivmsg(parse.player, "tro bogoss le centor");
+	}
+}
+
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
    
@@ -159,7 +180,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     }
     else if (isRoomCommand(parse.cmd, PIT) && isPlayerInRoom(parse.player, PIT))
     {
-        //manageRoom3Command();
+        managePitCommand(parse);
     }
     else
         sendPrivmsg(parse.player, _messages[INVALID]);

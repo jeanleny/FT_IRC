@@ -73,6 +73,7 @@ class BotGameMaster
 		void    					manageTavernCommand(t_parse parse);
 		void    					manageRoom1Command(t_parse parse);
 		void						manageLeverCommand(t_parse parse);
+		void						managePitCommand(t_parse parse);
 		void						switchLever(int leverPos);
 		bool						isGoodLevers();
 		void 						resetLevers();
