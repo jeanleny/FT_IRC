@@ -65,7 +65,7 @@ void    BotGameMaster::createRoomsName()
 {
     _rooms.push_back("#TAVERN");
 	_rooms.push_back("#CORRIDOR");
-	_rooms.push_back("#ROOM");
+	_rooms.push_back("#ROOM1");
 }
 
 void    BotGameMaster::createMessages()

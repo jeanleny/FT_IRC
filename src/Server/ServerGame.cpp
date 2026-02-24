@@ -1,38 +1,104 @@
 #include <Server.hpp>
 
-void	Server::startCommand(Client &client)
-{
-	std::string cmd;
-	std::string	cor = "#CORRIDOR";
-	std::string	i_list = "*INFO";
-	ssize_t		chan = getChannelByName("#TAVERN");
-	size_t		playerNb = _channels[chan].getMemberNb();
-	std::vector<Client> clients = _channels[chan].getMemberList();
-	std::vector<std::string> joinArg, inviteArg, privmsgArg, partArg;
+// void	Server::startCommand(Client &client)
+// {
+// 	std::string cmd;
+// 	std::string	cor = "#CORRIDOR";
+// 	std::string	i_list = "*INFO";
+// 	ssize_t		chan = getChannelByName("#TAVERN");
+// 	size_t		playerNb = _channels[chan].getMemberNb();
+// 	std::vector<Client> clients = _channels[chan].getMemberList();
+// 	std::vector<std::string> joinArg, inviteArg, privmsgArg, partArg;
 
-	partArg.push_back("#TAVERN");
-	joinArg.push_back(cor);
-	inviteArg.push_back(cor);
-	clients.erase(clients.begin());
-	cmd = client.getCmd();
-	for (size_t i = 0; i < playerNb - 1 ; i++)
+// 	partArg.push_back("#TAVERN");
+// 	joinArg.push_back(cor);
+// 	inviteArg.push_back(cor);
+// 	clients.erase(clients.begin());
+// 	cmd = client.getCmd();
+// 	for (size_t i = 0; i < playerNb - 1 ; i++)
+// 	{
+// 		if (clients[i].getNickname() == "Master")
+// 		{
+// 			if (!checkChannelOperator("#TAVERN", clients[i]))
+// 				return ;
+// 		}
+// 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
+// 		_iCommands[INVITE]->execCmd(client, inviteArg);
+// 		_iCommands[JOIN]->execCmd(clients[i], joinArg);
+// 		_iCommands[PART]->execCmd(clients[i], partArg);
+// 		inviteArg.erase(inviteArg.begin());
+// 		i_list += " ";
+// 		i_list += clients[i].getNickname();
+// 	}
+// 	privmsgArg.push_back("Master");
+// 	privmsgArg.push_back(i_list);
+// 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg); //INFO message
+// }
+
+std::vector<Client>	Server::startPlayersList(std::string oldRoom, std::vector<std::string> args)
+{
+	std::vector<Client>	players;
+	if (args[0] == "all")
 	{
-		if (clients[i].getNickname() == "Master")
-		{
-			if (!checkChannelOperator("#TAVERN", clients[i]))
-				return ;
-		}
-		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
-		_iCommands[INVITE]->execCmd(client, inviteArg);
-		_iCommands[JOIN]->execCmd(clients[i], joinArg);
-		_iCommands[PART]->execCmd(clients[i], partArg);
-		inviteArg.erase(inviteArg.begin());
-		i_list += " ";
-		i_list += clients[i].getNickname();
+		ssize_t		chan = getChannelByName(oldRoom);
+		players = _channels[chan].getMemberList();
+		players.erase(players.begin());
 	}
+	else
+	{
+		for(size_t i = 0; i < args.size(); i++)
+		{
+			players.push_back(getClientByNickname(args[i]));
+		}
+	}
+	return (players);
+}
+
+void	Server::sendInfoMessage(Client & client, std::vector<Client> players)
+{
+	std::vector<std::string> privmsgArg;
 	privmsgArg.push_back("Master");
+	std::string	i_list = "*INFO";
+	for (size_t i = 0; i < players.size(); i++)
+	{
+		i_list += " ";
+		i_list += players[i].getNickname();
+	}
 	privmsgArg.push_back(i_list);
-	_iCommands[PRIVMSG]->execCmd(client, privmsgArg); //INFO message
+	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
+}
+
+// cmd = "START #oldRoom #newRoom" nick1 nick2 nick3 etc;
+// cmd = "START #oldRoom #newRoom" all;
+void	Server::startCommand(Client &client, std::vector<std::string> args)
+{
+	for(size_t i = 0; i < args.size(); i++)
+	{
+		std::cout << args[i] << std::endl;
+	}
+	std::string	oldRoom = args[0];
+	std::string	newRoom = args[1];
+	args.erase(args.begin());
+	args.erase(args.begin());
+	
+	std::vector<Client> players = startPlayersList(oldRoom, args);
+
+	std::vector<std::string> joinArg, inviteArg, partArg;
+	partArg.push_back(oldRoom);
+	std::cout << "old room : " << oldRoom << std::endl;
+	std::cout << "new room : " << newRoom << std::endl;
+	joinArg.push_back(newRoom);
+	inviteArg.push_back(newRoom);
+	for (size_t i = 0; i < players.size(); i++)
+	{
+		inviteArg.insert(inviteArg.begin(), players[i].getNickname());
+		_iCommands[INVITE]->execCmd(client, inviteArg);
+		_iCommands[JOIN]->execCmd(players[i], joinArg);
+		_iCommands[PART]->execCmd(players[i], partArg);
+		inviteArg.erase(inviteArg.begin());
+	}
+	if (oldRoom == "#TAVERN")
+		sendInfoMessage(client, players);
 }
 
 void	Server::manageRoom1Command(Client &client)
@@ -45,7 +111,7 @@ void	Server::manageRoom1Command(Client &client)
 	// 	_gm.wallCommand();
 	// else if (cmd == "SKELETON")
 	// 	_gm.skeletonCommand();
-	// else if (cmd == "DESK")
+	// else if (cmd == "DESK")std::vector<std::string> args
 	// 	_gm.deskCommand();
 	// else if (cmd == "LEVER")
 	// 	_gm.leverCommand();
@@ -58,7 +124,8 @@ void	Server::manageGameCommand(Client &client)
 	std::string	nick = client.getNickname();
 	if (cmd == "START" && nick == "Master")
 	{
-		startCommand(client);
+		std::vector<std::string>	args = client.getCommandArgs();
+		startCommand(client, args);
 	}
 
 }
@@ -77,7 +144,7 @@ void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg
 
 bool	Server::isRunningGameRoom(std::string chanName)
 {
-	std::string rooms[2] = {"#CORRIDOR", "#ROOM"};
+	std::string rooms[2] = {"#CORRIDOR", "#ROOM1"};
 
 	for (size_t i = 0; i < 2; i++)
 	{
@@ -107,7 +174,7 @@ bool	Server::leavingGameSession(Client & client)
 
 bool	Server::isGameChannel(std::string chanName)
 {
-	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM"};
+	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM1"};
 
 	for (size_t i = 0; i < 3; i++)
 	{
@@ -149,7 +216,7 @@ void	Server::gClear()
 {
 	Client					gm = getClientByNickname("Master");
 	std::vector<std::string>arg;
-	std::string				rooms[3] = {"#TAVERN","#CORRIDOR", "#ROOM"};
+	std::string				rooms[3] = {"#TAVERN","#CORRIDOR", "#ROOM1"};
 	std::string				msg = "*SHUTDOWN";
 
 	arg.push_back("Master");
