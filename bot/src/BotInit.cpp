@@ -59,6 +59,7 @@ void    BotGameMaster::createTopics()
     _topics.push_back("Welcome to the Tavern ! Please take a sit. While waiting your mates, you can use the following commands to *DRINK, *EAT, or *CHAT. When all the adventurers are present, enter the command *START to launch the game.");
 	_topics.push_back("A dark corridor leading to a closed door.");
 	_topics.push_back("A forgotten and enigmatic room in the depths of a dungeon.");
+	_topics.push_back("A deep pit from which it is impossible to escape.");
 }
 
 void    BotGameMaster::createRoomsName()
@@ -66,17 +67,18 @@ void    BotGameMaster::createRoomsName()
     _rooms.push_back("#TAVERN");
 	_rooms.push_back("#CORRIDOR");
 	_rooms.push_back("#ROOM1");
+	_rooms.push_back("#PIT");
 }
 
 void    BotGameMaster::createMessages()
 {
     _messages.push_back("Hello young adventurers! It’s me, Jean-Claude. I will be your Game Master for the duration of this game. Whenever you wish to make one of the actions available to you, you must send me the corresponding keyword preceded by the symbol ‘*’. Examples : *LOOK ; *FIGHT ; *HELP");
     _messages.push_back("Invalid command. I don’t understand a single bit of what you’re telling me.");
-    _messages.push_back("Texte de présentation du corridor. 4 choix");
 }
 
 void	BotGameMaster::lockDoors()
 {
+	_doors.push_back(0);
 	_doors.push_back(0);
 }
 

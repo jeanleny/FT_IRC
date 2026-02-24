@@ -92,7 +92,6 @@ bool	Server::isInvitedInChannel(Client &client, std::string chanName)
 
 void	Server::addChannelMember(Client &client, std::string chanName)
 {
-	std::cout << "add channel member" << std::endl;
 	ssize_t id = getChannelByName(chanName);
 	
 	_channels[id].addMember(client);
@@ -182,8 +181,6 @@ void	Server::changeChannelTopic(Client & client, std::string chanName, std::stri
 
 void	Server::sendJoinMessage(Client &emitter, std::string & chanName)
 {
-	std::cout << "join message" << std::endl;
-
 	size_t 				index = getChannelByName(chanName);
 	std::string			topic = _channels[index].getTopic();
 	

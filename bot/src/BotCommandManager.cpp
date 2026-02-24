@@ -75,6 +75,7 @@ void    BotGameMaster::manageLeverCommand(t_parse parse)
     {
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][1]);
         _doors[0] = 1;
+        sendPrivmsg("#CORRIDOR", "The door is open !!! Use *DOOR to enter the next room\r\n");
     }
     else
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][0]);
@@ -87,11 +88,15 @@ void    BotGameMaster::manageRoom1Command(t_parse parse)
     {
         if (first == true)
         {
-            sendCommand("START #CORRIDOR #ROOM1 " + parse.player + "\r\n");
+            sendCommand("START #CORRIDOR #PIT " + parse.player + "\r\n");
+            _players[parse.player] = PIT;
             first = false;
         }
         else
+        {
             sendCommand("START #CORRIDOR #ROOM1 " + parse.player + "\r\n");
+            _players[parse.player] = ROOM1;
+        }
     }
     else if (parse.cmd == "WALL")
     {
@@ -143,7 +148,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     {
         //manageRoom2Command();
     }
-    else if (isRoomCommand(parse.cmd, HOLE) && isPlayerInRoom(parse.player, HOLE))
+    else if (isRoomCommand(parse.cmd, PIT) && isPlayerInRoom(parse.player, PIT))
     {
         //manageRoom3Command();
     }

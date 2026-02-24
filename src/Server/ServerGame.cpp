@@ -38,17 +38,22 @@
 std::vector<Client>	Server::startPlayersList(std::string oldRoom, std::vector<std::string> args)
 {
 	std::vector<Client>	players;
+	ssize_t        chan = getChannelByName(oldRoom);
+    std::vector<Client>	memberList = _channels[chan].getMemberList();
 	if (args[0] == "all")
 	{
-		ssize_t		chan = getChannelByName(oldRoom);
-		players = _channels[chan].getMemberList();
+		players = memberList;
 		players.erase(players.begin());
 	}
 	else
 	{
 		for(size_t i = 0; i < args.size(); i++)
 		{
-			players.push_back(getClientByNickname(args[i]));
+			for(size_t j = 0; j < memberList.size(); j++)
+			{
+				if (memberList[j].getNickname() == args[i])
+					players.push_back(memberList[j]);
+			}
 		}
 	}
 	return (players);
@@ -68,14 +73,11 @@ void	Server::sendInfoMessage(Client & client, std::vector<Client> players)
 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
 }
 
+
 // cmd = "START #oldRoom #newRoom" nick1 nick2 nick3 etc;
 // cmd = "START #oldRoom #newRoom" all;
 void	Server::startCommand(Client &client, std::vector<std::string> args)
 {
-	for(size_t i = 0; i < args.size(); i++)
-	{
-		std::cout << args[i] << std::endl;
-	}
 	std::string	oldRoom = args[0];
 	std::string	newRoom = args[1];
 	args.erase(args.begin());
@@ -85,8 +87,6 @@ void	Server::startCommand(Client &client, std::vector<std::string> args)
 
 	std::vector<std::string> joinArg, inviteArg, partArg;
 	partArg.push_back(oldRoom);
-	std::cout << "old room : " << oldRoom << std::endl;
-	std::cout << "new room : " << newRoom << std::endl;
 	joinArg.push_back(newRoom);
 	inviteArg.push_back(newRoom);
 	for (size_t i = 0; i < players.size(); i++)

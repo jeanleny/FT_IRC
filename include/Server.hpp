@@ -62,7 +62,7 @@ class Server
 		bool					existChannel(std::string name);
 		bool					isUsedNickname(std::string nickname);
 		bool					isInServer(Client &client);
-		Client					getClientByNickname(std::string nickname) const;
+		Client&					getClientByNickname(std::string nickname);
 		
 		//----MODE METHODS------------------------------------------------------------------------------
 	
@@ -160,6 +160,7 @@ class Server
 		//----UTILS METHODS----------------------------------------------------------------------------------
 		
 		ssize_t					findClient(int clientFd);
+
 };
 
 #endif

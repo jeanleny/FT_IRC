@@ -30,7 +30,7 @@ typedef enum roomId
 	TAVERN,
 	CORRIDOR,
 	ROOM1,
-	HOLE,
+	PIT,
 } e_roomId;
 
 typedef enum msgId
