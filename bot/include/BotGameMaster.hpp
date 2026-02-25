@@ -14,7 +14,7 @@
 #include <ctime>
 #include <sstream>
 
-
+#include "Player.hpp"
 
 typedef struct s_parse
 {
@@ -26,19 +26,10 @@ typedef struct s_parse
 	bool		valid;
 } t_parse;
 
-typedef enum roomId
-{
-	TAVERN,
-	CORRIDOR,
-	ROOM1,
-	PIT,
-} e_roomId;
-
 typedef enum msgId
 {
 	PRESENTATION,
 	INVALID,
-	CORRIDOR_MSG,
 } e_msgId;
 
 
@@ -100,7 +91,7 @@ class BotGameMaster
 		std::vector<std::string>												_topics;
 		std::vector<std::string>												_messages;
 		std::map<e_roomId, std::map<std::string, std::vector<std::string> > >	_library;
-		std::map<std::string, e_roomId>											_players;
+		std::map<std::string, Player>											_players;
 		std::vector<std::string>												_levers;
 		std::vector<bool>														_doors;
 };
