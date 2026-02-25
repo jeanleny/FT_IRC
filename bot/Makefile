@@ -12,6 +12,7 @@ SRC			+= src/main.cpp						\
 			   src/BotCommandManager.cpp		\
 			   src/BotCmdParsing.cpp			\
 			   src/BotInit.cpp					\
+			   src/BotAsciiArt.cpp				\
 			   src/BotSignals.cpp				\
 			   src/Player.cpp
 

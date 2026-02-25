@@ -98,6 +98,7 @@ void    BotGameMaster::manageRoom1Command(t_parse parse)
         if (first == true)
         {
             sendCommand("START #CORRIDOR #PIT " + parse.player + "\r\n");
+			      sendLibraryContent("#PIT", _library[PIT]["ENTRY"]);
             _players[parse.player].setRoom(PIT);
             first = false;
         }
@@ -133,6 +134,31 @@ void    BotGameMaster::manageTavernCommand(t_parse parse)
     sendPrivmsg("#TAVERN", msg);
 }
 
+void	BotGameMaster::managePitCommand(t_parse parse)
+{
+	if (parse.cmd == "1")
+	{
+		sendLibraryContent("#PIT", _library[PIT]["1"]);
+	}
+	else if (parse.cmd == "2")
+	{
+		sendLibraryContent("#PIT", _library[PIT]["2"]);
+	}
+	else if (parse.cmd == "3")
+	{
+		sendLibraryContent("#PIT", _library[PIT]["3"]);
+	}
+	else if (parse.cmd == "4")
+	{
+		sendLibraryContent("#PIT", _library[PIT]["4"]);
+	}
+	else if (parse.cmd == "SHOUT")
+	{
+		std::string msg = "You hear " + parse.player + " yelling : " + parse.content.erase(0, 7);
+		sendPrivmsg("#ROOM1", msg);
+	}
+}
+
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
    
@@ -159,7 +185,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     }
     else if (isRoomCommand(parse.cmd, PIT) && isPlayerInRoom(parse.player, PIT))
     {
-        //manageRoom3Command();
+        managePitCommand(parse);
     }
     else
         sendPrivmsg(parse.player, _messages[INVALID]);
