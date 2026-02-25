@@ -12,7 +12,7 @@ bool    BotGameMaster::isRoomCommand(std::string command, e_roomId room)
 
 bool    BotGameMaster::isPlayerInRoom(std::string nickname, e_roomId room)
 {
-    return (_players[nickname] == room);
+    return (_players[nickname].getRoom() == room);
 }
 
 void    BotGameMaster::setupPlayers(std::string command)
@@ -21,7 +21,7 @@ void    BotGameMaster::setupPlayers(std::string command)
     playerList.erase(playerList.begin());
     for (size_t i = 0; i < playerList.size(); i++)
     {
-        _players[playerList[i]] = CORRIDOR;
+        _players[playerList[i]] = Player();
     }
     sendLibraryContent("#CORRIDOR", _library[TAVERN]["START"]);
 }
@@ -98,13 +98,13 @@ void    BotGameMaster::manageRoom1Command(t_parse parse)
         if (first == true)
         {
             sendCommand("START #CORRIDOR #PIT " + parse.player + "\r\n");
-            _players[parse.player] = PIT;
+            _players[parse.player].setRoom(PIT);
             first = false;
         }
         else
         {
             sendCommand("START #CORRIDOR #ROOM1 " + parse.player + "\r\n");
-            _players[parse.player] = ROOM1;
+            _players[parse.player].setRoom(ROOM1);
         }
     }
     else if (parse.cmd == "WALL")

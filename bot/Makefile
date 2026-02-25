@@ -12,7 +12,8 @@ SRC			+= src/main.cpp						\
 			   src/BotCommandManager.cpp		\
 			   src/BotCmdParsing.cpp			\
 			   src/BotInit.cpp					\
-			   src/BotSignals.cpp
+			   src/BotSignals.cpp				\
+			   src/Player.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}
 DEP			= $(OBJ:.o=.d)
