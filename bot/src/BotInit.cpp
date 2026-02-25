@@ -45,11 +45,13 @@ void	BotGameMaster::createLibrary()
 	std::vector<std::string>	leverTxts;
 	leverTxts.push_back("You pull the levers, but nothing happens.");
 	leverTxts.push_back("You pull the levers, and suddenly a metallic sound comes from the door. The door is unlocked!");
-	std::vector<std::string>	entryTxts;
-	entryTxts.push_back("You fell into the pit ! You're stuck in there on your own...");
-	entryTxts.push_back("Maybe the surrounding paints on the walls can help you to get out of here.");
-	entryTxts.push_back("Type any numbers between 1 to 4 to check if there are any clues on them");
-	// + room paragraphs
+	std::vector<std::string>	crankTxts;
+	crankTxts.push_back("The crank mechanism is blocked. It is controlled by a four-digit keypad currently displaying 0000. Each digit on the keypad is associated with a strange symbol.");
+	crankTxts.push_back("Use *CODE followed by a four-digit combination (example: 1234) to enter it into the keypad.");
+	crankTxts.push_back("Don't forget : use *SHOUT to communicate with the other adventurers.");
+	std::vector<std::string>	codeTxts;
+	codeTxts.push_back("You enter the code, but nothing happens.");
+	codeTxts.push_back("You enter the code, and a green indicator light turns on. You did it! The crank is now unlocked — use *CRANK to climb out of the pit.");
 
 	std::map<std::string, std::vector<std::string> > tavern;
 	tavern["START"] = startTxts;
@@ -60,29 +62,28 @@ void	BotGameMaster::createLibrary()
 	corridor["CORPSE"] = corpseTxts;
 	corridor["DOOR"] = doorTxts;
 	corridor["LEVER"] = leverTxts;
+	std::map<std::string, std::vector<std::string> > room1;
+	room1["1"] = initMermaidAscii();
+	room1["2"] = initSnakeAscii();
+	room1["3"] = initSpiderAscii();
+	room1["4"] = initCentaurAscii();
 	std::map<std::string, std::vector<std::string> > pit;
-	pit["ENTRY"] = entryTxts;
-	pit["1"] = initMermaidAscii();
-	pit["2"] = initSnakeAscii();
-	pit["3"] = initSpiderAscii();
-	pit["4"] = initCentaurAscii();
+	pit["CRANK"] = crankTxts;
+	pit["CODE"] = codeTxts;
 	pit["SHOUT"];
-	//pit["1"] = mermaidTxts;
-
-	// std::map<std::string, std::vector<std::string> > room;
 
 	_library[TAVERN] = tavern;
 	_library[CORRIDOR] = corridor;
 	_library[PIT] = pit;
-	// _library[ROOM] = room;
+	_library[ROOM1] = room1;
 }
 
 void    BotGameMaster::createTopics()
 {
-    _topics.push_back("Welcome to the Tavern ! Please take a sit. While waiting your mates, you can use the following commands to *DRINK, *EAT, or *CHAT. When all the adventurers are present, enter the command *START to launch the game.");
+    _topics.push_back("Welcome to the Tavern ! Please take a sit. While waiting your mates, you can use the following commands to *DRINK, *EAT. When all the adventurers are present, enter the command *START to launch the game.");
 	_topics.push_back("A dark corridor leading to a closed door.");
-	_topics.push_back("A forgotten and enigmatic room in the depths of a dungeon.");
-	_topics.push_back("A deep pit from which it is impossible to escape.");
+	_topics.push_back("You enter a large chamber lighted by torches fixed to the walls. At the center, a deep pit from which you can hear screams. Your companion has fallen into the pit! Maybe the surrounding paints on the walls can help you to get him out of here. Type any numbers between *1 to *4 to check if there are any clues on them");
+	_topics.push_back("You fell into a pit ! You're stuck in there on your own... In this hole, if you do not shout, no one will hear you. Use *SHOUT to communicate with the other adventurers. The only thing around you is an old rusty crank used to lower a ladder. Use *CRANK to inspect");
 }
 
 void    BotGameMaster::createRoomsName()
