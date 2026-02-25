@@ -16,6 +16,10 @@
 
 #include "Player.hpp"
 
+#define LOCKED 0
+#define UNLOCKED 1
+
+
 typedef struct s_parse
 {
 	std::vector<std::string> args;
@@ -47,7 +51,7 @@ class BotGameMaster
 		void						createRoomsName();
 		void						createMessages();
 		void						initalizeLevers();
-		void						lockDoors();
+		void						initDoors();
 
 		void						botConnect();
 		int							servConnect();
@@ -70,6 +74,7 @@ class BotGameMaster
 		bool						isGoodLevers();
 		void 						resetLevers();
 		void						setupPlayers(std::string command);
+		void						lockDoors();
 		void						shutDownGame();
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
@@ -84,6 +89,7 @@ class BotGameMaster
 		std::string				_pass;
 		int						_botFd;
 		char					_hostName[128];
+		bool					_firstPit;
 
 		//----GAME CONTENT
 		bool																	_gameRunning;
@@ -103,4 +109,6 @@ std::vector<std::string>	initMermaidAscii();
 std::vector<std::string>	initSnakeAscii();
 std::vector<std::string>	initCentaurAscii();
 std::vector<std::string>	initSpiderAscii();
+std::vector<std::string>	initClueAscii();
+std::string					strToUpper(std::string str);
 	

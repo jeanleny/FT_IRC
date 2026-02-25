@@ -99,10 +99,10 @@ void    BotGameMaster::createMessages()
     _messages.push_back("Invalid command. I don’t understand a single bit of what you’re telling me.");
 }
 
-void	BotGameMaster::lockDoors()
+void	BotGameMaster::initDoors()
 {
-	_doors.push_back(0);
-	_doors.push_back(0);
+	_doors.push_back(LOCKED);
+	_doors.push_back(LOCKED);
 }
 
 void	BotGameMaster::initalizeLevers()

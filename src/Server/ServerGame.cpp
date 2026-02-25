@@ -101,23 +101,6 @@ void	Server::startCommand(Client &client, std::vector<std::string> args)
 		sendInfoMessage(client, players);
 }
 
-void	Server::manageRoom1Command(Client &client)
-{
-	std::string	cmd = client.getCmd();
-
-	// if (cmd == "DOOR")
-	// 	_gm.doorCommand();
-	// else if (cmd == "WALL")
-	// 	_gm.wallCommand();
-	// else if (cmd == "SKELETON")
-	// 	_gm.skeletonCommand();
-	// else if (cmd == "DESK")std::vector<std::string> args
-	// 	_gm.deskCommand();
-	// else if (cmd == "LEVER")
-	// 	_gm.leverCommand();
-
-}
-
 void	Server::manageGameCommand(Client &client)
 {
 	std::string cmd = client.getCmd();
@@ -144,9 +127,9 @@ void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg
 
 bool	Server::isRunningGameRoom(std::string chanName)
 {
-	std::string rooms[2] = {"#CORRIDOR", "#ROOM1"};
+	std::string rooms[NB_RUNGROOM] = {"#CORRIDOR", "#ROOM1", "#PIT"};
 
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < NB_RUNGROOM; i++)
 	{
 		if (chanName == rooms[i])
 			return true;
@@ -162,9 +145,7 @@ bool	Server::leavingGameSession(Client & client)
 		if (client.getNickname() == "Master")
 		{
 			if (isGameChannel(cmdArgs[0]))
-			{
 				return (true);
-			}
 		}
 		else if (isRunningGameRoom(cmdArgs[0]))
 			return (true);
@@ -174,9 +155,9 @@ bool	Server::leavingGameSession(Client & client)
 
 bool	Server::isGameChannel(std::string chanName)
 {
-	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM1"};
+	std::string rooms[NB_GROOM] = {"#TAVERN", "#CORRIDOR", "#ROOM1", "#PIT"};
 
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < NB_GROOM; i++)
 	{
 		if (chanName == rooms[i])
 			return true;
@@ -216,12 +197,12 @@ void	Server::gClear()
 {
 	Client					gm = getClientByNickname("Master");
 	std::vector<std::string>arg;
-	std::string				rooms[3] = {"#TAVERN","#CORRIDOR", "#ROOM1"};
+	std::string				rooms[NB_GROOM] = {"#TAVERN","#CORRIDOR", "#ROOM1", "#PIT"};
 	std::string				msg = "*SHUTDOWN";
 
 	arg.push_back("Master");
 	arg.push_back(msg);
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < NB_GROOM; i++)
 	{
 		callPartCommand(rooms[i]);
 	}
