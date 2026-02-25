@@ -32,10 +32,11 @@
 #include <algorithm>
 #include <map>
 
-
 #define MAX_EVENTS 10
 #define NB_CMD 11
 #define NB_GCMD 4
+#define NB_GROOM 4
+#define NB_RUNGROOM 3
 #define ERROR -1
 #define GAME "#LOBBY"
 

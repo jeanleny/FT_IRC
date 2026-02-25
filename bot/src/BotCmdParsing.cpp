@@ -92,15 +92,21 @@ bool BotGameMaster::isGameCmd(std::string str)
 	return (false);
 }
 
+std::string strToUpper(std::string str)
+{
+	for (size_t i = 0; i < str.length(); i++)
+	{
+		str[i] = toupper(str[i]);
+	}
+	return (str);
+}
+
 std::string BotGameMaster::extractGameCmd(std::string str)
 {
 	std::vector<std::string> splitted = split(str);
 
 	splitted[0].erase(splitted[0].begin());
-	for (size_t i = 0; i < splitted[0].length(); i++)
-	{
-		splitted[0][i] = toupper(splitted[0][i]);
-	}
+	splitted[0] = strToUpper(splitted[0]);
 	return (splitted[0]);
 }
 

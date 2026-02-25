@@ -8,7 +8,8 @@ BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pa
 	createLibrary();
 	createMessages();
 	initalizeLevers();
-	lockDoors();
+	initDoors();
+	_firstPit = true;
 }
 
 BotGameMaster::~BotGameMaster()
