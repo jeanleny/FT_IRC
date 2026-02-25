@@ -62,10 +62,11 @@ void	BotGameMaster::createLibrary()
 	corridor["LEVER"] = leverTxts;
 	std::map<std::string, std::vector<std::string> > pit;
 	pit["ENTRY"] = entryTxts;
-	pit["1"] = entryTxts;
-	pit["2"] = entryTxts;
-	pit["3"] = entryTxts;
-	pit["4"] = entryTxts;
+	pit["1"] = initMermaidAscii();
+	pit["2"] = initSnakeAscii();
+	pit["3"] = initSpiderAscii();
+	pit["4"] = initCentaurAscii();
+	pit["SHOUT"];
 	//pit["1"] = mermaidTxts;
 
 	// std::map<std::string, std::vector<std::string> > room;

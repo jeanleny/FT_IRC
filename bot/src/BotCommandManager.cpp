@@ -138,19 +138,24 @@ void	BotGameMaster::managePitCommand(t_parse parse)
 {
 	if (parse.cmd == "1")
 	{
-		sendPrivmsg(parse.player, "ce genre de sirène");
+		sendLibraryContent("#PIT", _library[PIT]["1"]);
 	}
 	else if (parse.cmd == "2")
 	{
-		sendPrivmsg(parse.player, "sisi le serpent");
+		sendLibraryContent("#PIT", _library[PIT]["2"]);
 	}
 	else if (parse.cmd == "3")
 	{
-		sendPrivmsg(parse.player, "tema laraignée");
+		sendLibraryContent("#PIT", _library[PIT]["3"]);
 	}
 	else if (parse.cmd == "4")
 	{
-		sendPrivmsg(parse.player, "tro bogoss le centor");
+		sendLibraryContent("#PIT", _library[PIT]["4"]);
+	}
+	else if (parse.cmd == "SHOUT")
+	{
+		std::string msg = "You hear " + parse.player + " yelling : " + parse.content.erase(0, 7);
+		sendPrivmsg("#ROOM1", msg);
 	}
 }
 

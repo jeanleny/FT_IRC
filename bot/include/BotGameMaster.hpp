@@ -12,6 +12,7 @@
 #include <map>
 #include <cstdlib>
 #include <ctime>
+#include <sstream>
 
 
 
@@ -49,7 +50,7 @@ class BotGameMaster
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void						initBot();
-		void    					setSigaction();
+	void    					setSigaction();
 		void						createLibrary();
 		void						createTopics();
 		void						createRoomsName();
@@ -107,4 +108,8 @@ class BotGameMaster
 void						parsePlayerCmd(char *str);
 std::vector<std::string> 	split(const std::string & str);
 std::vector<std::string> 	trailingSplit(std::string str);
-
+std::vector<std::string>	initMermaidAscii();
+std::vector<std::string>	initSnakeAscii();
+std::vector<std::string>	initCentaurAscii();
+std::vector<std::string>	initSpiderAscii();
+	
