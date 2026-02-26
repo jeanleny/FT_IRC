@@ -44,6 +44,8 @@ void	BotGameMaster::shutDownGame()
 	lockDoors();
 	resetLevers();
 	_firstPit = true;
+	_weaponCount = 0;
+	_fight = false;
 	_players.clear();
 	sendCommand("TOPIC " + _rooms[2] + " :" + _topics[2] + "\r\n");
 }

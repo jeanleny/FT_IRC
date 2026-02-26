@@ -20,6 +20,8 @@ class Item
     Item();
     Item(std::string name, int dmg);
     ~Item();
+	std::string getName();
+	int			getDmg();
     
     
     private :
@@ -36,8 +38,11 @@ class Player
         Player();
         ~Player();
 
-        e_roomId    getRoom() const;
-        void        setRoom(e_roomId room);
+        e_roomId    	getRoom() const;
+        void        	setRoom(e_roomId room);
+		void			setItem(Item item);
+		Item			getItem();
+		std::string		getItemName();
     
     private:
 

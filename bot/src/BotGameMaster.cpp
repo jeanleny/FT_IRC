@@ -8,8 +8,11 @@ BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pa
 	createLibrary();
 	createMessages();
 	initalizeLevers();
+	createItems();
 	initDoors();
 	_firstPit = true;
+	_weaponCount = 0;
+	_fight = false;
 }
 
 BotGameMaster::~BotGameMaster()

@@ -78,10 +78,15 @@ void	BotGameMaster::createLibrary()
 	pit["CODE"] = codeTxts;
 	pit["SHOUT"];
 
+	std::map<std::string, std::vector<std::string> > antechamber;
+	antechamber["CHEST"];
+	antechamber["BOSS"];
+
 	_library[TAVERN] = tavern;
 	_library[CORRIDOR] = corridor;
 	_library[PIT] = pit;
 	_library[ROOM1] = room1;
+	_library[ANTECHAMBER] = antechamber;
 }
 
 void    BotGameMaster::createTopics()
@@ -144,5 +149,16 @@ void	BotGameMaster::initBot()
 		freeaddrinfo(_servInfo);
 		std::cout << "socket Failed" << std::endl;
 		return ;
+	}
+}
+
+void	BotGameMaster::createItems()
+{
+	std::string names[4] = {"The Mighty sword", "The lame stick", "The Divine staff", "The crappy spoon"};
+	int			dmg[4] = {5, 1, 10, 1};
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		_items.push_back(Item(names[i], dmg[i]));
 	}
 }
