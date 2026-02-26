@@ -45,6 +45,7 @@ void	BotGameMaster::shutDownGame()
 	resetLevers();
 	_firstPit = true;
 	_players.clear();
+	sendCommand("TOPIC " + _rooms[2] + " :" + _topics[2] + "\r\n");
 }
 
 void	BotGameMaster::sendLibraryContent(std::string target, std::vector<std::string> content)
