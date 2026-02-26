@@ -96,3 +96,19 @@ std::vector<std::string> initMermaidAscii()
 std::vector<std::string> vec(str, str + 13);
 return (vec);
 }
+
+std::vector<std::string> initClueAscii()
+{	
+	std::string str[] = {
+"   \\______/    |              |              |              |\n",
+"   /\\____/\\    |     (        |              |              |\n",
+"  / /\\__/\\ \\   |      \\       |      .-\"\"L_  |   ,--./,-.   |\n",
+"_/_/_/\\/\\_\\_\\_ |       )      | ;`, /   ( o\\ |  / #      \\  |\n",
+" \\ \\ \\/*/ /    | ##-------->  | \\  ;    `, / | |          | |\n",
+"  \\ \\/__\\/     |       )      | ;_/\"`.__.-\"  |  \\        /  |\n",
+"   \\/____\\     |      /       |              |   `._,._,'   |\n",
+"   /      \\    |     (        |              |              |\n",};
+
+	std::vector<std::string> vec(str, str + 8);
+	return (vec);
+}
