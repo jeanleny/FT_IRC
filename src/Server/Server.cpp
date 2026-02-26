@@ -259,8 +259,6 @@ int	Server::extractCommand(std::string str, Client & client)
 		extractCommandId(client, splitArgs[0]);
 		splitArgs.erase(splitArgs.begin());
 		client.setCommandArgs(splitArgs);
-//		if (existChannel(splitArgs[0]))
-//			client.setIncomingChannel(splitArgs[0]);
 	}
 	if (client.getCommandId() == IGNORED)
 		return ERROR;

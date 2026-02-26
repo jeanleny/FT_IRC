@@ -8,6 +8,7 @@ typedef enum roomId
 	CORRIDOR,
 	ROOM1,
 	PIT,
+    ROOM2,
 } e_roomId;
 
 

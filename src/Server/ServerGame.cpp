@@ -84,7 +84,6 @@ void	Server::startCommand(Client &client, std::vector<std::string> args)
 	args.erase(args.begin());
 	
 	std::vector<Client> players = startPlayersList(oldRoom, args);
-
 	std::vector<std::string> joinArg, inviteArg, partArg;
 	partArg.push_back(oldRoom);
 	joinArg.push_back(newRoom);
@@ -127,7 +126,7 @@ void	Server::ServerPlayCmd(Client &emitter, const std::vector<std::string> & arg
 
 bool	Server::isRunningGameRoom(std::string chanName)
 {
-	std::string rooms[NB_RUNGROOM] = {"#CORRIDOR", "#ROOM1", "#PIT"};
+	std::string rooms[NB_RUNGROOM] = {"#CORRIDOR", "#ROOM1", "#PIT", "#ROOM2"};
 
 	for (size_t i = 0; i < NB_RUNGROOM; i++)
 	{
@@ -155,7 +154,7 @@ bool	Server::leavingGameSession(Client & client)
 
 bool	Server::isGameChannel(std::string chanName)
 {
-	std::string rooms[NB_GROOM] = {"#TAVERN", "#CORRIDOR", "#ROOM1", "#PIT"};
+	std::string rooms[NB_GROOM] = {"#TAVERN", "#CORRIDOR", "#ROOM1", "#PIT", "#ROOM2"};
 
 	for (size_t i = 0; i < NB_GROOM; i++)
 	{
@@ -197,7 +196,7 @@ void	Server::gClear()
 {
 	Client					gm = getClientByNickname("Master");
 	std::vector<std::string>arg;
-	std::string				rooms[NB_GROOM] = {"#TAVERN","#CORRIDOR", "#ROOM1", "#PIT"};
+	std::string				rooms[NB_GROOM] = {"#TAVERN","#CORRIDOR", "#ROOM1", "#PIT", "#ROOM2"};
 	std::string				msg = "*SHUTDOWN";
 
 	arg.push_back("Master");
