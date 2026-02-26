@@ -64,6 +64,7 @@ class BotGameMaster
 		void						parsePlayerCmd(std::string str, t_parse *parse);
 		void						authentication();
 		void						createRooms();
+		void						createItems();
 		void   						manageGameCommand(t_parse parse);
 		void    					manageTavernCommand(t_parse parse);
 		void    					manageCorridorCommand(t_parse parse);
@@ -91,6 +92,8 @@ class BotGameMaster
 		int						_botFd;
 		char					_hostName[128];
 		bool					_firstPit;
+		bool					_fight;
+		size_t					_weaponCount;
 
 		//----GAME CONTENT
 		bool																	_gameRunning;
@@ -101,6 +104,7 @@ class BotGameMaster
 		std::map<std::string, Player>											_players;
 		std::vector<std::string>												_levers;
 		std::vector<bool>														_doors;
+		std::vector<Item>														_items;
 };
 
 void						parsePlayerCmd(char *str);
