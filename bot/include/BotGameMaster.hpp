@@ -18,6 +18,7 @@
 #define CODE "8630"
 #define LOCKED 0
 #define UNLOCKED 1
+#define	playersIt std::map<std::string, Player>::iterator
 
 typedef struct s_parse
 {
@@ -28,6 +29,13 @@ typedef struct s_parse
 	std::string	msg;
 	bool		valid;
 } t_parse;
+
+typedef struct s_fight
+{
+	bool		run;
+	size_t		bossLife;
+	std::string	playerTurn;
+} t_fight;
 
 typedef enum msgId
 {
@@ -80,6 +88,7 @@ class BotGameMaster
 		void						shutDownGame();
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
+		void    					bossAttack();
 		
 		void						sendCommand(std::string msg);
 		void						sendPrivmsg(std::string nickname, std::string message);
@@ -92,7 +101,6 @@ class BotGameMaster
 		int						_botFd;
 		char					_hostName[128];
 		bool					_firstPit;
-		bool					_fight;
 		size_t					_weaponCount;
 
 		//----GAME CONTENT
@@ -105,6 +113,7 @@ class BotGameMaster
 		std::vector<std::string>												_levers;
 		std::vector<bool>														_doors;
 		std::vector<Item>														_items;
+		t_fight																	_fight;
 };
 
 void						parsePlayerCmd(char *str);
