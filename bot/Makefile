@@ -10,6 +10,9 @@ NAME		= GM
 SRC			+= src/main.cpp						\
 			   src/BotGameMaster.cpp			\
 			   src/BotCommandManager.cpp		\
+			   src/BotCorridorManager.cpp		\
+			   src/BotRoom1Manager.cpp			\
+			   src/BotRoom2Manager.cpp			\
 			   src/BotCmdParsing.cpp			\
 			   src/BotInit.cpp					\
 			   src/BotAsciiArt.cpp				\

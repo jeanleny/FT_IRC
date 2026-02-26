@@ -47,55 +47,6 @@ void	BotGameMaster::shutDownGame()
 	_players.clear();
 }
 
-void BotGameMaster::switchLever(int pos)
-{
-    if (_levers[pos] == "[-]")
-        _levers[pos] = "[o]";
-    else
-        _levers[pos] = "[-]";
-}
-
-void BotGameMaster::resetLevers()
-{
-    for (size_t i = 0; i < _levers.size(); i++)
-    {
-        _levers[i] = "[-]";
-    }
-}
-
-bool    BotGameMaster::isGoodLevers()
-{
-    return (_levers[0] == "[o]" && _levers[1] == "[-]" && _levers[2] == "[-]" && _levers[3] == "[o]" && _levers[4] == "[o]");
-}
-
-void    BotGameMaster::manageLeverCommand(t_parse parse)
-{
-    std::string leverCmd = parse.args[3];
-    for(size_t i = 0; i < leverCmd.size(); i++)
-    {
-        if (leverCmd == "*lever")
-        {
-            resetLevers();
-            break ;
-        }
-        if (leverCmd[i] >= '1' && leverCmd[i] <= '5')
-        {
-            int pos = leverCmd[i] - 48;
-            switchLever(pos - 1);
-        }
-    }
-    std::string levers = _levers[0] + _levers[1] + _levers[2] + _levers[3] + _levers[4];
-    sendPrivmsg(parse.player, levers);
-    if (isGoodLevers())
-    {
-        sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][1]);
-        _doors[0] = UNLOCKED;
-        sendPrivmsg("#CORRIDOR", "The door is open !!! Use *DOOR to enter the next room\r\n");
-    }
-    else
-        sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][0]);
-}
-
 void	BotGameMaster::sendLibraryContent(std::string target, std::vector<std::string> content)
 {
 	size_t c_size = content.size();
@@ -105,91 +56,11 @@ void	BotGameMaster::sendLibraryContent(std::string target, std::vector<std::stri
 	}
 }
 
-void    BotGameMaster::manageCorridorCommand(t_parse parse)
-{
-    if (parse.cmd == "DOOR" && _doors[0] == UNLOCKED)
-    {
-        if (_firstPit == true)
-        {
-            sendCommand("START #CORRIDOR #PIT " + parse.player + "\r\n");
-            _players[parse.player].setRoom(PIT);
-            _firstPit = false;
-        }
-        else
-        {
-            sendCommand("START #CORRIDOR #ROOM1 " + parse.player + "\r\n");
-            _players[parse.player].setRoom(ROOM1);
-        }
-    }
-    else if (parse.cmd == "WALL")
-    {
-		sendLibraryContent(parse.player, _library[CORRIDOR]["WALL"]);
-        sendPrivmsg("#CORRIDOR", parse.player + " is examining the wall");
-    }
-    else if (parse.cmd == "DOOR")
-    {
-		sendLibraryContent(parse.player, _library[CORRIDOR]["DOOR"]);
-        sendPrivmsg("#CORRIDOR", parse.player + " is reading inscriptions on the door");
-    }
-    else if (parse.cmd == "CORPSE")
-    {
-		sendLibraryContent(parse.player, _library[CORRIDOR]["CORPSE"]);
-        sendPrivmsg("#CORRIDOR", parse.player + " is searching the dead adventurer");
-    }
-    else if (parse.cmd == "LEVER")
-        manageLeverCommand(parse);
-}
-
 void    BotGameMaster::manageTavernCommand(t_parse parse)
 {
     std::vector<std::string>    tab = _library[TAVERN][parse.cmd];
     std::string msg = parse.player + tab[std::rand() % tab.size()];
     sendPrivmsg("#TAVERN", msg);
-}
-
-void	BotGameMaster::manageRoom1Command(t_parse parse)
-{
-	if (parse.cmd == "1")
-		sendLibraryContent(parse.player, _library[ROOM1]["1"]);
-	else if (parse.cmd == "2")
-		sendLibraryContent(parse.player, _library[ROOM1]["2"]);
-	else if (parse.cmd == "3")
-		sendLibraryContent(parse.player, _library[ROOM1]["3"]);
-	else if (parse.cmd == "4")
-		sendLibraryContent(parse.player, _library[ROOM1]["4"]);
-}
-
-
-void	BotGameMaster::managePitCommand(t_parse parse)
-{
-    if (parse.cmd == "CRANK")
-    {
-        if (_doors[1] == 1)
-        {
-            sendCommand("TOPIC #ROOM1 :Well done ! You are now together again. You can use *DOOR to enter the next room.\r\n");
-            sendCommand("START #PIT #ROOM1 " + parse.player + "\r\n");
-            _players[parse.player].setRoom(ROOM1);
-        }
-        else
-            sendLibraryContent("#PIT", _library[PIT]["CRANK"]);
-    }
-    else if (parse.cmd == "CODE")
-    {
-        std::string     code = parse.content.substr(6);
-        if (code == CODE)
-        {
-            sendPrivmsg("#PIT", _library[PIT]["CODE"][1]);
-            _doors[1] = 1;
-        }
-        else
-            sendPrivmsg("#PIT", _library[PIT]["CODE"][0]);
-    }
-    else if (parse.cmd == "SHOUT")
-    {
-      parse.content = strToUpper(parse.content);
-      std::string msg = "You hear " + parse.player + " yelling : " + parse.content.erase(0, 7) + "!!";
-      sendPrivmsg("#ROOM1", msg);
-    }
 }
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
