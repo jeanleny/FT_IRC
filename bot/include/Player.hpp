@@ -23,7 +23,6 @@ class Item
 	std::string getName();
 	int			getDmg();
     
-    
     private :
     
     std::string _name;
@@ -35,17 +34,19 @@ class Player
     
     public:
     
-        Player();
-        ~Player();
-
-        e_roomId    	getRoom() const;
-        void        	setRoom(e_roomId room);
-		void			setItem(Item item);
-		Item			getItem();
-		std::string		getItemName();
+    Player();
+    ~Player();
+    
+    e_roomId    	getRoom() const;
+    void        	setRoom(e_roomId room);
+    void			setItem(Item item);
+    Item			getItem();
+    std::string		getItemName();
+    void            setAlive(bool state);
     
     private:
 
         e_roomId    _room;
+        bool        _alive;
         Item        _item;
 };

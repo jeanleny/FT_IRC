@@ -26,6 +26,7 @@ void    BotGameMaster::setupPlayers(std::string command)
     {
         _players[playerList[i]] = Player();
     }
+    _fight.playerTurn = _players.begin()->first;
     sendLibraryContent("#CORRIDOR", _library[TAVERN]["START"]);
 }
 
@@ -45,7 +46,8 @@ void	BotGameMaster::shutDownGame()
 	resetLevers();
 	_firstPit = true;
 	_weaponCount = 0;
-	_fight = false;
+	_fight.run = false;
+    _fight.bossLife = 40;
 	_players.clear();
 	sendCommand("TOPIC " + _rooms[2] + " :" + _topics[2] + "\r\n");
 }

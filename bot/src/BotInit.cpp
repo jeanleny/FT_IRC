@@ -80,7 +80,7 @@ void	BotGameMaster::createLibrary()
 
 	std::map<std::string, std::vector<std::string> > antechamber;
 	antechamber["CHEST"];
-	antechamber["BOSS"];
+	antechamber["ATTACK"];
 
 	_library[TAVERN] = tavern;
 	_library[CORRIDOR] = corridor;

@@ -41,10 +41,16 @@ void    Player::setRoom(e_roomId room)
     _room = room;
 }
 
+void    Player::setAlive(bool state)
+{
+    _alive = state;
+}
+
 void	Player::setItem(Item item)
 {
 	_item = item;
 }
+
 
 std::string	Player::getItemName()
 {
