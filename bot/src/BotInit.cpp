@@ -90,7 +90,7 @@ void    BotGameMaster::createTopics()
 	_topics.push_back("A dark corridor leading to a closed door.");
 	_topics.push_back("You enter a large chamber lighted by torches fixed to the walls. At the center, a deep pit from which you can hear screams. Your companion has fallen into the pit! Maybe the surrounding paints on the walls can help you to get him out of here. Type any numbers between *1 to *4 to check if there are any clues on them");
 	_topics.push_back("You fell into a pit ! You're stuck in there on your own... In this hole, if you do not shout, no one will hear you. Use *SHOUT to communicate with the other adventurers. The only thing around you is an old rusty crank used to lower a ladder. Use *CRANK to inspect");
-	_topics.push_back("Topic room2");
+	_topics.push_back("Topic Antechamber");
 }
 
 void    BotGameMaster::createRoomsName()
@@ -99,7 +99,7 @@ void    BotGameMaster::createRoomsName()
 	_rooms.push_back("#CORRIDOR");
 	_rooms.push_back("#ROOM1");
 	_rooms.push_back("#PIT");
-	_rooms.push_back("#ROOM2");
+	_rooms.push_back("#ANTECHAMBER");
 }
 
 void    BotGameMaster::createMessages()
