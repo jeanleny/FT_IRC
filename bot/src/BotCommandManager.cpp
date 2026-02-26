@@ -91,6 +91,10 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
     {
         managePitCommand(parse);
     }
+    else if (isRoomCommand(parse.cmd, ANTECHAMBER) && isPlayerInRoom(parse.player, ANTECHAMBER))
+    {
+        manageAntechamberCommand(parse);
+    }
     else
         sendPrivmsg(parse.player, _messages[INVALID]);
 }

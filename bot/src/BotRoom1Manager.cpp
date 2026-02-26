@@ -4,8 +4,8 @@ void	BotGameMaster::manageRoom1Command(t_parse parse)
 {
     if (parse.cmd == "DOOR" && _doors[1] == UNLOCKED)
     {
-        sendCommand("START #ROOM1 #ROOM2 " + parse.player + "\r\n");
-        _players[parse.player].setRoom(ROOM2);
+        sendCommand("START #ROOM1 #ANTECHAMBER " + parse.player + "\r\n");
+        _players[parse.player].setRoom(ANTECHAMBER);
     }
 	if (parse.cmd == "1")
 		sendLibraryContent(parse.player, _library[ROOM1]["1"]);
