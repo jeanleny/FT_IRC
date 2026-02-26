@@ -49,6 +49,7 @@ void	BotGameMaster::createLibrary()
 	crankTxts.push_back("The crank mechanism is blocked. It is controlled by a four-digit keypad currently displaying 0000. Each digit on the keypad is associated with a strange symbol.");
 	crankTxts.push_back("Use *CODE followed by a four-digit combination (example: 1234) to enter it into the keypad.");
 	crankTxts.push_back("Don't forget : use *SHOUT to communicate with the other adventurers.");
+	crankTxts.push_back("Also, there's some mysterious symbols drawn above under it");
 	std::vector<std::string>	codeTxts;
 	codeTxts.push_back("You enter the code, but nothing happens.");
 	codeTxts.push_back("You enter the code, and a green indicator light turns on. You did it! The crank is now unlocked — use *CRANK to climb out of the pit.");
@@ -64,9 +65,13 @@ void	BotGameMaster::createLibrary()
 	corridor["LEVER"] = leverTxts;
 	std::map<std::string, std::vector<std::string> > room1;
 	room1["1"] = initMermaidAscii();
+	room1["1"].push_back("The wonderful mermaid");
 	room1["2"] = initSnakeAscii();
+	room1["2"].push_back("The sneaky snake");
 	room1["3"] = initSpiderAscii();
+	room1["3"].push_back("The awful spider");
 	room1["4"] = initCentaurAscii();
+	room1["4"].push_back("The majestuous centaur");
 	room1["DOOR"];
 	std::map<std::string, std::vector<std::string> > pit;
 	pit["CRANK"] = crankTxts;
