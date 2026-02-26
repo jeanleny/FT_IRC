@@ -105,7 +105,6 @@ class Server
 		void					gMapSetup();
 		void					gClear();
 		void					callPartCommand(std::string chanName);
-		void					displayMap();
 		bool					isGameCommand(Client & client);
 		bool					leavingGameSession(Client &client);
 		void					startCommand(Client &client, std::vector<std::string> args);

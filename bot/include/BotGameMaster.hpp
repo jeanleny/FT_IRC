@@ -13,12 +13,11 @@
 #include <cstdlib>
 #include <ctime>
 #include <sstream>
-
 #include "Player.hpp"
 
+#define CODE "8630"
 #define LOCKED 0
 #define UNLOCKED 1
-
 
 typedef struct s_parse
 {
@@ -45,7 +44,7 @@ class BotGameMaster
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void						initBot();
-	void    					setSigaction();
+		void    					setSigaction();
 		void						createLibrary();
 		void						createTopics();
 		void						createRoomsName();
@@ -67,6 +66,7 @@ class BotGameMaster
 		void						createRooms();
 		void   						manageGameCommand(t_parse parse);
 		void    					manageTavernCommand(t_parse parse);
+		void    					manageCorridorCommand(t_parse parse);
 		void    					manageRoom1Command(t_parse parse);
 		void						manageLeverCommand(t_parse parse);
 		void						managePitCommand(t_parse parse);
