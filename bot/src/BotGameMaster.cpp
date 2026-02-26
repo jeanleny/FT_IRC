@@ -13,7 +13,7 @@ BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pa
 	_firstPit = true;
 	_weaponCount = 0;
 	_fight.run = false;
-	_fight.bossLife = 40;
+	_fight.bossLife = 2;
 }
 
 BotGameMaster::~BotGameMaster()

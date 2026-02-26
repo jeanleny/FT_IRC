@@ -1,5 +1,26 @@
 #include <BotGameMaster.hpp>
 
+int   BotGameMaster::newPlayerTurn(t_parse parse)
+{   
+    playersIt   it = _players.find(parse.player);
+    if (it != _players.end())
+    {
+        it++;
+        if (it != _players.end())
+        {
+            _fight.playerTurn = it->first;
+            sendPrivmsg("#ANTECHAMBER", "It's " + it->first + " turns to attack\r\n");
+            return (0);
+        }
+        else
+        {
+            _fight.playerTurn = _players.begin()->first;
+            return (-1);
+        }
+    }
+    return (0);
+}
+
 void    BotGameMaster::bossAttack()
 {
     int index = std::rand() % _players.size();
@@ -9,16 +30,16 @@ void    BotGameMaster::bossAttack()
     if (std::rand() % 3 == 0)
     {
         _players[it->first].setAlive(false);
-        sendPrivmsg("#ANTICHAMBER", "Evil Master attacked " + it->first + " who died. Aïe.\r\n");
+        sendPrivmsg("#ANTECHAMBER", "Evil Master attacked " + it->first + " who died. Aïe.\r\n");
         _players.erase(it->first);
         if (_players.size() == 0)
         {
-            sendPrivmsg("#ANTICHAMBER", "Message de défaite\r\n");
+            sendPrivmsg("#ANTECHAMBER", "Message de défaite\r\n");
             _fight.run = false;
         }
     }
     else
-        sendPrivmsg("#ANTICHAMBER", "Evil Master attacked " + it->first + ", but he survives.\r\n");
+        sendPrivmsg("#ANTECHAMBER", "Evil Master attacked " + it->first + ", but he survives.\r\n");
 }
 
 void    BotGameMaster::manageAntechamberCommand(t_parse parse)
@@ -37,28 +58,23 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
 		{
 			sendPrivmsg("#ANTECHAMBER", "ENOUGH !! You find yourself clever ?");
 			sendPrivmsg("#ANTECHAMBER", "Now i'll show you de quel bois je me chauffe...");
+			sendPrivmsg("#ANTECHAMBER", "The fight is starting ! When it's your turn, use *ATTACK to hit the Evil Master");
+			sendPrivmsg("#ANTECHAMBER", "It's " + _players.begin()->first + " turns\r\n");
 			_fight.run = true ;
 		}
 	}
 	else if (_fight.run && parse.cmd == "ATTACK" && _fight.playerTurn == parse.player)
 	{
-		sendPrivmsg("#ANTICHAMBER", parse.player + " attacked Evil Master\r\n"); // with item
+		sendPrivmsg("#ANTECHAMBER", parse.player + " attacked Evil Master\r\n"); // with item
         _fight.bossLife -= 1;
         if (_fight.bossLife <= 0)
         {
-            sendPrivmsg("#ANTICHAMBER", "Message de victoire\r\n");
+            sendPrivmsg("#ANTECHAMBER", "Message de victoire\r\n");
             _fight.run = false;
         }
-
-        playersIt   it = _players.find(parse.player);
-        if (it != _players.end())
-        {
-            it++;
-            if (it != _players.end())
-                sendPrivmsg("#ANTICHAMBER", "It's " + it->first + " turns to attack\r\n");
-            else
-                bossAttack();
-        }
+        if (newPlayerTurn(parse) < 0)
+            bossAttack();
+        
 	}
 	//else if (parse.cmd == "REST")
 }

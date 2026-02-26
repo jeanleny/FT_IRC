@@ -89,6 +89,7 @@ class BotGameMaster
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
 		void    					bossAttack();
+		int   						newPlayerTurn(t_parse parse);
 		
 		void						sendCommand(std::string msg);
 		void						sendPrivmsg(std::string nickname, std::string message);
