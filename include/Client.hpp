@@ -32,18 +32,6 @@ typedef enum commandId
 	IGNORED,
 } e_commandId;
 
-struct weapon
-{
-	std::string		name;
-	unsigned int	dmg;
-};
-
-struct game
-{
-	unsigned int	pv;
-	weapon			weapon;
-};
-
 
 class Client
 {

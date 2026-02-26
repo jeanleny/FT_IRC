@@ -174,7 +174,7 @@ bool	Server::leavingGameSession(Client & client)
 
 bool	Server::isGameChannel(std::string chanName)
 {
-	std::string rooms[3] = {"#TAVERN", "#CORRIDOR", "#ROOM1"};
+	std::string rooms[4] = {"#TAVERN", "#CORRIDOR", "#ROOM1", "#PIT"};
 
 	for (size_t i = 0; i < 3; i++)
 	{

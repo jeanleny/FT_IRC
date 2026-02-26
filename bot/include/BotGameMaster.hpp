@@ -42,7 +42,7 @@ class BotGameMaster
 		BotGameMaster(char *port, char *pass);
 		~BotGameMaster();
 		void						initBot();
-	void    					setSigaction();
+		void    					setSigaction();
 		void						createLibrary();
 		void						createTopics();
 		void						createRoomsName();
@@ -81,11 +81,11 @@ class BotGameMaster
 		void						sendLibraryContent(std::string player, std::vector<std::string> content);
 
 	private :
-		struct addrinfo			*_servInfo;
-		std::string				_servPort;
-		std::string				_pass;
-		int						_botFd;
-		char					_hostName[128];
+		struct addrinfo				*_servInfo;
+		std::string					_servPort;
+		std::string					_pass;
+		int							_botFd;
+		char						_hostName[128];
 
 		//----GAME CONTENT
 		bool																	_gameRunning;

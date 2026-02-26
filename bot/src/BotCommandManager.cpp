@@ -12,7 +12,10 @@ bool    BotGameMaster::isRoomCommand(std::string command, e_roomId room)
 
 bool    BotGameMaster::isPlayerInRoom(std::string nickname, e_roomId room)
 {
-    return (_players[nickname].getRoom() == room);
+    if (_players.find(nickname) == _players.end())
+        return false;
+    else
+        return (_players[nickname].getRoom() == room);
 }
 
 void    BotGameMaster::setupPlayers(std::string command)
@@ -152,6 +155,7 @@ void	BotGameMaster::managePitCommand(t_parse parse)
     {
         if (_doors[1] == 1)
         {
+            sendCommand("TOPIC #ROOM1 :Well done ! You are now together again. You can use *DOOR to enter the next room.\r\n");
             sendCommand("START #PIT #ROOM1 " + parse.player + "\r\n");
             _players[parse.player].setRoom(ROOM1);
         }
@@ -178,7 +182,6 @@ void	BotGameMaster::managePitCommand(t_parse parse)
 
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
-   
     if (parse.cmd == "START" && !_gameRunning)
     {
         sendCommand("START #TAVERN #CORRIDOR all\r\n");
@@ -188,7 +191,7 @@ void    BotGameMaster::manageGameCommand(t_parse parse)
         setupPlayers(parse.content);
     else if (parse.cmd == "SHUTDOWN" && parse.player == "Master")
 		    shutDownGame();
-    else if (isRoomCommand(parse.cmd, TAVERN) && isPlayerInRoom(parse.player, TAVERN))
+    else if (isRoomCommand(parse.cmd, TAVERN))
     {
         manageTavernCommand(parse);
     }
