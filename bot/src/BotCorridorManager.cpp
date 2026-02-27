@@ -43,7 +43,7 @@ void    BotGameMaster::manageLeverCommand(t_parse parse)
     {
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][1]);
         _doors[0] = UNLOCKED;
-        sendPrivmsg("#CORRIDOR", "The door is open !!! Use *DOOR to enter the next room\r\n");
+        sendPrivmsg("#CORRIDOR", "The door is open !!! Use " + colorText("*DOOR", ORANGE, NONE) + " to enter the next room\r\n");
     }
     else
         sendPrivmsg(parse.player, _library[CORRIDOR]["LEVER"][0]);

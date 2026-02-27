@@ -52,7 +52,8 @@ void    BotGameMaster::bossAttack()
         _players.erase(it);
         if (_players.size() == 0)
         {
-            sendPrivmsg("#ANTECHAMBER", "\r\n");
+    		usleep(500000);
+            sendPrivmsg("#ANTECHAMBER", colorText("You failed to defeat the Master, bande de NUL.", BLACK, RED));
             _fight.run = false;
         }
     }
@@ -81,11 +82,11 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
 		{
             sendCommand("TOPIC " + _rooms[4] + " :A door open and the Master arrives in the room. He seems to be very upset\r\n");
             usleep(500000);
-			sendPrivmsg("#ANTECHAMBER", "ENOUGH !! You find yourself clever ?");
+			sendPrivmsg("#ANTECHAMBER", colorText("ENOUGH !! You find yourself clever ?", RED, NONE));
             usleep(500000);
-			sendPrivmsg("#ANTECHAMBER", "Now i'll show you de quel bois je me chauffe...");
+			sendPrivmsg("#ANTECHAMBER", colorText("Now i'll show you de quel bois je me chauffe...", RED, NONE));
             usleep(500000);
-            sendCommand("TOPIC " + _rooms[4] + " :The fight is starting ! When it's your turn, use *ATTACK to hit the Evil Master\r\n");
+            sendCommand("TOPIC " + _rooms[4] + " :The fight is starting ! When it's your turn, use "+ colorText("*ATTACK", ORANGE, NONE) + " to hit the Evil Master\r\n");
 			sendPrivmsg("#ANTECHAMBER", "It's " + _players.begin()->first + " turns");
 			_fight.run = true ;
 		}
