@@ -18,15 +18,17 @@ class Item
     public :
     
     Item();
-    Item(std::string name, int dmg);
+    Item(std::string name, int dmg, int range);
     ~Item();
-	std::string getName();
-	int			getDmg();
+	std::string     getName();
+	int			    getDmg();
+    std::string 	randomDmg();
     
     private :
     
     std::string _name;
     int         _damage;
+    int         _range;
 };
 
 class Player

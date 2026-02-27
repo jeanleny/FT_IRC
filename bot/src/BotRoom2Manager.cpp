@@ -1,5 +1,13 @@
 #include <BotGameMaster.hpp>
 
+std::string Item::randomDmg()
+{
+    int random = std::rand() % (_range + 1);
+    if (std::rand() % 2 == 0)
+        return (toString(_damage + random));
+    return (toString(_damage - random));
+}
+
 int   BotGameMaster::newPlayerTurn(t_parse parse)
 {   
     playersIt   it = _players.find(parse.player);
@@ -75,7 +83,7 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
 	}
 	else if (_fight.run && parse.cmd == "ATTACK" && _fight.playerTurn == parse.player)
 	{
-        char dmg = _players[parse.player].getItemDmg() + 48;
+        std::string dmg = _players[parse.player].getItem().randomDmg();
 		sendPrivmsg("#ANTECHAMBER", parse.player + " attacked Evil Master with his " + _players[parse.player].getItemName());
         usleep(500000);
 		sendPrivmsg("#ANTECHAMBER", parse.player + " inflicts " + dmg + " damage");
@@ -87,7 +95,6 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
             return ;
         }
         usleep(500000);
-
 		sendPrivmsg("#ANTECHAMBER", "Evil Master's life is now " + toString(_fight.bossLife));
         if (newPlayerTurn(parse) < 0)
             bossAttack();
