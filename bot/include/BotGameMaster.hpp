@@ -19,6 +19,15 @@
 #define LOCKED 0
 #define UNLOCKED 1
 #define BOSSLIFE 30
+#define NONE ""
+#define WHITE "00"
+#define BLACK "01"
+#define BLUE "02"
+#define GREEN "03"
+#define RED "04"
+#define ORANGE "07"
+#define YELLOW "08"
+#define LIGHTBLUE "12"
 #define	playersIt std::map<std::string, Player>::iterator
 
 typedef struct s_parse
@@ -128,4 +137,5 @@ std::vector<std::string>	initSpiderAscii();
 std::vector<std::string>	initClueAscii();
 std::string					strToUpper(std::string str);
 std::string 				toString(size_t value);
+std::string 				colorText(std::string txt, std::string color, std::string back);
 	

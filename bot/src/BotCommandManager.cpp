@@ -28,6 +28,7 @@ void    BotGameMaster::setupPlayers(std::string command)
     }
     _fight.playerTurn = _players.begin()->first;
     _fight.bossLife = playerList.size() * 15;
+	_gameRunning = true;
     sendLibraryContent("#CORRIDOR", _library[TAVERN]["START"]);
 }
 
@@ -73,10 +74,7 @@ void    BotGameMaster::manageTavernCommand(t_parse parse)
 void    BotGameMaster::manageGameCommand(t_parse parse)
 {
     if (parse.cmd == "START" && !_gameRunning)
-    {
         sendCommand("START #TAVERN #CORRIDOR all\r\n");
-        _gameRunning = true;
-    }
     else if (parse.cmd == "INFO" && parse.player == "Master")
         setupPlayers(parse.content);
     else if (parse.cmd == "SHUTDOWN" && parse.player == "Master")

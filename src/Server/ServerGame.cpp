@@ -1,40 +1,5 @@
 #include <Server.hpp>
 
-// void	Server::startCommand(Client &client)
-// {
-// 	std::string cmd;
-// 	std::string	cor = "#CORRIDOR";
-// 	std::string	i_list = "*INFO";
-// 	ssize_t		chan = getChannelByName("#TAVERN");
-// 	size_t		playerNb = _channels[chan].getMemberNb();
-// 	std::vector<Client> clients = _channels[chan].getMemberList();
-// 	std::vector<std::string> joinArg, inviteArg, privmsgArg, partArg;
-
-// 	partArg.push_back("#TAVERN");
-// 	joinArg.push_back(cor);
-// 	inviteArg.push_back(cor);
-// 	clients.erase(clients.begin());
-// 	cmd = client.getCmd();
-// 	for (size_t i = 0; i < playerNb - 1 ; i++)
-// 	{
-// 		if (clients[i].getNickname() == "Master")
-// 		{
-// 			if (!checkChannelOperator("#TAVERN", clients[i]))
-// 				return ;
-// 		}
-// 		inviteArg.insert(inviteArg.begin(), clients[i].getNickname());
-// 		_iCommands[INVITE]->execCmd(client, inviteArg);
-// 		_iCommands[JOIN]->execCmd(clients[i], joinArg);
-// 		_iCommands[PART]->execCmd(clients[i], partArg);
-// 		inviteArg.erase(inviteArg.begin());
-// 		i_list += " ";
-// 		i_list += clients[i].getNickname();
-// 	}
-// 	privmsgArg.push_back("Master");
-// 	privmsgArg.push_back(i_list);
-// 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg); //INFO message
-// }
-
 std::vector<Client>	Server::startPlayersList(std::string oldRoom, std::vector<std::string> args)
 {
 	std::vector<Client>	players;
@@ -85,6 +50,13 @@ void	Server::startCommand(Client &client, std::vector<std::string> args)
 	
 	std::vector<Client> players = startPlayersList(oldRoom, args);
 	std::vector<std::string> joinArg, inviteArg, partArg;
+	if (oldRoom == "#TAVERN" && (players.size() < 2 || players.size() > 4))
+	{
+		inviteArg.push_back("#TAVERN");
+		inviteArg.push_back("The game needs at least 2 players and can be played up to 4 players");
+		_iCommands[PRIVMSG]->execCmd(players[i], inviteArg);
+		return ;
+	}
 	partArg.push_back(oldRoom);
 	joinArg.push_back(newRoom);
 	inviteArg.push_back(newRoom);
