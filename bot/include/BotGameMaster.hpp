@@ -18,6 +18,7 @@
 #define CODE "8630"
 #define LOCKED 0
 #define UNLOCKED 1
+#define BOSSLIFE 30
 #define	playersIt std::map<std::string, Player>::iterator
 
 typedef struct s_parse
@@ -33,7 +34,7 @@ typedef struct s_parse
 typedef struct s_fight
 {
 	bool		run;
-	size_t		bossLife;
+	int			bossLife;
 	std::string	playerTurn;
 } t_fight;
 
@@ -89,6 +90,7 @@ class BotGameMaster
 		bool						isRoomCommand(std::string command, e_roomId room);
 		bool    					isPlayerInRoom(std::string nickname, e_roomId room);
 		void    					bossAttack();
+		int   						newPlayerTurn(t_parse parse);
 		
 		void						sendCommand(std::string msg);
 		void						sendPrivmsg(std::string nickname, std::string message);
@@ -125,4 +127,5 @@ std::vector<std::string>	initCentaurAscii();
 std::vector<std::string>	initSpiderAscii();
 std::vector<std::string>	initClueAscii();
 std::string					strToUpper(std::string str);
+std::string 				toString(size_t value);
 	

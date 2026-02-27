@@ -13,7 +13,7 @@ BotGameMaster::BotGameMaster(char *port, char *pass) : _servPort(port), _pass(pa
 	_firstPit = true;
 	_weaponCount = 0;
 	_fight.run = false;
-	_fight.bossLife = 40;
+	_fight.bossLife = BOSSLIFE;
 }
 
 BotGameMaster::~BotGameMaster()
@@ -44,7 +44,7 @@ int	BotGameMaster::servConnect()
 	{
 		freeaddrinfo(_servInfo);
 		close(_botFd);
-		std::cout << "connect failed en fait c tro grav" << std::endl;
+		std::cout << "connect failed" << std::endl;
 		return (-1);
 	}
 	return (0);

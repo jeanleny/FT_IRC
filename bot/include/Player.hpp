@@ -42,6 +42,7 @@ class Player
     void			setItem(Item item);
     Item			getItem();
     std::string		getItemName();
+    int             getItemDmg();
     void            setAlive(bool state);
     
     private:

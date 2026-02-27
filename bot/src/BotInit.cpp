@@ -95,7 +95,7 @@ void    BotGameMaster::createTopics()
 	_topics.push_back("A dark corridor leading to a closed door.");
 	_topics.push_back("You enter a large chamber lighted by torches fixed to the walls. At the center, a deep pit from which you can hear screams. Your companion has fallen into the pit! Maybe the surrounding paints on the walls can help you to get him out of here. Type any numbers between *1 to *4 to check if there are any clues on them");
 	_topics.push_back("You fell into a pit ! You're stuck in there on your own... In this hole, if you do not shout, no one will hear you. Use *SHOUT to communicate with the other adventurers. The only thing around you is an old rusty crank used to lower a ladder. Use *CRANK to inspect");
-	_topics.push_back("Topic Antechamber");
+	_topics.push_back("The room you enter is shrouded in darkness. Only a halo of light coming from the ceiling illuminates the floor. In the center, an open chest filled with various objects. Use *CHEST to retrieve an item.");
 }
 
 void    BotGameMaster::createRoomsName()
@@ -154,8 +154,8 @@ void	BotGameMaster::initBot()
 
 void	BotGameMaster::createItems()
 {
-	std::string names[4] = {"The Mighty sword", "The lame stick", "The Divine staff", "The crappy spoon"};
-	int			dmg[4] = {5, 1, 10, 1};
+	std::string names[4] = {"the Mighty sword", "the lame stick", "the Divine staff", "the crappy spoon"};
+	int			dmg[4] = {5, 1, 9, 1};
 
 	for (size_t i = 0; i < 4; i++)
 	{
