@@ -22,6 +22,8 @@ class Item
     ~Item();
 	std::string     getName();
 	int			    getDmg();
+    int             getMinDmg();
+    int             getMaxDmg();
     std::string 	randomDmg();
     
     private :

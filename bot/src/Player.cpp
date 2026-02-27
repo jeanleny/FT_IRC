@@ -24,6 +24,15 @@ int	Item::getDmg()
 	return (_damage);
 }
 
+int Item::getMinDmg()
+{
+	return (_damage - _range);
+}
+int	Item::getMaxDmg()
+{
+	return (_damage + _range);
+}
+
 //-----------------------PLAYER
 
 Player::Player() : _room(CORRIDOR)

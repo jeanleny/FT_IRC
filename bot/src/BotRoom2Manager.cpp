@@ -2,9 +2,15 @@
 
 std::string Item::randomDmg()
 {
+    if (std::rand() % 4 == 0)
+    {
+        return ("X");
+    }
     int random = std::rand() % (_range + 1);
     if (std::rand() % 2 == 0)
+    {
         return (toString(_damage + random));
+    }
     return (toString(_damage - random));
 }
 
@@ -46,7 +52,7 @@ void    BotGameMaster::bossAttack()
         _players.erase(it);
         if (_players.size() == 0)
         {
-            sendPrivmsg("#ANTECHAMBER", "Message de défaite\r\n");
+            sendPrivmsg("#ANTECHAMBER", "\r\n");
             _fight.run = false;
         }
     }
@@ -64,8 +70,11 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
 			sendPrivmsg(parse.player, " You already have " + _players[parse.player].getItemName());
 		else
 		{
-			_players[parse.player].setItem(_items[_weaponCount]) ;
-			sendPrivmsg("#ANTECHAMBER", parse.player + "picked up "+ _players[parse.player].getItemName());
+            Item        item = _items[_weaponCount];
+            std::string min = toString(item.getMinDmg());
+            std::string max = toString(item.getMaxDmg());
+			_players[parse.player].setItem(item) ;
+			sendPrivmsg("#ANTECHAMBER", parse.player + " picked up "+ item.getName() + " (" + min + " - " + max + " damage)");
 			_weaponCount++;
 		}
 		if (_weaponCount == _players.size())
@@ -86,11 +95,16 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
         std::string dmg = _players[parse.player].getItem().randomDmg();
 		sendPrivmsg("#ANTECHAMBER", parse.player + " attacked Evil Master with his " + _players[parse.player].getItemName());
         usleep(500000);
-		sendPrivmsg("#ANTECHAMBER", parse.player + " inflicts " + dmg + " damage");
+        if (dmg == "X")
+		    sendPrivmsg("#ANTECHAMBER", parse.player + " completely misses like a bolosse");
+        else
+		    sendPrivmsg("#ANTECHAMBER", parse.player + " inflicts " + dmg + " damage");
         _fight.bossLife -= _players[parse.player].getItemDmg();
         if (_fight.bossLife <= 0)
         {
-            sendPrivmsg("#ANTECHAMBER", "Message de victoire");
+            sendPrivmsg("#ANTECHAMBER", "Well done!! You have defeated me. I will now guide you to the Tavern to regain your strength.");
+            sleep(2);
+            sendCommand("START #ANTECHAMBER #TAVERN all\r\n");
             _fight.run = false;
             return ;
         }
@@ -99,5 +113,4 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
         if (newPlayerTurn(parse) < 0)
             bossAttack();
 	}
-	//else if (parse.cmd == "REST")
 }
