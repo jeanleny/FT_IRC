@@ -23,7 +23,7 @@ void	BotGameMaster::managePitCommand(t_parse parse)
     {
         if (_doors[1] == UNLOCKED)
         {
-            sendCommand("TOPIC #ROOM1 :Well done ! You are now together again. You can use *DOOR to enter the next room.\r\n");
+            sendCommand("TOPIC #ROOM1 :Well done ! You are now together again. You can use" + colorText("*DOOR", ORANGE, NONE) + " to enter the next room.\r\n");
             sendCommand("START #PIT #ROOM1 " + parse.player + "\r\n");
             _players[parse.player].setRoom(ROOM1);
         }
