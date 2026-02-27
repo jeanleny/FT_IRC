@@ -56,3 +56,7 @@ std::string	Player::getItemName()
 {
 	return (_item.getName());
 }
+int	Player::getItemDmg()
+{
+	return (_item.getDmg());
+}

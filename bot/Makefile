@@ -17,6 +17,7 @@ SRC			+= src/main.cpp						\
 			   src/BotInit.cpp					\
 			   src/BotAsciiArt.cpp				\
 			   src/BotSignals.cpp				\
+			   src/BotUtils.cpp					\
 			   src/Player.cpp
 
 OBJ			= ${SRC:$(SRC_DIR)/%.cpp=$(BUILD_DIR)/%.o}

@@ -47,9 +47,10 @@ void	BotGameMaster::shutDownGame()
 	_firstPit = true;
 	_weaponCount = 0;
 	_fight.run = false;
-    _fight.bossLife = 40;
+    _fight.bossLife = BOSSLIFE;
 	_players.clear();
 	sendCommand("TOPIC " + _rooms[2] + " :" + _topics[2] + "\r\n");
+	sendCommand("TOPIC " + _rooms[4] + " :" + _topics[4] + "\r\n");
 }
 
 void	BotGameMaster::sendLibraryContent(std::string target, std::vector<std::string> content)

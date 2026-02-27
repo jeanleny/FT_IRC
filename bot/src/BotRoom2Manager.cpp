@@ -27,11 +27,15 @@ void    BotGameMaster::bossAttack()
     playersIt   it = _players.begin();
     std::advance(it, index);
 
+    sendPrivmsg("#ANTECHAMBER", "Evil Master attacked " + it->first + " ...\r\n");
+    usleep(500000);
+    sendPrivmsg("#ANTECHAMBER", "...\r\n");
+    usleep(500000);
     if (std::rand() % 3 == 0)
     {
         _players[it->first].setAlive(false);
-        sendPrivmsg("#ANTECHAMBER", "Evil Master attacked " + it->first + " who died. Aïe.\r\n");
-        _players.erase(it->first);
+        sendPrivmsg("#ANTECHAMBER", it->first + " is DEAD :(\r\n");
+        _players.erase(it);
         if (_players.size() == 0)
         {
             sendPrivmsg("#ANTECHAMBER", "Message de défaite\r\n");
@@ -39,7 +43,9 @@ void    BotGameMaster::bossAttack()
         }
     }
     else
-        sendPrivmsg("#ANTECHAMBER", "Evil Master attacked " + it->first + ", but he survives.\r\n");
+        sendPrivmsg("#ANTECHAMBER", it->first + " survives !\r\n");
+    _fight.playerTurn = _players.begin()->first;
+    sendPrivmsg("#ANTECHAMBER", "It's " + _players.begin()->first + " turns to attack\r\n");
 }
 
 void    BotGameMaster::manageAntechamberCommand(t_parse parse)
@@ -56,25 +62,32 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
 		}
 		if (_weaponCount == _players.size())
 		{
+            sendCommand("TOPIC " + _rooms[4] + " :A door open and the Master arrives in the room. He seems to be very upset\r\n");
 			sendPrivmsg("#ANTECHAMBER", "ENOUGH !! You find yourself clever ?");
 			sendPrivmsg("#ANTECHAMBER", "Now i'll show you de quel bois je me chauffe...");
 			sendPrivmsg("#ANTECHAMBER", "The fight is starting ! When it's your turn, use *ATTACK to hit the Evil Master");
-			sendPrivmsg("#ANTECHAMBER", "It's " + _players.begin()->first + " turns\r\n");
+			sendPrivmsg("#ANTECHAMBER", "It's " + _players.begin()->first + " turns");
 			_fight.run = true ;
 		}
 	}
 	else if (_fight.run && parse.cmd == "ATTACK" && _fight.playerTurn == parse.player)
 	{
-		sendPrivmsg("#ANTECHAMBER", parse.player + " attacked Evil Master\r\n"); // with item
-        _fight.bossLife -= 1;
+        char dmg = _players[parse.player].getItemDmg() + 48;
+		sendPrivmsg("#ANTECHAMBER", parse.player + " attacked Evil Master with his " + _players[parse.player].getItemName());
+        usleep(500000);
+		sendPrivmsg("#ANTECHAMBER", parse.player + " inflicts " + dmg + " damage");
+        _fight.bossLife -= _players[parse.player].getItemDmg();
         if (_fight.bossLife <= 0)
         {
-            sendPrivmsg("#ANTECHAMBER", "Message de victoire\r\n");
+            sendPrivmsg("#ANTECHAMBER", "Message de victoire");
             _fight.run = false;
+            return ;
         }
+        usleep(500000);
+
+		sendPrivmsg("#ANTECHAMBER", "Evil Master's life is now " + toString(_fight.bossLife));
         if (newPlayerTurn(parse) < 0)
             bossAttack();
-        
 	}
 	//else if (parse.cmd == "REST")
 }
