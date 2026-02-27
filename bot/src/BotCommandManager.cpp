@@ -27,6 +27,7 @@ void    BotGameMaster::setupPlayers(std::string command)
         _players[playerList[i]] = Player();
     }
     _fight.playerTurn = _players.begin()->first;
+    _fight.bossLife = playerList.size() * 15;
     sendLibraryContent("#CORRIDOR", _library[TAVERN]["START"]);
 }
 

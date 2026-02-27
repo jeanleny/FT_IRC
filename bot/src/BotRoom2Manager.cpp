@@ -63,9 +63,12 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
 		if (_weaponCount == _players.size())
 		{
             sendCommand("TOPIC " + _rooms[4] + " :A door open and the Master arrives in the room. He seems to be very upset\r\n");
+            usleep(500000);
 			sendPrivmsg("#ANTECHAMBER", "ENOUGH !! You find yourself clever ?");
+            usleep(500000);
 			sendPrivmsg("#ANTECHAMBER", "Now i'll show you de quel bois je me chauffe...");
-			sendPrivmsg("#ANTECHAMBER", "The fight is starting ! When it's your turn, use *ATTACK to hit the Evil Master");
+            usleep(500000);
+            sendCommand("TOPIC " + _rooms[4] + " :The fight is starting ! When it's your turn, use *ATTACK to hit the Evil Master\r\n");
 			sendPrivmsg("#ANTECHAMBER", "It's " + _players.begin()->first + " turns");
 			_fight.run = true ;
 		}

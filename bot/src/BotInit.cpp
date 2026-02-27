@@ -154,7 +154,7 @@ void	BotGameMaster::initBot()
 
 void	BotGameMaster::createItems()
 {
-	std::string names[4] = {"The Mighty sword", "The lame stick", "The Divine staff", "The crappy spoon"};
+	std::string names[4] = {"the Mighty sword", "the lame stick", "the Divine staff", "the crappy spoon"};
 	int			dmg[4] = {5, 1, 9, 1};
 
 	for (size_t i = 0; i < 4; i++)

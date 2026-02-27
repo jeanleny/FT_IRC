@@ -44,7 +44,7 @@ int	BotGameMaster::servConnect()
 	{
 		freeaddrinfo(_servInfo);
 		close(_botFd);
-		std::cout << "connect failed en fait c tro grav" << std::endl;
+		std::cout << "connect failed" << std::endl;
 		return (-1);
 	}
 	return (0);
