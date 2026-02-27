@@ -1,11 +1,13 @@
 #include "Player.hpp"
 
+//---------------ITEM
+
 Item::Item() : _name(""), _damage(0)
 {
     (void)_damage;
 }
 
-Item::Item(std::string name, int dmg) : _name(name), _damage(dmg)
+Item::Item(std::string name, int dmg, int range) : _name(name), _damage(dmg), _range(range)
 {
 }
 Item::~Item()
@@ -21,6 +23,17 @@ int	Item::getDmg()
 {
 	return (_damage);
 }
+
+int Item::getMinDmg()
+{
+	return (_damage - _range);
+}
+int	Item::getMaxDmg()
+{
+	return (_damage + _range);
+}
+
+//-----------------------PLAYER
 
 Player::Player() : _room(CORRIDOR)
 {
@@ -59,4 +72,9 @@ std::string	Player::getItemName()
 int	Player::getItemDmg()
 {
 	return (_item.getDmg());
+}
+
+Item 	Player::getItem()
+{
+	return (_item);
 }

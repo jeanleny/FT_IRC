@@ -128,4 +128,5 @@ std::vector<std::string>	initSpiderAscii();
 std::vector<std::string>	initClueAscii();
 std::string					strToUpper(std::string str);
 std::string 				toString(size_t value);
+
 	

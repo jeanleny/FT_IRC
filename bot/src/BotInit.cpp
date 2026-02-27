@@ -154,11 +154,12 @@ void	BotGameMaster::initBot()
 
 void	BotGameMaster::createItems()
 {
-	std::string names[4] = {"the Mighty sword", "the lame stick", "the Divine staff", "the crappy spoon"};
-	int			dmg[4] = {5, 1, 9, 1};
+	std::string names[4] = {"Excalibur", "Un tabouret", "ce genre de Gourdin", "une Cuillère en Bois"};
+	int			dmg[4] = {9, 3, 6, 1};
+	int			range[4] = {2, 1, 3, 1}; //explanation : range of 1 = -1 / 0 / +1, range of 2 = -2 / -1 / 0 / +1 / +2
 
 	for (size_t i = 0; i < 4; i++)
 	{
-		_items.push_back(Item(names[i], dmg[i]));
+		_items.push_back(Item(names[i], dmg[i], range[i]));
 	}
 }
