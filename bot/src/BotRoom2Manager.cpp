@@ -98,8 +98,10 @@ void    BotGameMaster::manageAntechamberCommand(t_parse parse)
         if (dmg == "X")
 		    sendPrivmsg("#ANTECHAMBER", parse.player + " completely misses like a bolosse");
         else
+        {
 		    sendPrivmsg("#ANTECHAMBER", parse.player + " inflicts " + dmg + " damage");
-        _fight.bossLife -= _players[parse.player].getItemDmg();
+            _fight.bossLife -= _players[parse.player].getItemDmg();
+        }
         if (_fight.bossLife <= 0)
         {
             sendPrivmsg("#ANTECHAMBER", "Well done!! You have defeated me. I will now guide you to the Tavern to regain your strength.");
