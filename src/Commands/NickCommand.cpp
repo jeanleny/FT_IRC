@@ -35,9 +35,10 @@ void    defineNickname(Client & client, const std::string & nickname)
 	}
 }
 
-
 void    NickCommand::execCmd(Client & client, const std::vector<std::string>& args)
 {
+	if (Server::getInstance().isPlayerFd(client.getClientFd()))
+		throw CustomErrorException(client);
     if (args.size() == 0)
         throw NotEnoughParametersException(client);
     if (parseNickname(args) == -1)

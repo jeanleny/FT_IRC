@@ -97,6 +97,7 @@ class Server
 		
 		//----BONUS METHODS------------------------------------------------------------------------------------
 
+		bool					isPlayerFd(int fd);
 		bool					isRunningGameRoom(std::string chanName);
 		bool					isCommandFromGame(std::string chanName);
 		bool					isGameChannel(std::string chanName);
@@ -128,7 +129,7 @@ class Server
 		std::vector<Client>								_clients;
 		std::vector<int>								_clientsFds;
 		std::vector<Channel>							_channels;
-		// std::vector<Channel>							_gChannels;
+		std::vector<int>								_playerFd;
 		ICommand*										_iCommands[NB_CMD];
 
 		//----SERVER METHODS------------------------------------------------------------------------------

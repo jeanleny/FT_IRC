@@ -48,6 +48,8 @@ CustomErrorException::CustomErrorException(Client & client)
         _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Please enter a nickname (NICK Command)\r\n";
 	else if (client.getCommandId() == JOIN)
         _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :These Channels are reserved by the Master\r\n";
+	else if (client.getCommandId() == NICK)
+        _msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Cannot change nick name during the game\r\n";
 	else
 		_msg = ":" + Server::getInstance().getHostname() + " 400 " + client.getNickname() + " :Too many parameters\r\n";
 }
