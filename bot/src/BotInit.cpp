@@ -73,6 +73,7 @@ void	BotGameMaster::createLibrary()
 	room1["4"] = initCentaurAscii();
 	room1["4"].push_back("The majestuous centaur");
 	room1["DOOR"];
+	room1["SHOUT"];
 	std::map<std::string, std::vector<std::string> > pit;
 	pit["CRANK"] = crankTxts;
 	pit["CODE"] = codeTxts;
