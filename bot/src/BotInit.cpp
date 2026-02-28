@@ -37,7 +37,7 @@ void	BotGameMaster::createLibrary()
 	std::vector<std::string>	corpseTxts;
 	corpseTxts.push_back("In front of you lies the body of an unlucky adventurer, probably unable to open this cursed door.");
 	corpseTxts.push_back(" Searching the pockets of his old clothes, you find a scroll with a cryptic message written on it : ");
-	corpseTxts.push_back("1 = '!' ; 2 = '@' ; 3 = '#' ; 4 = '%'");
+	corpseTxts.push_back("1 = '!' ; 2 = '@' ; 3 = '#' ; 4 = '%'; 5 = '$'");
 	std::vector<std::string>	doorTxts;
 	doorTxts.push_back("You are facing a large wooden door which seems to be closed.");
 	doorTxts.push_back( "Three stranges inscriptions are carved into the wood, which are difficult to decipher.");
@@ -65,14 +65,15 @@ void	BotGameMaster::createLibrary()
 	corridor["LEVER"] = leverTxts;
 	std::map<std::string, std::vector<std::string> > room1;
 	room1["1"] = initMermaidAscii();
-	room1["1"].push_back("The wonderful mermaid");
+	room1["1"].push_back("The wonderful mermaid trades his legs for a fin");
 	room1["2"] = initSnakeAscii();
-	room1["2"].push_back("The sneaky snake");
+	room1["2"].push_back("The legless snake crawls sneakily");
 	room1["3"] = initSpiderAscii();
-	room1["3"].push_back("The awful spider");
+	room1["3"].push_back("The awful spider and his countless hairy legs");
 	room1["4"] = initCentaurAscii();
-	room1["4"].push_back("The majestuous centaur");
+	room1["4"].push_back("The strong-legged centaur raises his two-handed bow");
 	room1["DOOR"];
+	room1["SHOUT"];
 	std::map<std::string, std::vector<std::string> > pit;
 	pit["CRANK"] = crankTxts;
 	pit["CODE"] = codeTxts;
@@ -93,7 +94,7 @@ void    BotGameMaster::createTopics()
 {
     _topics.push_back("Welcome to the Tavern ! Please take a sit. While waiting your mates, you can use the following commands to  "+ colorText("*DRINK", ORANGE, NONE) + ", "+ colorText("*EAT", ORANGE, NONE) + ". When all the adventurers are present, enter the command "+ colorText("*START", ORANGE, NONE) + " to launch the game.");
 	_topics.push_back("A dark corridor leading to a closed door.");
-	_topics.push_back("You enter a large chamber lighted by torches fixed to the walls. At the center, a deep pit from which you can hear screams. Your companion has fallen into the pit! Maybe the surrounding paints on the walls can help you to get him out of here. Type any numbers between "+ colorText("*1 to *4", ORANGE, NONE) + " to check if there are any clues on them");
+	_topics.push_back("You enter a large chamber lighted by torches fixed to the walls. At the center, a deep pit from which you can hear screams. Your companion has fallen into the pit! Use " + colorText("*SHOUT", ORANGE, NONE) + " to communicate with him. Maybe the surrounding paints on the walls can help you to get him out of here. Type any numbers between "+ colorText("*1 to *4", ORANGE, NONE) + " to check if there are any clues on them");
 	_topics.push_back("You fell into a pit ! You're stuck in there on your own... In this hole, if you do not shout, no one will hear you. Use "+ colorText("*SHOUT", ORANGE, NONE) + " to communicate with the other adventurers. The only thing around you is an old rusty crank used to lower a ladder. Use "+ colorText("*CRANK", ORANGE, NONE) + " to inspect");
 	_topics.push_back("The room you enter is shrouded in darkness. Only a halo of light coming from the ceiling illuminates the floor. In the center, an open chest filled with various objects. Use "+ colorText("*CHEST", ORANGE, NONE) + " to retrieve an item.");
 }
