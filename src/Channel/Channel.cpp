@@ -253,7 +253,12 @@ void	Channel::changeNickList(Client client)
 {
 	std::string nick = client.getNickname();
 	std::string oldNick = client.getOldNickname();
-	
+
+	for (size_t i = 0; i < _memberList.size(); i++)
+	{
+		if (_memberList[i].getNickname() == oldNick)
+			_memberList[i].setNickname(nick);
+	}
 	if (checkOperator(client))
 	{
 		nick.insert(0, "@");
