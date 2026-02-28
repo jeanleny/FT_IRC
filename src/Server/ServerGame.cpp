@@ -33,6 +33,7 @@ void	Server::sendInfoMessage(Client & client, std::vector<Client> players)
 	{
 		i_list += " ";
 		i_list += players[i].getNickname();
+		_playerFd.push_back(players[i].getClientFd());
 	}
 	privmsgArg.push_back(i_list);
 	_iCommands[PRIVMSG]->execCmd(client, privmsgArg);
@@ -49,11 +50,11 @@ void	Server::startCommand(Client &client, std::vector<std::string> args)
 	args.erase(args.begin());
 	
 	std::vector<Client> players = startPlayersList(oldRoom, args);
-	std::vector<std::string> joinArg, inviteArg, partArg;
+	std::vector<std::string> joinArg, inviteArg, partArg, limitArg;
 	if (oldRoom == "#TAVERN" && (players.size() < 2 || players.size() > 4))
 	{
-		inviteArg.push_back("#TAVERN");
-		inviteArg.push_back("The game needs at least 2 players and can be played up to 4 players");
+		limitArg.push_back("#TAVERN");
+		limitArg.push_back("The game needs at least 2 players and can be played up to 4 players");
 		_iCommands[PRIVMSG]->execCmd(players[i], inviteArg);
 		return ;
 	}
@@ -176,5 +177,12 @@ void	Server::gClear()
 	{
 		callPartCommand(rooms[i]);
 	}
+	_playerFd.clear();
 	_iCommands[PRIVMSG]->execCmd(gm, arg);
+}
+
+bool	Server::isPlayerFd(int fd)
+{
+	std::vector<int>::iterator it = find(_playerFd.begin(), _playerFd.end(), fd);
+	return (it != _playerFd.end());
 }
