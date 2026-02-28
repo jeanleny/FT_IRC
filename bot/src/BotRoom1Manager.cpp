@@ -7,7 +7,7 @@ void	BotGameMaster::manageRoom1Command(t_parse parse)
         sendCommand("START #ROOM1 #ANTECHAMBER " + parse.player + "\r\n");
         _players[parse.player].setRoom(ANTECHAMBER);
     }
-	if (parse.cmd == "1")
+	else if (parse.cmd == "1")
 		sendLibraryContent(parse.player, _library[ROOM1]["1"]);
 	else if (parse.cmd == "2")
 		sendLibraryContent(parse.player, _library[ROOM1]["2"]);
@@ -15,6 +15,15 @@ void	BotGameMaster::manageRoom1Command(t_parse parse)
 		sendLibraryContent(parse.player, _library[ROOM1]["3"]);
 	else if (parse.cmd == "4")
 		sendLibraryContent(parse.player, _library[ROOM1]["4"]);
+    else if (parse.cmd == "SHOUT")
+    { 
+        parse.content = strToUpper(parse.content);
+        if (parse.content.length() > 8)
+        {
+            std::string msg = "You hear " + parse.player + " yelling : " + parse.content.erase(0, 7) + "!!";
+            sendPrivmsg("#PIT", msg);
+        }
+    }
 }
 
 void	BotGameMaster::managePitCommand(t_parse parse)
