@@ -61,6 +61,13 @@ void	BotGameMaster::parsePlayerCmd(std::string str, t_parse *parse)
 	parse->valid = false;
 	parse->player = parsePlayerNick(str);
 	parse->args = getArgs(str);
+	if (parse->args[1] == "433")
+	{
+		std::cout << "Error : Master nickname is alreay used. The bot won't work" << std::endl;
+		g_exit = 1;
+		freeaddrinfo(_servInfo);
+		return ;
+	}
 	if (!isPrivMsg(parse->args))
 		return ;
 	parse->content = getMessage(parse->args);
