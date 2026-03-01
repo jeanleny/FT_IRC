@@ -34,7 +34,7 @@
 
 #define MAX_EVENTS 10
 #define NB_CMD 11
-#define NB_GCMD 4
+#define NB_GCMD 3
 #define NB_GROOM 5
 #define NB_RUNGROOM 4
 #define ERROR -1

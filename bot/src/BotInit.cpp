@@ -1,12 +1,5 @@
 #include <BotGameMaster.hpp>
 
-/*
-To access a paragraph in the library, syntax is : _library[ROOM]["COMMAND"][index]
-Example : 	_library[CORRIDOR]["DOOR"][1]
-			_library[TAVERN]["START"][0]
-
-*/
-
 void	BotGameMaster::createLibrary()
 {
 	std::vector<std::string>	startTxts;

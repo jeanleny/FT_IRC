@@ -55,7 +55,7 @@ void	Server::startCommand(Client &client, std::vector<std::string> args)
 	{
 		limitArg.push_back("#TAVERN");
 		limitArg.push_back("The game needs at least 2 players and can be played up to 4 players");
-		_iCommands[PRIVMSG]->execCmd(players[i], inviteArg);
+		_iCommands[PRIVMSG]->execCmd(players[i], limitArg);
 		return ;
 	}
 	partArg.push_back(oldRoom);
@@ -138,7 +138,7 @@ bool	Server::isGameChannel(std::string chanName)
 
 bool	Server::isGameCommand(Client & client)
 {
-	const std::string g_array[NB_GCMD]= {"START", "INFO", "SHUTDOWN", "CMD4"};
+	const std::string g_array[NB_GCMD]= {"START", "INFO", "SHUTDOWN"};
 
 	for (size_t i = 0; i < NB_GCMD; i++)
 	{
@@ -153,7 +153,9 @@ bool	Server::isGameCommand(Client & client)
 void	Server::callPartCommand(std::string chanName)
 {
 	std::vector<std::string>arg;
-	size_t cId = getChannelByName(chanName);
+	ssize_t cId = getChannelByName(chanName);
+	if (cId < 0)
+		return ;
 	size_t memberNb = _channels[cId].getMemberNb();
 	std::vector<Client> clients = _channels[cId].getMemberList();
 	arg.push_back(chanName);

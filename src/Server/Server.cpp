@@ -231,12 +231,11 @@ void	Server::extractCommandId(Client & emitter, std::string id)
 {
 	uppercaseStr(id);
 	const std::string array[NB_CMD]= {"PASS", "NICK", "USER", "KICK", "PRIVMSG", "TOPIC", "MODE", "JOIN", "INVITE", "PART", "PLAY"};
-	const std::string g_array[NB_GCMD]= {"START", "CMD2", "CMD3", "CMD4"};
 
 	emitter.setCmd(id);
 	if (searchCmd(array, id, emitter, NB_CMD))
 		return;
-	else if(searchCmd(g_array,id, emitter, NB_GCMD))
+	else if(id == "START")
 		return ;
 	if (id == "WHO" || id == "CAP")
 	{
