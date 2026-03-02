@@ -68,6 +68,13 @@ void	BotGameMaster::parsePlayerCmd(std::string str, t_parse *parse)
 		freeaddrinfo(_servInfo);
 		return ;
 	}
+	if (parse->args[1] == "464")
+	{
+		std::cout << "Error : Master password is erroneous The bot won't work" << std::endl;
+		g_exit = 1;
+		freeaddrinfo(_servInfo);
+		return ;
+	}
 	if (!isPrivMsg(parse->args))
 		return ;
 	parse->content = getMessage(parse->args);
